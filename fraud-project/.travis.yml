@@ -1,0 +1,10 @@
+language: java
+notifications:
+  email: false
+script:
+- mvn validate
+- mvn compile
+- mvn test
+- mvn package
+- mvn verify
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=kilmer56-github -Dsonar.login=c726b3cf895984bfbc66b90be7c6eb2df5cca308
