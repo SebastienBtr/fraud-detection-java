@@ -1,6 +1,7 @@
 language: java
 notifications:
   email: false
+  slack: fraud-detectiona1:CLY2fRWtKwE8jynlCTLN259c
 script:
 - mvn validate
 - mvn compile
