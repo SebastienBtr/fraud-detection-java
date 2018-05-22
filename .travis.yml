@@ -8,4 +8,4 @@ script:
 - mvn test
 - mvn package
 - mvn verify
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.organization=fraud-detection \ -Dsonar.host.url=https://sonarcloud.io \ -Dsonar.login=3594c4fef2508b9219fb9927ed3fef8237d490f3
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io \ -Dsonar.organization=fraud-detection \ -Dsonar.host.url=https://sonarcloud.io \ -Dsonar.login=3594c4fef2508b9219fb9927ed3fef8237d490f3
