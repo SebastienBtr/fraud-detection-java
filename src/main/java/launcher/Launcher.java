@@ -1,4 +1,4 @@
-package main.java.launcher;
+package launcher;
 
 import java.io.*;
 import java.util.Scanner;
@@ -31,7 +31,7 @@ public class Launcher {
         try {
             unzip(fileZip, destDir.getName());
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
 
         //TODO call parser or other methods
@@ -47,8 +47,8 @@ public class Launcher {
      */
     private static void unzip(String zipFilePath, String destDirectory) throws IOException {
 
-
-        ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
+        FileInputStream fileIn = new FileInputStream(zipFilePath);
+        ZipInputStream zipIn = new ZipInputStream(fileIn);
         ZipEntry entry = zipIn.getNextEntry();
 
         // iterates over entries in the zip file
@@ -85,7 +85,8 @@ public class Launcher {
      */
     private static void writeFile(ZipInputStream zipIn, String filePath) throws IOException {
 
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+        FileOutputStream fileOut = new FileOutputStream(filePath);
+        BufferedOutputStream bos = new BufferedOutputStream(fileOut);
         byte[] bytesIn = new byte[BUFFER_SIZE];
 
         int read = 0;
@@ -110,11 +111,17 @@ public class Launcher {
                 if (f.isDirectory()) {
                     cleanDirectory(f);
                 } else {
-                    f.delete();
+                    boolean delete = f.delete();
+                    if (!delete) {
+                        throw new UnsupportedOperationException();
+                    }
                 }
             }
         }
 
-        directory.delete();
+        boolean delete = directory.delete();
+        if (!delete) {
+            throw new UnsupportedOperationException();
+        }
     }
 }
