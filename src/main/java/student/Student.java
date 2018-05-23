@@ -9,10 +9,10 @@ import java.util.List;
 
 public class Student {
     @Getter @Setter private String name;
-    @Getter @Setter private List<Class> files;
+    @Getter @Setter private List<File> files;
 
     public Student(String name) {
         this.name = name;
-        this.files = new ArrayList<Class>();
+        this.files = new ArrayList<File>();
     }
 }

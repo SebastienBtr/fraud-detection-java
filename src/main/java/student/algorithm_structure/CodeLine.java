@@ -9,4 +9,9 @@ public class CodeLine  extends Structure{
     public CodeLine(String lineContent) {
         this.lineContent = lineContent;
     }
+
+    @Override
+    public String toString() {
+        return " CODELINE ( "+this.lineContent+" )";
+    }
 }

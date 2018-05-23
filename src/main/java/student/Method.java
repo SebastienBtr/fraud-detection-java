@@ -19,4 +19,9 @@ public class Method {
         this.parameters = new ArrayList<Variable>();
         this.body = new TreeSet<Structure>();
     }
+
+    @Override
+    public String toString() {
+        return "METHODE ( "+this.name+" )";
+    }
 }

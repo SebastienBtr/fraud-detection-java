@@ -1,0 +1,9 @@
+public static int nbOccurrences(int[] tab, int x) {
+        int occ = 0;
+        for (int i = 0;i<tab.length;i++) {
+            if (tab[i] == x) {
+                occ = occ + 1;
+            }
+        }
+        return occ;
+    }
