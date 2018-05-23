@@ -1,8 +1,9 @@
-package student.algorithmStructure;
+package student.algorithm_structure;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Conditional extends Structure{
@@ -12,9 +13,11 @@ public class Conditional extends Structure{
 
 
     public Conditional() {
-
+        this.content = new ArrayList<Structure>();
     }
     public Conditional(String conditions) {
+
         this.conditions = conditions;
+        this.content = new ArrayList<Structure>();
     }
 }
