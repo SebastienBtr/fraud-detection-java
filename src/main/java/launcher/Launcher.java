@@ -31,7 +31,7 @@ public class Launcher {
         try {
             unzip(fileZip, destDir.getName());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         //TODO call parser or other methods
@@ -57,14 +57,14 @@ public class Launcher {
             // iterates over entries in the zip file
             while (entry != null) {
 
-                CreateFiles(destDirectory, zipIn, entry);
+                createFiles(destDirectory, zipIn, entry);
 
                 zipIn.closeEntry();
                 entry = zipIn.getNextEntry();
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
 
         } finally {
             if (zipIn != null) {
@@ -81,7 +81,7 @@ public class Launcher {
      * @param entry         the zip entry
      * @throws IOException
      */
-    private static void CreateFiles(String destDirectory, ZipInputStream zipIn, ZipEntry entry) throws IOException {
+    private static void createFiles(String destDirectory, ZipInputStream zipIn, ZipEntry entry) throws IOException {
         String filePath = destDirectory + File.separator + entry.getName();
 
         if (!entry.isDirectory()) {
@@ -113,8 +113,7 @@ public class Launcher {
         BufferedOutputStream bos = null;
 
         try {
-            FileOutputStream fileOut = new FileOutputStream(filePath);
-            bos = new BufferedOutputStream(fileOut);
+            bos = new BufferedOutputStream(new FileOutputStream(filePath));
             byte[] bytesIn = new byte[BUFFER_SIZE];
 
             int read = 0;
@@ -123,7 +122,7 @@ public class Launcher {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
 
         } finally {
             if (bos != null) {
