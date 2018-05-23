@@ -44,37 +44,59 @@ public class Launcher {
      *
      * @param zipFilePath   the path of the zip file
      * @param destDirectory the path to save unzip files
+     * @throws IOException
      */
     private static void unzip(String zipFilePath, String destDirectory) throws IOException {
 
-        FileInputStream fileIn = new FileInputStream(zipFilePath);
-        ZipInputStream zipIn = new ZipInputStream(fileIn);
-        ZipEntry entry = zipIn.getNextEntry();
+        ZipInputStream zipIn = null;
 
-        // iterates over entries in the zip file
-        while (entry != null) {
-            String filePath = destDirectory + File.separator + entry.getName();
+        try {
+            zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
+            ZipEntry entry = zipIn.getNextEntry();
 
-            if (!entry.isDirectory()) {
+            // iterates over entries in the zip file
+            while (entry != null) {
 
-                boolean isZipFile = filePath.endsWith(".zip");
-                writeFile(zipIn, filePath);
+                CreateFiles(destDirectory, zipIn, entry);
 
-                if (isZipFile) {
-                    File file = new File(filePath);
-                    String newDestFile = file.getParentFile().getAbsolutePath();
-                    unzip(filePath, newDestFile);
-                }
-
-            } else {
-                File dir = new File(filePath);
-                dir.mkdir();
+                zipIn.closeEntry();
+                entry = zipIn.getNextEntry();
             }
 
-            zipIn.closeEntry();
-            entry = zipIn.getNextEntry();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+
+        } finally {
+            zipIn.close();
         }
-        zipIn.close();
+    }
+
+    /**
+     * Create the file or the directory and its children of a ZipEntry
+     *
+     * @param destDirectory path where create the file
+     * @param zipIn         the zip input stream
+     * @param entry         the zip entry
+     * @throws IOException
+     */
+    private static void CreateFiles(String destDirectory, ZipInputStream zipIn, ZipEntry entry) throws IOException {
+        String filePath = destDirectory + File.separator + entry.getName();
+
+        if (!entry.isDirectory()) {
+
+            boolean isZipFile = filePath.endsWith(".zip");
+            writeFile(zipIn, filePath);
+
+            if (isZipFile) {
+                File file = new File(filePath);
+                String newDestFile = file.getParentFile().getAbsolutePath();
+                unzip(filePath, newDestFile);
+            }
+
+        } else {
+            File dir = new File(filePath);
+            dir.mkdir();
+        }
     }
 
     /**
@@ -82,6 +104,7 @@ public class Launcher {
      *
      * @param zipIn    the ZipInputStream
      * @param filePath the file path
+     * @throws IOException
      */
     private static void writeFile(ZipInputStream zipIn, String filePath) throws IOException {
 
@@ -110,6 +133,7 @@ public class Launcher {
 
                 if (f.isDirectory()) {
                     cleanDirectory(f);
+
                 } else {
                     boolean delete = f.delete();
                     if (!delete) {
