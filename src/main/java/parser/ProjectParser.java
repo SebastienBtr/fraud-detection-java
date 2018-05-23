@@ -24,16 +24,16 @@ public class ProjectParser {
             String strLine;
 
             //Read File Line By Line
-            while ((strLine = br.readLine()) != null
-                    && !strLine.contains("*")
-                    && !strLine.contains("//"))   {
+            while ((strLine = br.readLine()) != null)   {
 
-                if(ProjectParser.isMethod(strLine)) {
-                    Method newMethod = ProjectParser.createMethod(strLine);
+                if(!ProjectParser.isAComment(strLine)) {
+                    if (ProjectParser.isMethod(strLine)) {
+                        Method newMethod = ProjectParser.createMethod(strLine);
 
-                    DefaultMutableTreeNode body = parseBody(newMethod, br);
+                        DefaultMutableTreeNode body = parseBody(newMethod, br);
 
-                    studentTree.add(body);
+                        studentTree.add(body);
+                    }
                 }
             }
 
@@ -69,18 +69,23 @@ public class ProjectParser {
 
         String strLine;
 
-        while ((strLine = br.readLine()) != null && !strLine.contains("}"))   {
+        while ((strLine = br.readLine()) != null
+                && !strLine.contains("}")
+                && !ProjectParser.isAComment(strLine))   {
 
             //&& !strLine.contains("}")
             //    && !strLine.contains("*")
             //        && !strLine.contains("//")
 
-            Structure structure = checkLineStructure(strLine);
+            if(!ProjectParser.isAComment(strLine)) {
 
-            if(structure.getClass().equals(CodeLine.class)){
-                ret.add(new DefaultMutableTreeNode(structure));
+                Structure structure = checkLineStructure(strLine);
+
+                if (structure.getClass().equals(CodeLine.class)) {
+                    ret.add(new DefaultMutableTreeNode(structure));
+                } else ret.add(parseBody(structure, br));
+
             }
-            else ret.add(parseBody(structure, br));
         }
 
         return ret;
@@ -127,5 +132,13 @@ public class ProjectParser {
         }
 
         return null;
+    }
+
+    private static boolean isAComment(String strLine){
+        if(strLine.trim().startsWith("*")
+                || strLine.trim().startsWith("//")
+                || strLine.trim().startsWith("/**")
+                || strLine.trim().startsWith("*/")) return true;
+        else return false;
     }
 }
