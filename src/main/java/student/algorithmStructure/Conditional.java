@@ -1,4 +1,4 @@
-package Student.algorithmStructure;
+package student.algorithmStructure;
 
 import lombok.Getter;
 import lombok.Setter;

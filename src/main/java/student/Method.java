@@ -1,9 +1,8 @@
-package Student;
+package student;
 
-import Student.algorithmStructure.CodeLine;
-import Student.algorithmStructure.Structure;
 import lombok.Getter;
 import lombok.Setter;
+import student.algorithmStructure.Structure;
 
 import java.util.List;
 
