@@ -31,7 +31,7 @@ public class Launcher {
         try {
             unzip(fileZip, destDir.getName());
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
         //TODO call parser or other methods
@@ -64,10 +64,12 @@ public class Launcher {
             }
 
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
 
         } finally {
-            zipIn.close();
+            if (zipIn != null) {
+                zipIn.close();
+            }
         }
     }
 
@@ -108,16 +110,26 @@ public class Launcher {
      */
     private static void writeFile(ZipInputStream zipIn, String filePath) throws IOException {
 
-        FileOutputStream fileOut = new FileOutputStream(filePath);
-        BufferedOutputStream bos = new BufferedOutputStream(fileOut);
-        byte[] bytesIn = new byte[BUFFER_SIZE];
+        BufferedOutputStream bos = null;
 
-        int read = 0;
-        while ((read = zipIn.read(bytesIn)) != -1) {
-            bos.write(bytesIn, 0, read);
+        try {
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            bos = new BufferedOutputStream(fileOut);
+            byte[] bytesIn = new byte[BUFFER_SIZE];
+
+            int read = 0;
+            while ((read = zipIn.read(bytesIn)) != -1) {
+                bos.write(bytesIn, 0, read);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (bos != null) {
+                bos.close();
+            }
         }
-
-        bos.close();
     }
 
     /**
