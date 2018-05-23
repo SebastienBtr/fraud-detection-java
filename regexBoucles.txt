@@ -1,0 +1,22 @@
+if:
+if(\s)*\(([!-z]|\s)*\)(\s)*{
+
+dowhile:
+
+do(\s)*{(.|\s)*}(\s)while(\s)*\(([!-z]|\s)*\)(\s)*;
+
+problème a cause de l'imbrication possible entre {}
+
+while:
+
+while(\s)*\(([!-z]|\s)*\)(\s)*{
+
+fori:
+
+  for(\s)*\(([!-z]|\s)*;([!-z]|\s)*;([!-z]|\s)*\)(\s)*{
+
+foreach:
+
+ for(\s)*\(([a-zA-Z]|\s)*:([a-zA-Z]|\s)*\)(\s)*{
+
+
