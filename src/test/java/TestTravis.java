@@ -1,4 +1,3 @@
-package test.java;
 
 public class TestTravis {
 
