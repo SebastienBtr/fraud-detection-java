@@ -20,4 +20,9 @@ public class Loop extends  Structure {
         this.name = name;
         this.content = new ArrayList<Structure>();
     }
+
+    @Override
+    public String toString() {
+        return name.toString().toUpperCase() +" ( "+conditions+" )";
+    }
 }
