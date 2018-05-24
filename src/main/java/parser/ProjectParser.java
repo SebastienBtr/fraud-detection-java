@@ -33,57 +33,52 @@ public class ProjectParser {
             //Read File Line By Line
             while ((strLine = br.readLine()) != null) {
 
-                if (!ProjectParser.isAComment(strLine)) {
+                if (!isAComment(strLine) && isMethod(strLine)) {
 
-                    if (ProjectParser.isMethod(strLine)) {
-                        Method newMethod = ProjectParser.createMethod(strLine);
+                    Method newMethod = ProjectParser.createMethod(strLine);
+                    DefaultMutableTreeNode body = parseBody(newMethod, br);
+                    studentTree.add(body);
 
-                        DefaultMutableTreeNode body = parseBody(newMethod, br);
-
-                        studentTree.add(body);
-                    }
                 }
             }
-
-            System.out.println(ProjectParser.treeToString(studentTree));
 
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
+
         } catch (IOException e) {
             System.err.println(e.getMessage());
 
-        } finally { //close streams
+        } finally {
 
-            if (br != null) {
-
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-
-            if (fstream != null) {
-
-                try {
-                    fstream.close();
-                } catch (IOException e) {
-                    System.err.println(e.getMessage());
-                }
-            }
+            closeStreams(fstream, br);
         }
 
+        System.out.println(treeToString(studentTree));
         return studentTree;
     }
 
+    private static boolean isAComment(String strLine) {
+
+        return (strLine.trim().startsWith("*")
+                || strLine.trim().startsWith("//")
+                || strLine.trim().startsWith("/**")
+                || strLine.trim().startsWith("*/"));
+
+        //TODO check for block comment like :
+
+        /*blblb
+        nknknmn
+        mmnmn*/
+    }
+
+    private static boolean endOfBlock(String strLine) {
+
+        return Pattern.matches(".*}.*", strLine);
+        // TODO } else
+    }
+
     private static boolean isMethod(String strLine) {
-        boolean ret = false;
-
-        if (Pattern.matches(".*public.*", strLine)) {
-            ret = true;
-        }
-
-        return ret;
+        return Pattern.matches(".*public.*", strLine);
     }
 
     private static Method createMethod(String strLine) {
@@ -96,22 +91,17 @@ public class ProjectParser {
         String strLine;
 
         while ((strLine = br.readLine()) != null
-                && !strLine.contains("}")
-                && !ProjectParser.isAComment(strLine)) {
+                && !endOfBlock(strLine)
+                && !isAComment(strLine)) {
 
-            //&& !strLine.contains("}")
-            //    && !strLine.contains("*")
-            //        && !strLine.contains("//")
+            Structure structure = checkLineStructure(strLine);
 
-            if (!ProjectParser.isAComment(strLine)) {
+            if (structure.getClass().equals(CodeLine.class)) {
 
-                Structure structure = checkLineStructure(strLine);
+                ret.add(new DefaultMutableTreeNode(structure));
 
-                if (structure.getClass().equals(CodeLine.class)) {
-                    ret.add(new DefaultMutableTreeNode(structure));
-
-                } else ret.add(parseBody(structure, br));
-
+            } else {
+                ret.add(parseBody(structure, br));
             }
         }
 
@@ -161,10 +151,24 @@ public class ProjectParser {
         return null;
     }
 
-    private static boolean isAComment(String strLine) {
-        return (strLine.trim().startsWith("*")
-                || strLine.trim().startsWith("//")
-                || strLine.trim().startsWith("/**")
-                || strLine.trim().startsWith("*/"));
+    private static void closeStreams(FileInputStream fstream, BufferedReader br) {
+
+        if (br != null) {
+
+            try {
+                br.close();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
+
+        if (fstream != null) {
+
+            try {
+                fstream.close();
+            } catch (IOException e) {
+                System.err.println(e.getMessage());
+            }
+        }
     }
 }
