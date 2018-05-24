@@ -4,7 +4,9 @@ import student.Method;
 import student.algorithm_structure.*;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import java.io.*;
+import java.util.Enumeration;
 import java.util.regex.Pattern;
 
 public class ProjectParser {
@@ -27,16 +29,16 @@ public class ProjectParser {
             //Read File Line By Line
             while ((strLine = br.readLine()) != null) {
 
-                if (ProjectParser.isMethod(strLine)) {
-                    Method newMethod = ProjectParser.createMethod(strLine);
+                if (!ProjectParser.isAComment(strLine)) {
 
-                    DefaultMutableTreeNode body = parseBody(newMethod, br);
+                    if (ProjectParser.isMethod(strLine)) {
+                        Method newMethod = ProjectParser.createMethod(strLine);
 
-                    studentTree.add(body);
+                        DefaultMutableTreeNode body = parseBody(newMethod, br);
+
+                        studentTree.add(body);
+                    }
                 }
-
-                // Print the content on the console
-                //System.out.println (strLine);
             }
 
             System.out.println(ProjectParser.treeToString(studentTree));
@@ -89,9 +91,24 @@ public class ProjectParser {
 
         String strLine;
 
-        while ((strLine = br.readLine()) != null && !strLine.contains("}")) {
-            Structure structure = checkLineStructure(strLine);
-            ret.add(parseBody(structure, br));
+        while ((strLine = br.readLine()) != null
+                && !strLine.contains("}")
+                && !ProjectParser.isAComment(strLine)) {
+
+            //&& !strLine.contains("}")
+            //    && !strLine.contains("*")
+            //        && !strLine.contains("//")
+
+            if (!ProjectParser.isAComment(strLine)) {
+
+                Structure structure = checkLineStructure(strLine);
+
+                if (structure.getClass().equals(CodeLine.class)) {
+                    ret.add(new DefaultMutableTreeNode(structure));
+
+                } else ret.add(parseBody(structure, br));
+
+            }
         }
 
         return ret;
@@ -99,30 +116,52 @@ public class ProjectParser {
 
     private static Structure checkLineStructure(String strLine) {
 
-        if (Pattern.matches(".*for\\(.*;.*;.*\\).*", strLine)) {
+        if (Pattern.matches(".*for(\\s)*\\(([!-z]|\\s)*;([!-z]|\\s)*;([!-z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Loop(strLine, LoopType.FOR);
-        } else if (Pattern.matches(".*for\\(.*:.*\\).*", strLine)) {
+
+        } else if (Pattern.matches(".*for(\\s)*\\(([a-zA-Z]|\\s)*:([a-zA-Z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Loop(strLine, LoopType.FOREACH);
-        } else if (strLine.startsWith(".*while\\(.*).*")) {
+
+        } else if (Pattern.matches(".*while(\\s)*\\(([!-z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Loop(strLine, LoopType.WHILE);
-        } else if (strLine.startsWith(".*do.*")) {
-            return new Loop(strLine, LoopType.DOWHILE);
-        } else if (strLine.startsWith(".*if\\(.*).*")) {
+        }
+        //else if(Pattern.matches(".*do(\\s)*{(.|\\s)*}(\\s)while(\\s)*\\(([!-z]|\\s)*\\)(\\s)*;", strLine)){
+        //    return new Loop(strLine, LoopType.DOWHILE);
+        //}
+        else if (Pattern.matches(".*if(\\s)*\\(([!-z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Conditional(strLine);
+
         } else {
             return new CodeLine(strLine);
         }
     }
 
     private static String treeToString(DefaultMutableTreeNode tree) {
-        //String ret = "------PARENT------";
-        //ret += "\n"+tree.getParent().getChildAt(1);
+        Enumeration<DefaultMutableTreeNode> en = tree.preorderEnumeration();
 
-        System.out.println(tree.getDepth());
-        System.out.println(tree.getFirstLeaf());
-        System.out.println(tree.getLeafCount());
-        String ret = "\n\n------ENFANTS------";
+        while (en.hasMoreElements()) {
+            DefaultMutableTreeNode node = en.nextElement();
+            TreeNode[] path = node.getPath();
 
-        return ret;
+            int level = node.getLevel();
+
+            String tabs = "";
+            for (int i = 0; i < level; i++) {
+                tabs += "  ";
+            }
+
+            System.out.println(tabs + (node.isLeaf() ? " - " : " + ") + path[path.length - 1]);
+        }
+
+        return null;
+    }
+
+    private static boolean isAComment(String strLine) {
+        if (strLine.trim().startsWith("*")
+                || strLine.trim().startsWith("//")
+                || strLine.trim().startsWith("/**")
+                || strLine.trim().startsWith("*/")) return true;
+
+        else return false;
     }
 }

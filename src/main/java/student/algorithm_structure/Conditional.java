@@ -30,4 +30,9 @@ public class Conditional extends Structure {
         this.conditions = conditions;
         this.content = new ArrayList<Structure>();
     }
+
+    @Override
+    public String toString() {
+        return "IF ( "+conditions+" )";
+    }
 }
