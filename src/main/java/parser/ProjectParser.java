@@ -11,6 +11,10 @@ import java.util.regex.Pattern;
 
 public class ProjectParser {
 
+    private ProjectParser() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static DefaultMutableTreeNode parseFile(String fileName) {
 
         DefaultMutableTreeNode studentTree = new DefaultMutableTreeNode();
@@ -55,7 +59,7 @@ public class ProjectParser {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
             }
 
@@ -64,7 +68,7 @@ public class ProjectParser {
                 try {
                     fstream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
             }
         }
@@ -145,10 +149,11 @@ public class ProjectParser {
 
             int level = node.getLevel();
 
-            String tabs = "";
+            StringBuilder bld = new StringBuilder();
             for (int i = 0; i < level; i++) {
-                tabs += "  ";
+                bld.append("  ");
             }
+            String tabs = bld.toString();
 
             System.out.println(tabs + (node.isLeaf() ? " - " : " + ") + path[path.length - 1]);
         }
@@ -157,11 +162,9 @@ public class ProjectParser {
     }
 
     private static boolean isAComment(String strLine) {
-        if (strLine.trim().startsWith("*")
+        return (strLine.trim().startsWith("*")
                 || strLine.trim().startsWith("//")
                 || strLine.trim().startsWith("/**")
-                || strLine.trim().startsWith("*/")) return true;
-
-        else return false;
+                || strLine.trim().startsWith("*/"));
     }
 }
