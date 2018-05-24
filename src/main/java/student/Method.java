@@ -9,10 +9,22 @@ import java.util.List;
 import java.util.TreeSet;
 
 public class Method {
-    @Getter @Setter private String name;
-    @Getter @Setter private String returnType;
-    @Getter @Setter private List<Variable> parameters;
-    @Getter @Setter private TreeSet<Structure> body;
+
+    @Getter
+    @Setter
+    private String name;
+
+    @Getter
+    @Setter
+    private String returnType;
+
+    @Getter
+    @Setter
+    private List<Variable> parameters;
+
+    @Getter
+    @Setter
+    private TreeSet<Structure> body;
 
     public Method(String name) {
         this.name = name;
@@ -22,6 +34,6 @@ public class Method {
 
     @Override
     public String toString() {
-        return "METHODE ( "+this.name+" )";
+        return "METHODE ( " + this.name + " )";
     }
 }

@@ -3,8 +3,11 @@ package student.algorithm_structure;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CodeLine  extends Structure{
-    @Getter  @Setter private String lineContent;
+public class CodeLine extends Structure {
+
+    @Getter
+    @Setter
+    private String lineContent;
 
     public CodeLine(String lineContent) {
         this.lineContent = lineContent;
@@ -12,6 +15,6 @@ public class CodeLine  extends Structure{
 
     @Override
     public String toString() {
-        return " CODELINE ( "+this.lineContent+" )";
+        return " CODELINE ( " + this.lineContent + " )";
     }
 }

@@ -1,6 +1,13 @@
 package launcher;
 
+import lombok.Getter;
+import parser.ProjectParser;
+import student.Student;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -12,7 +19,15 @@ public class Launcher {
      */
     private static final int BUFFER_SIZE = 4096;
 
+    /**
+     * List of students
+     */
+    @Getter
+    private static List<Student> students;
+
     public static void main(String[] args) {
+
+        students = new ArrayList<Student>();
 
         Scanner in = new Scanner(System.in);
         System.out.println("Path of the zipFile : ");
@@ -29,14 +44,13 @@ public class Launcher {
         }
 
         try {
-            unzip(fileZip, destDir.getName());
+            unzip(fileZip, destDir.getName(), true);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
 
-        //TODO call parser or other methods
+        parseFiles();
     }
-
 
     /**
      * Extracts a zip file specified by the zipFilePath to a directory specified by
@@ -46,7 +60,7 @@ public class Launcher {
      * @param destDirectory the path to save unzip files
      * @throws IOException
      */
-    private static void unzip(String zipFilePath, String destDirectory) throws IOException {
+    private static void unzip(String zipFilePath, String destDirectory, boolean recursive) throws IOException {
 
         ZipInputStream zipIn = null;
 
@@ -57,7 +71,7 @@ public class Launcher {
             // iterates over entries in the zip file
             while (entry != null) {
 
-                createFiles(destDirectory, zipIn, entry);
+                createFiles(destDirectory, zipIn, entry, recursive);
 
                 zipIn.closeEntry();
                 entry = zipIn.getNextEntry();
@@ -81,7 +95,7 @@ public class Launcher {
      * @param entry         the zip entry
      * @throws IOException
      */
-    private static void createFiles(String destDirectory, ZipInputStream zipIn, ZipEntry entry) throws IOException {
+    private static void createFiles(String destDirectory, ZipInputStream zipIn, ZipEntry entry, boolean recursive) throws IOException {
         String filePath = destDirectory + File.separator + entry.getName();
 
         if (!entry.isDirectory()) {
@@ -89,10 +103,14 @@ public class Launcher {
             boolean isZipFile = filePath.endsWith(".zip");
             writeFile(zipIn, filePath);
 
-            if (isZipFile) {
+            if (isZipFile && recursive) {
                 File file = new File(filePath);
                 String newDestFile = file.getParentFile().getAbsolutePath();
-                unzip(filePath, newDestFile);
+                unzip(filePath, newDestFile, false);
+
+                String studentName = file.getName().replaceFirst("[.][^.]+$", "");
+                String studentDiretory = filePath.replaceFirst("[.][^.]+$", "");
+                students.add(new Student(studentName, studentDiretory));
             }
 
         } else {
@@ -159,4 +177,39 @@ public class Launcher {
             throw new UnsupportedOperationException();
         }
     }
+
+    /**
+     * Parse all project files
+     */
+    private static void parseFiles() {
+
+        for (Student student : students) {
+            File directory = new File(student.getDirectoryPath());
+
+            if (directory.exists()) {
+
+                parseStudentFiles(directory, student);
+            }
+        }
+    }
+
+    /**
+     * Parse all student files
+     *
+     * @param directory directory or subdirectory of student files
+     */
+    private static void parseStudentFiles(File directory, Student student) {
+
+        for (File fileEntry : directory.listFiles()) {
+
+            if (fileEntry.isDirectory()) {
+                parseStudentFiles(fileEntry, student);
+
+            } else if (fileEntry.getName().endsWith(".java")) {
+                DefaultMutableTreeNode tree = ProjectParser.parseFile(fileEntry.getName());
+                student.addTree(tree);
+            }
+        }
+    }
+
 }
