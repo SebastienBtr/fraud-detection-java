@@ -4,13 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Conditional extends Structure {
-
-    @Getter
-    @Setter
-    private List<Structure> content;
 
     @Getter
     @Setter
@@ -35,4 +30,21 @@ public class Conditional extends Structure {
     public String toString() {
         return "IF ( "+conditions+" )";
     }
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj.getClass().equals(this.getClass()) )
+        {
+            return true;
+        }
+        else
+        {
+            return  false;
+        }
+
+
+    }
+
 }

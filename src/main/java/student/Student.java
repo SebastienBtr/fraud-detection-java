@@ -22,6 +22,11 @@ public class Student {
     @Setter
     private List<DefaultMutableTreeNode> fileTrees;
 
+    @Getter
+    @Setter
+    private int scores;
+
+
     public Student(String name, String directoryPath) {
         this.name = name;
         this.directoryPath = directoryPath;

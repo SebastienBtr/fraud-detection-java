@@ -4,13 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Loop extends Structure {
 
-    @Getter
-    @Setter
-    private List<Structure> content;
+
 
     @Getter
     @Setter
@@ -38,4 +35,28 @@ public class Loop extends Structure {
     public String toString() {
         return name.toString().toUpperCase() + " ( " + conditions + " )";
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj.getClass().equals(this.getClass()) )
+        {
+            if (this.name.equals(((Loop)obj).name))
+            {
+                return  true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return  false;
+        }
+
+
+    }
+
+
 }

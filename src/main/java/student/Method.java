@@ -24,12 +24,12 @@ public class Method {
 
     @Getter
     @Setter
-    private TreeSet<Structure> body;
+    private ArrayList<Structure> body;
 
     public Method(String name) {
         this.name = name;
         this.parameters = new ArrayList<Variable>();
-        this.body = new TreeSet<Structure>();
+        this.body = new ArrayList<Structure>();
     }
 
     @Override
