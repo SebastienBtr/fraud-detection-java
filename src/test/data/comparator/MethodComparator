@@ -1,4 +1,7 @@
+
+public class test {
 /**
+
      * @param t1, t1!=null
      * @param t2, t2!=null
      * @return Retourne true si t1 et t2 ont meme longueur
@@ -44,4 +47,6 @@
             }
         }
         return occ;
+    }
+
     }
