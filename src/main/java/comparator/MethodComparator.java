@@ -1,58 +1,80 @@
 package comparator;
 
 import student.algorithm_structure.Loop;
-import student.algorithm_structure.Structure;
 
-import java.util.ArrayList;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.util.Enumeration;
 
 public class MethodComparator
 {
+    public static int compare(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2)
+    {
+        return orderStructures(structure1,structure2,0);
+    }
 
 
     /**
      *  Compare two tree of structures
-     * @param student1
-     * @param student2
+     * @param structure1
+     * @param structure2
      * @return a grade of similarity
      */
-    public static int compareStructure(ArrayList<Structure> student1, ArrayList<Structure> student2,int grade)
+    private static int orderStructures(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2, int grade)
         {
-        if (student1.size() > student2.size())
+//        System.out.println(structure1.getUserObject().toString());
+//        System.out.println(structure2.getUserObject().toString());
+//        System.out.println(grade);
+        if(!structure1.isLeaf() && !structure2.isLeaf())
         {
-             return compareStructureOrdered(student1,student2,grade);
+            if (structure1.getChildCount() > structure2.getChildCount())
+            {
+                return compareStructureOrdered(structure1, structure2, grade);
+            } else
+            {
+                return compareStructureOrdered(structure2, structure1, grade);
+            }
         }
-        else
-        {
-            return compareStructureOrdered(student2,student1,grade);
-        }
+        return grade;
 
     }
 
     /**
      * Compare two trees of structure with the bigger one as the first parameter
-     * @param longer
-     * @param shorter
+     * @param longer must not be a leaf
+     * @param shorter must not be a leaf
      * @return grade
      */
-    private static int compareStructureOrdered(ArrayList<Structure> longer, ArrayList<Structure> shorter,int grade)
+    private static int compareStructureOrdered(DefaultMutableTreeNode longer, DefaultMutableTreeNode shorter,int grade)
     {
+        DefaultMutableTreeNode longerCurrentChild = longer.getNextNode();
+        DefaultMutableTreeNode shorterCurrentCHild =  shorter.getNextNode();
+        for (int i = 0; i < longer.getChildCount() ; i++) {
 
-        for (int i = 0; i < longer.size() ; i++) {
-            if ( i < shorter.size())
+            if ( i < shorter.getChildCount())
             {
-                if (longer.get(i).equals(shorter.get(i)))
+                if (longerCurrentChild.getUserObject().equals(shorterCurrentCHild.getUserObject()))
                 {
-                    grade = structureContentSimilarities(longer.get(i), shorter.get(i), grade, Similarities.SAME_STRUCTURE_SAME_SPOT);
+                    grade = structureContentSimilarities(longerCurrentChild, shorterCurrentCHild, grade, Similarities.SAME_STRUCTURE_SAME_SPOT);
 
                 }
+                shorterCurrentCHild = shorterCurrentCHild.getNextSibling();
             }
             else
             {
-                if(shorter.contains(longer.get(i))){
-                    grade = structureContentSimilarities(longer.get(i), shorter.get(i), grade,Similarities.CONTAIN_STRUCTURE);
+                shorterCurrentCHild = null;
+                DefaultMutableTreeNode currentNode;
+                for (Enumeration e = shorter.children(); e.hasMoreElements() && shorterCurrentCHild == null;) {
+                    currentNode = (DefaultMutableTreeNode) e.nextElement();
+                    if (currentNode.getUserObject().equals(longerCurrentChild.getUserObject())) {
+                        shorterCurrentCHild = currentNode;
+                    }
+                }
+                if(shorterCurrentCHild != null){
+                    grade = structureContentSimilarities(longerCurrentChild, shorterCurrentCHild, grade,Similarities.CONTAIN_STRUCTURE);
                 }
 
             }
+            longerCurrentChild  =  longerCurrentChild.getNextSibling();
         }
       return grade;
     }
@@ -64,11 +86,11 @@ public class MethodComparator
      * @param grade
      * @return grade
      */
-    private static int structureContentSimilarities(Structure structure1, Structure structure2, int grade,int similarity)
+    private static int structureContentSimilarities(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2, int grade,int similarity)
     {
-        if (structure1.getClass().equals(Loop.class))
+        if (structure1.getUserObject().getClass().equals(Loop.class))
         {
-            if(((Loop)structure1).getName().equals(((Loop)structure2).getName()))
+            if(((Loop)structure1.getUserObject()).getName().equals(((Loop)structure2.getUserObject()).getName()))
             {
                 grade += similarity * Similarities.SAME_LOOP;
             }
@@ -77,7 +99,10 @@ public class MethodComparator
         {
             grade += similarity;
         }
-      //  grade *= compareStructure(structure1.getContent(),structure2.getContent(),grade);
+
+        grade = orderStructures(structure1,structure2,grade);
+
+
         
         return grade;
     }
