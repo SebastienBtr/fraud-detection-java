@@ -11,20 +11,23 @@ public class Conditional extends Structure {
 
     @Getter
     @Setter
-    private Conditional elseCond;
-
+    private ConditionalType type;
 
 
     public Conditional(String conditions) {
         this.conditions = conditions;
+        this.type = ConditionalType.IF;
+    }
+
+    public Conditional(String conditions, ConditionalType type) {
+        this.conditions = conditions;
+        this.type = type;
     }
 
     @Override
     public String toString() {
-        return "IF ( "+conditions+" )";
+        return this.type.toString()+" ( "+conditions+" )";
     }
-
-
 
     @Override
     public boolean equals(Object obj) {

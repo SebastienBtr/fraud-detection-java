@@ -24,6 +24,19 @@ public class Variable {
     }
 
     @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Variable variable = (Variable) o;
+
+        if (type != null ? !type.equals(variable.type) : variable.type != null) return false;
+        return name != null ? name.equals(variable.name) : variable.name == null;
+    }
+
+
+    @Override
     public String toString() {
         return " VARIABLE ( nom : "+this.name+" ) ";
     }

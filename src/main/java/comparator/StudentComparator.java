@@ -4,12 +4,11 @@ import student.ClassFile;
 import student.Student;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.util.Enumeration;
 import java.util.List;
 
 public class StudentComparator {
 
-    public static void compareStudents(List<Student> students) {
+    public static void compareStudents(List<Student> students,Student teacherFiles) {
 
         for (int i = 0; i < students.size() - 1; i++) {
 
@@ -27,34 +26,24 @@ public class StudentComparator {
 
         List<DefaultMutableTreeNode> student1Trees = student1.getFileTrees();
         List<DefaultMutableTreeNode> student2Trees = student2.getFileTrees();
-
+        int similarities = 0 ;
         for (DefaultMutableTreeNode treeSt1 : student1Trees) {
 
             for (DefaultMutableTreeNode treeSt2 : student2Trees) {
 
                 if (classNameAreGiven && classNameMatched(treeSt1, treeSt2)) {
-                    analyzeTrees(treeSt1, treeSt2);
+                    similarities += ClassFileComparator.compare(treeSt1, treeSt2);
 
                 } else {
-                    analyzeTrees(treeSt1, treeSt2);
+                    similarities += ClassFileComparator.compare(treeSt1, treeSt2);
                 }
             }
         }
+        student2.getScores().put(student1.getName(),similarities);
+        student1.getScores().put(student2.getName(),similarities);
     }
 
-    private static void analyzeTrees(DefaultMutableTreeNode tree1, DefaultMutableTreeNode tree2) {
 
-        Enumeration en1 = tree1.breadthFirstEnumeration();
-        Enumeration en2 = tree2.breadthFirstEnumeration();
-
-/*        while (en1.hasMoreElements()) {
-
-            while (en2.hasMoreElements()) {
-
-            }
-        }*/
-
-    }
 
     private static boolean classNameMatched(DefaultMutableTreeNode tree1, DefaultMutableTreeNode tree2) {
 
