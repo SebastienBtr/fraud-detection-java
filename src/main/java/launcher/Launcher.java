@@ -28,11 +28,22 @@ public class Launcher {
 
     public static void main(String[] args) {
 
-        students = new ArrayList<Student>();
-
         Scanner in = new Scanner(System.in);
         System.out.println("Path of the zipFile : ");
         String fileZip = in.next();
+
+        init(fileZip);
+    }
+
+    /**
+     * Run all app operations :
+     * Unzip files, parse files, compare students
+     *
+     * @param fileZip the directory that contains all student projects
+     */
+    public static List<Student> init(String fileZip) {
+
+        students = new ArrayList<Student>();
 
         File destDir = new File("unzipFiles");
 
@@ -51,7 +62,9 @@ public class Launcher {
         }
 
         parseFiles();
-        StudentComparator.compareStudents(students);
+        // StudentComparator.compareStudents(students);
+
+        return students;
     }
 
     /**
@@ -103,17 +116,23 @@ public class Launcher {
         if (!entry.isDirectory()) {
 
             boolean isZipFile = filePath.endsWith(".zip");
-            writeFile(zipIn, filePath);
+            boolean isJavaFile = filePath.endsWith(".java");
 
-            if (isZipFile && recursive) {
-                File file = new File(filePath);
-                String newDestFile = file.getParentFile().getAbsolutePath();
-                unzip(filePath, newDestFile, false);
+            if (isZipFile || isJavaFile) {
 
-                String studentName = file.getName().replaceFirst("[.][^.]+$", "");
-                String studentDiretory = filePath.replaceFirst("[.][^.]+$", "");
-                students.add(new Student(studentName, studentDiretory));
+                writeFile(zipIn, filePath);
+
+                if (recursive) {
+                    File file = new File(filePath);
+                    String newDestFile = file.getParentFile().getAbsolutePath();
+                    unzip(filePath, newDestFile, false);
+
+                    String studentName = file.getName().replaceFirst("[.][^.]+$", "");
+                    String studentDiretory = filePath.replaceFirst("[.][^.]+$", "");
+                    students.add(new Student(studentName, studentDiretory));
+                }
             }
+
 
         } else {
             File dir = new File(filePath);
@@ -186,12 +205,15 @@ public class Launcher {
     private static void parseFiles() {
 
         for (Student student : students) {
+
             File directory = new File(student.getDirectoryPath());
 
             if (directory.exists()) {
-
                 parseStudentFiles(directory, student);
             }
+
+            System.out.println(student.getFileTrees().size());
+
         }
     }
 
@@ -208,12 +230,12 @@ public class Launcher {
                 parseStudentFiles(fileEntry, student);
 
             } else if (fileEntry.getName().endsWith(".java")) {
-                DefaultMutableTreeNode tree = ProjectParser.parseFile(fileEntry.getName());
+                System.out.println("CALL PARSER " + fileEntry.getName());
+                DefaultMutableTreeNode tree = ProjectParser.parseFile(fileEntry.getPath());
                 student.addTree(tree);
             }
         }
     }
-
 
 
 }
