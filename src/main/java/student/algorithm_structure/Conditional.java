@@ -3,8 +3,6 @@ package student.algorithm_structure;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-
 public class Conditional extends Structure {
 
     @Getter
@@ -16,14 +14,11 @@ public class Conditional extends Structure {
     private Conditional elseCond;
 
 
-    public Conditional() {
-        this.content = new ArrayList<Structure>();
-    }
 
     public Conditional(String conditions) {
 
         this.conditions = conditions;
-        this.content = new ArrayList<Structure>();
+
     }
 
     @Override

@@ -15,15 +15,15 @@ public class MethodComparator
      * @param student2
      * @return a grade of similarity
      */
-    public static int compareStructure(ArrayList<Structure> student1, ArrayList<Structure> student2)
+    public static int compareStructure(ArrayList<Structure> student1, ArrayList<Structure> student2,int grade)
         {
         if (student1.size() > student2.size())
         {
-             return compareStructureOrdered(student1,student2);
+             return compareStructureOrdered(student1,student2,grade);
         }
         else
         {
-            return compareStructureOrdered(student2,student1);
+            return compareStructureOrdered(student2,student1,grade);
         }
 
     }
@@ -34,9 +34,9 @@ public class MethodComparator
      * @param shorter
      * @return grade
      */
-    private static int compareStructureOrdered(ArrayList<Structure> longer, ArrayList<Structure> shorter)
+    private static int compareStructureOrdered(ArrayList<Structure> longer, ArrayList<Structure> shorter,int grade)
     {
-        int grade = 0;
+
         for (int i = 0; i < longer.size() ; i++) {
             if ( i < shorter.size())
             {
@@ -77,7 +77,7 @@ public class MethodComparator
         {
             grade += similarity;
         }
-        grade *= compareStructure(structure1.getContent(),structure2.getContent());
+      //  grade *= compareStructure(structure1.getContent(),structure2.getContent(),grade);
         
         return grade;
     }

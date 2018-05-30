@@ -1,5 +1,6 @@
 package launcher;
 
+import comparator.StudentComparator;
 import lombok.Getter;
 import parser.ProjectParser;
 import student.Student;
@@ -50,6 +51,7 @@ public class Launcher {
         }
 
         parseFiles();
+        StudentComparator.compareStudents(students);
     }
 
     /**
@@ -211,5 +213,7 @@ public class Launcher {
             }
         }
     }
+
+
 
 }
