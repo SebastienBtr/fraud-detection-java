@@ -20,10 +20,16 @@ public class Loop extends Structure {
     private IteratingType iterator;
 
 
+    public Loop(String conditions) {
+        this.conditions = conditions;
+
+        if(conditions.contains(";")) this.name = LoopType.FOR;
+        else this.name = LoopType.FOREACH;
+    }
+
     public Loop(String conditions, LoopType name) {
         this.conditions = conditions;
         this.name = name;
-
     }
 
     @Override

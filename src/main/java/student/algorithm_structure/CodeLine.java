@@ -15,7 +15,7 @@ public class CodeLine extends Structure {
 
     @Override
     public String toString() {
-        return " CODELINE ( " + this.lineContent + " )";
+        return "CODELINE ( " + this.lineContent + " )";
     }
 
     @Override

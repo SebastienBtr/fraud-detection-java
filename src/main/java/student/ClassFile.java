@@ -25,7 +25,7 @@ public class ClassFile {
 
            this.visibility = signature[0];
 
-           if(signature.length == 3){
+           if(signature.length >= 3){
                this.isStatic = true;
                this.name = signature[2];
            }
