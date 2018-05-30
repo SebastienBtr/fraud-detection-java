@@ -16,9 +16,7 @@ public class Conditional extends Structure {
 
 
     public Conditional(String conditions) {
-
         this.conditions = conditions;
-
     }
 
     @Override

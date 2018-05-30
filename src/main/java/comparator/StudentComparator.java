@@ -1,6 +1,6 @@
 package comparator;
 
-import student.File;
+import student.ClassFile;
 import student.Student;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -22,7 +22,7 @@ public class StudentComparator {
 
     private static void compareTwoStudent(Student student1, Student student2) {
 
-        //TODO get with config
+        /*//TODO get with config
         boolean classNameAreGiven = true;
 
         List<DefaultMutableTreeNode> student1Trees = student1.getFileTrees();
@@ -39,7 +39,7 @@ public class StudentComparator {
                     analyzeTrees(treeSt1, treeSt2);
                 }
             }
-        }
+        }*/
     }
 
     private static void analyzeTrees(DefaultMutableTreeNode tree1, DefaultMutableTreeNode tree2) {
@@ -58,9 +58,11 @@ public class StudentComparator {
 
     private static boolean classNameMatched(DefaultMutableTreeNode tree1, DefaultMutableTreeNode tree2) {
 
-        File file1 = (File) tree1.getNextNode().getUserObject();
-        File file2 = (File) tree2.getNextNode().getUserObject();
+        /*ClassFile file1 = (ClassFile) tree1.getNextNode().getUserObject();
+        ClassFile file2 = (ClassFile) tree2.getNextNode().getUserObject();
 
-        return file1.getFilePath().equals(file2.getFilePath());
+        return file1.getFilePath().equals(file2.getFilePath());*/
+
+        return false;
     }
 }
