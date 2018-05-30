@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 
 public class Student {
@@ -24,7 +25,7 @@ public class Student {
 
     @Getter
     @Setter
-    private int scores;
+    private TreeMap<String,Integer> scores;
 
 
     public Student(String name, String directoryPath) {

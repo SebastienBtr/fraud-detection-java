@@ -83,6 +83,13 @@ public class Launcher {
             zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
             ZipEntry entry = zipIn.getNextEntry();
 
+            if (!recursive) {
+
+                String studentName = entry.getName();
+                String studentDiretory = destDirectory + File.separator + entry.getName();
+                students.add(new Student(studentName, studentDiretory));
+            }
+
             // iterates over entries in the zip file
             while (entry != null) {
 
@@ -126,13 +133,8 @@ public class Launcher {
                     File file = new File(filePath);
                     String newDestFile = file.getParentFile().getAbsolutePath();
                     unzip(filePath, newDestFile, false);
-
-                    String studentName = file.getName().replaceFirst("[.][^.]+$", "");
-                    String studentDiretory = filePath.replaceFirst("[.][^.]+$", "");
-                    students.add(new Student(studentName, studentDiretory));
                 }
             }
-
 
         } else {
             File dir = new File(filePath);

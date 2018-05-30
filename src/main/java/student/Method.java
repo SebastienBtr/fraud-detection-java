@@ -91,6 +91,21 @@ public class Method {
     }
 
     @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Method method = (Method) o;
+
+
+        if (name != null ? !name.equals(method.name) : method.name != null) return false;
+        return parameters != null ? parameters.equals(method.parameters) : method.parameters == null;
+    }
+
+
+
+    @Override
     public String toString() {
         String ret = "METHODE ("
                 + "visibilité : " + this.visibility
