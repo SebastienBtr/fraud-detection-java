@@ -85,7 +85,7 @@ public class ProjectParser {
         //Read ClassFile Line By Line
         while ((strLine = br.readLine()) != null) {
 
-            if (!isAComment(strLine, br) && isMethod(strLine)) {
+            if (isMethod(strLine)) {
 
                 Method newMethod = ProjectParser.createMethod(strLine, br);
                 DefaultMutableTreeNode body = parseBody(newMethod, br);
@@ -110,18 +110,19 @@ public class ProjectParser {
 
         String strLine;
 
-        while ((strLine = br.readLine()) != null
-                && !isEndOfBlock(strLine)
-                && !isAComment(strLine, br)) {
+        while ((strLine = br.readLine()) != null && !isEndOfBlock(strLine)) {
 
-            Structure structure = checkLineStructure(strLine);
+            if(!isAComment(strLine, br)){
+                Structure structure = checkLineStructure(strLine);
 
-            if (structure.getClass().equals(CodeLine.class)) {
+                if (structure.getClass().equals(CodeLine.class)
+                        || structure.getClass().equals(EmptyLine.class)) {
 
-                ret.add(new DefaultMutableTreeNode(structure));
+                    ret.add(new DefaultMutableTreeNode(structure));
 
-            } else {
-                ret.add(parseBody(structure, br));
+                } else {
+                    ret.add(parseBody(structure, br));
+                }
             }
         }
 
@@ -158,6 +159,9 @@ public class ProjectParser {
         else if (Pattern.matches(".*if(\\s)*\\(([!-z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Conditional(strLine);
 
+        }
+        else if (isEmptyLine(strLine)){
+            return EmptyLine.getInstance();
         }
         // LIGNE CODE
         else {
@@ -216,7 +220,7 @@ public class ProjectParser {
             else {
                 String strLine2 = br.readLine();
 
-                while (!strLine2.trim().endsWith("*/")){
+                while (!strLine2.contains("*/")){
                     strLine2 = br.readLine();
                 }
 
@@ -264,6 +268,16 @@ public class ProjectParser {
 
         return Pattern.matches(".*}.*", strLine);
         // TODO } else
+    }
+
+    /**
+     * IsEmptyLine
+     * @param strLine
+     * @return
+     */
+
+    private static boolean isEmptyLine(String strLine) {
+        return (strLine.trim().length() == 0);
     }
 
     /**
