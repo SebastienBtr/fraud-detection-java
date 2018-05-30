@@ -85,9 +85,15 @@ public class Launcher {
 
             if (!recursive) {
 
-                String studentName = entry.getName();
-                String studentDiretory = destDirectory + File.separator + entry.getName();
-                students.add(new Student(studentName, studentDiretory));
+                String[] parts = entry.getName().split("/");
+                String repName = parts[0];
+
+                String studentDiretory = destDirectory + File.separator + repName;
+
+                File dir = new File(studentDiretory);
+                dir.mkdir();
+
+                students.add(new Student(repName, studentDiretory));
             }
 
             // iterates over entries in the zip file
@@ -151,6 +157,9 @@ public class Launcher {
      */
     private static void writeFile(ZipInputStream zipIn, String filePath) throws IOException {
 
+        String parent = filePath.replace(filePath.substring(filePath.lastIndexOf("/")), "");
+        createParents(parent);
+
         BufferedOutputStream bos = null;
 
         try {
@@ -169,6 +178,14 @@ public class Launcher {
             if (bos != null) {
                 bos.close();
             }
+        }
+    }
+
+    private static void createParents(String path) {
+
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
         }
     }
 
@@ -213,9 +230,6 @@ public class Launcher {
             if (directory.exists()) {
                 parseStudentFiles(directory, student);
             }
-
-            System.out.println(student.getFileTrees().size());
-
         }
     }
 

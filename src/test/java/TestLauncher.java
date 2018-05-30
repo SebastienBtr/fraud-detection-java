@@ -9,7 +9,7 @@ public class TestLauncher {
 
     public static void main(String[] args) {
 
-        List<Student> students = Launcher.init("src/test/data/exam2.zip");
+        List<Student> students = Launcher.init("src/test/data/exam1.zip");
 
         showResult(students);
     }
