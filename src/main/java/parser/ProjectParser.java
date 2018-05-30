@@ -1,5 +1,6 @@
 package parser;
 
+import student.ClassFile;
 import student.Method;
 import student.algorithm_structure.*;
 
@@ -11,9 +12,19 @@ import java.util.regex.Pattern;
 
 public class ProjectParser {
 
+    /**
+     * Constructor
+     */
+
     private ProjectParser() {
         throw new IllegalStateException("Utility class");
     }
+
+    /**
+     * ParseFile
+     * @param fileName
+     * @return
+     */
 
     public static DefaultMutableTreeNode parseFile(String fileName) {
 
@@ -30,13 +41,13 @@ public class ProjectParser {
 
             String strLine;
 
-            //Read File Line By Line
+            //Read ClassFile Line By Line
             while ((strLine = br.readLine()) != null) {
 
-                if (!isAComment(strLine) && isMethod(strLine)) {
+                if (!isAComment(strLine, br) && isClass(strLine)) {
 
-                    Method newMethod = ProjectParser.createMethod(strLine);
-                    DefaultMutableTreeNode body = parseBody(newMethod, br);
+                    ClassFile newClass = ProjectParser.createClass(strLine, br);
+                    DefaultMutableTreeNode body = parseClass(newClass, br);
                     studentTree.add(body);
 
                 }
@@ -57,33 +68,42 @@ public class ProjectParser {
         return studentTree;
     }
 
-    private static boolean isAComment(String strLine) {
 
-        return (strLine.trim().startsWith("*")
-                || strLine.trim().startsWith("//")
-                || strLine.trim().startsWith("/**")
-                || strLine.trim().startsWith("*/"));
+    /**
+     * ParseClass
+     * @param newClass
+     * @param br
+     * @return
+     * @throws IOException
+     */
 
-        //TODO check for block comment like :
+    private static DefaultMutableTreeNode parseClass(ClassFile newClass, BufferedReader br) throws IOException {
+        DefaultMutableTreeNode classTree = new DefaultMutableTreeNode(newClass);
 
-        /*blblb
-        nknknmn
-        mmnmn*/
+        String strLine;
+
+        //Read ClassFile Line By Line
+        while ((strLine = br.readLine()) != null) {
+
+            if (!isAComment(strLine, br) && isMethod(strLine)) {
+
+                Method newMethod = ProjectParser.createMethod(strLine, br);
+                DefaultMutableTreeNode body = parseBody(newMethod, br);
+                classTree.add(body);
+
+            }
+        }
+
+        return classTree;
     }
 
-    private static boolean endOfBlock(String strLine) {
-
-        return Pattern.matches(".*}.*", strLine);
-        // TODO } else
-    }
-
-    private static boolean isMethod(String strLine) {
-        return Pattern.matches(".*public.*", strLine);
-    }
-
-    private static Method createMethod(String strLine) {
-        return new Method(strLine);
-    }
+    /**
+     * DefaultMutableTreeNode
+     * @param parent
+     * @param br
+     * @return
+     * @throws IOException
+     */
 
     private static DefaultMutableTreeNode parseBody(Object parent, BufferedReader br) throws IOException {
         DefaultMutableTreeNode ret = new DefaultMutableTreeNode(parent);
@@ -91,8 +111,8 @@ public class ProjectParser {
         String strLine;
 
         while ((strLine = br.readLine()) != null
-                && !endOfBlock(strLine)
-                && !isAComment(strLine)) {
+                && !isEndOfBlock(strLine)
+                && !isAComment(strLine, br)) {
 
             Structure structure = checkLineStructure(strLine);
 
@@ -108,27 +128,149 @@ public class ProjectParser {
         return ret;
     }
 
+    /**
+     * CheckLineStructure
+     * @param strLine
+     * @return
+     */
+
     private static Structure checkLineStructure(String strLine) {
 
+        // FOR
         if (Pattern.matches(".*for(\\s)*\\(([!-z]|\\s)*;([!-z]|\\s)*;([!-z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Loop(strLine, LoopType.FOR);
 
-        } else if (Pattern.matches(".*for(\\s)*\\(([a-zA-Z]|\\s)*:([a-zA-Z]|\\s)*\\)(\\s)*\\{", strLine)) {
+        }
+        // FOREACH
+        else if (Pattern.matches(".*for(\\s)*\\(([a-zA-Z]|\\s)*:([a-zA-Z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Loop(strLine, LoopType.FOREACH);
 
-        } else if (Pattern.matches(".*while(\\s)*\\(([!-z]|\\s)*\\)(\\s)*\\{", strLine)) {
+        }
+        // WHILE
+        else if (Pattern.matches(".*while(\\s)*\\(([!-z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Loop(strLine, LoopType.WHILE);
         }
         //else if(Pattern.matches(".*do(\\s)*{(.|\\s)*}(\\s)while(\\s)*\\(([!-z]|\\s)*\\)(\\s)*;", strLine)){
         //    return new Loop(strLine, LoopType.DOWHILE);
         //}
+
+        // IF
         else if (Pattern.matches(".*if(\\s)*\\(([!-z]|\\s)*\\)(\\s)*\\{", strLine)) {
             return new Conditional(strLine);
 
-        } else {
-            return new CodeLine(strLine);
+        }
+        // LIGNE CODE
+        else {
+            return new CodeLine(strLine.trim());
         }
     }
+
+    /**
+     * CreateClass
+     * @param strLine
+     * @param br
+     * @return
+     * @throws IOException
+     */
+
+    private static ClassFile createClass(String strLine, BufferedReader br) throws IOException {
+        if(strLine.trim().endsWith("{")) return new ClassFile(strLine);
+        else throw new IOException();
+    }
+
+    /**
+     * CreateMethod
+     * @param strLine
+     * @param br
+     * @return
+     * @throws IOException
+     */
+
+    private static Method createMethod(String strLine, BufferedReader br) throws IOException {
+
+        if(strLine.trim().endsWith("{")) return new Method(strLine);
+        else {
+            String method = strLine;
+
+            while(strLine != null && !strLine.trim().endsWith("{")){
+                strLine = br.readLine();
+                method += strLine;
+            }
+
+            return new Method(method);
+        }
+    }
+
+    /**
+     * IsAComment
+     * @param strLine
+     * @param br
+     * @return
+     * @throws IOException
+     */
+
+    private static boolean isAComment(String strLine, BufferedReader br) throws IOException {
+
+        if(strLine.trim().startsWith("/*")){
+            if(strLine.trim().contains("*/")) return true;
+            else {
+                String strLine2 = br.readLine();
+
+                while (!strLine2.trim().endsWith("*/")){
+                    strLine2 = br.readLine();
+                }
+
+                return true;
+            }
+
+        }
+        else {
+
+            return (strLine.trim().startsWith("*")
+                    || strLine.trim().startsWith("//")
+                    || strLine.trim().startsWith("/**")
+                    || strLine.trim().startsWith("*/"));
+
+        }
+    }
+
+    /**
+     * IsMethod
+     * @param strLine
+     * @return
+     */
+
+    private static boolean isMethod(String strLine) {
+        return Pattern.matches(".*public.*", strLine);
+    }
+
+    /**
+     * IsClass
+     * @param strLine
+     * @return
+     */
+
+    private static boolean isClass(String strLine) {
+        return Pattern.matches("\\b(public|private|protected|)\\b\\s*\\b(static|)\\b\\s*\\b(class)\\b\\s*\\w+\\s*\\{", strLine);
+    }
+
+    /**
+     * IsEndOfBlock
+     * @param strLine
+     * @return
+     */
+
+    private static boolean isEndOfBlock(String strLine) {
+
+        return Pattern.matches(".*}.*", strLine);
+        // TODO } else
+    }
+
+    /**
+     * TreeToString
+     * @param tree
+     * @return
+     */
 
     private static String treeToString(DefaultMutableTreeNode tree) {
         Enumeration<DefaultMutableTreeNode> en = tree.preorderEnumeration();
@@ -151,10 +293,15 @@ public class ProjectParser {
         return null;
     }
 
+    /**
+     * CloseStreams
+     * @param fstream
+     * @param br
+     */
+
     private static void closeStreams(FileInputStream fstream, BufferedReader br) {
 
         if (br != null) {
-
             try {
                 br.close();
             } catch (IOException e) {
@@ -163,7 +310,6 @@ public class ProjectParser {
         }
 
         if (fstream != null) {
-
             try {
                 fstream.close();
             } catch (IOException e) {

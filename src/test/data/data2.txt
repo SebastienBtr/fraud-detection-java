@@ -1,147 +1,299 @@
-/**
-     * @param t1, t1!=null
-     * @param t2, t2!=null
-     * @return Retourne true si t1 et t2 ont meme longueur
-     * et pour tout i tel que 0<=i<t1.length,  t1[i]==t2[i]. Sinon, retourne false.
-     * Ex.: egaux({4, 8, 4}, {4, 8}) retourne false
-     *      egaux({4, 8, 4}, {4, 8, 4}) retourne true
-     *      egaux({4, 8, 4}, {4, 4, 8}) retourne false
-     *      egaux({4, 8, 4}, {4, 8, 4, 2}) retourne false
-     */
-    public static boolean identiques(int[] t1, int[] t2) {
-        if (t1.length != t2.length) {
-            return false;
-        }
-        boolean id = true;
-        int i =0;
-        while (id && i<t1.length) {
-            id = (t1[i]==t2[i]);
-            i++;
-        }
-        return id;
+public class Tableaux {
+
+  /**
+
+   * @param t1, t1!=null
+
+   * @param t2, t2!=null
+
+   * @return Retourne true si t1 et t2 ont meme longueur
+
+   * et pour tout i tel que 0<=i<t1.length, t1[i]==t2[i]. Sinon, retourne false.
+
+   * Ex.: egaux({4, 8, 4}, {4, 8}) retourne false
+
+   *   egaux({4, 8, 4}, {4, 8, 4}) retourne true
+
+   *   egaux({4, 8, 4}, {4, 4, 8}) retourne false
+
+   *   egaux({4, 8, 4}, {4, 8, 4, 2}) retourne false
+
+   */
+
+  public static boolean identiques(int[] t1, int[] t2) {
+
+    if (t1.length != t2.length) {
+
+      return false;
+
     }
 
-    /**
-     * @param tab, un tableau contenant au moins un entier.
-     * @param x, un entier quelconque
-     * @return Retourne le nombre d’occurrences de x dans tab, c'est-a-dire le
-     *  nombre de fois que l’entier x apparaît dans tab.
-     *  ------------------------------------------------------------------------------------
-     *  TRES IMPORTANT !!!  Votre methode doit utiliser une boucle et ne peux ni faire appel
-     *  a nbOccurrencesRec ni utiliser une variante du code de nbOccurrencesRec.
-     *  ------------------------------------------------------------------------------------
-     * Ex.: En supposant que t soit egal a {2, 12, 4, 2, 2, 12, 6} :
-     *        nbOccurrences(t,  2) retourne 3
-     *        nbOccurrences(t, 12) retourne 2
-     *        nbOccurrences(t,  4) retourne 1
-     *        nbOccurrences(t, 22) retourne 0
-     */
-    public static int nbOccurrences(int[] tab, int x) {
-        int occ = 0;
-        for (int i = 0;i<tab.length;i++) {
-            if (tab[i] == x) {
-                occ = occ + 1;
-            }
-        }
-        return occ;
+    boolean id = true;
+
+    int i =0;
+
+    while (id && i<t1.length) {
+
+      id = (t1[i]==t2[i]);
+
+      i++;
+
     }
 
-    /**
-     * @param tab
-     * @param x
-     * @return Fonction ayant les memes specifications que nbOccurrences.
-     * Utiliser cette fonction plutot que nbOccurrences pour l'implementation de supprimerToutes et egaux
-     */
-    public static int nbOccurrencesRec(int[] tab, int x) {
-        return nbOccurrencesRec(tab, tab.length, x);
-    }
-    public static int nbOccurrencesRec(int[] tab, int pos, int x) {
-        return (pos==0) ? 0 : nbOccurrencesRec(tab, pos-1, x)+(tab[pos-1]==x?1:0);
+    return id;
+
+  }
+
+  
+
+  /**
+
+   * @param tab, un tableau contenant au moins un entier.
+
+   * @param x, un entier quelconque
+
+   * @return Retourne le nombre d’occurrences de x dans tab, c'est-a-dire le 
+
+   * nombre de fois que l’entier x apparaît dans tab.
+
+   * ------------------------------------------------------------------------------------
+
+   * TRES IMPORTANT !!! Votre methode doit utiliser une boucle et ne peux ni faire appel 
+
+   * a nbOccurrencesRec ni utiliser une variante du code de nbOccurrencesRec.
+
+   * ------------------------------------------------------------------------------------
+
+   * Ex.: En supposant que t soit egal a {2, 12, 4, 2, 2, 12, 6} :
+
+   *    nbOccurrences(t, 2) retourne 3
+
+   *    nbOccurrences(t, 12) retourne 2
+
+   *    nbOccurrences(t, 4) retourne 1
+
+   *    nbOccurrences(t, 22) retourne 0
+
+   */
+
+  public static int nbOccurrences(int[] tab, int x) {
+
+    int occ = 0;
+
+    for (int i = 0;i<tab.length;i++) {
+
+      if (tab[i] == x) {
+
+        occ = occ + 1;
+
+      }
+
     }
 
+    return occ;
 
-    /**
-     * @param t1!=null
-     * @param t2, t2!=null
-     * @return true si t1 et t2 sont de meme longueur et t2 est une permutation de t1
-     * (en d'autres termes, t1 et t2 contiennent les memes valeurs et le nombre d'occurrences
-     *  de chaque valeur est identique dans t1 et t2)
-     *  Ex.: egaux({1, 2, 1, 4, 2, 2}, {2}) retourne false (tailles differentes)
-     *       egaux({1, 2, 1, 4, 2, 2}, {2, 1, 2, 1, 2, 2}) retourne false (4 est present dans t1 mais pas dans t2 / il y a trois 2 dans t1 et quatre dans t2)
-     *       egaux({1, 2, 1, 4, 2, 2}, {4, 1, 2, 1, 1, 2}) retourne false (trois 2 dans t1 mais quatre dans t2 / deux 1 dans t1 mais 3 dans t2)
-     *       egaux({1, 2, 1, 4, 2, 2}, {4, 2, 2, 1, 1, 2}) retourne true (a la fois t1 et t2 contiennent un 4, deux 1 et trois 3)
-     *       egaux({1, 2, 1, 4, 2, 2}, {1, 2, 1, 4, 2, 2}) retourne true (a la fois t1 et t2 contiennent un 4, deux 1 et trois 3)
-     */
-    public static boolean egaux(int[] t1, int[] t2) {
-        if (t1.length != t2.length) {
-            return false;
-        }
-        int i = 0;
-        boolean id = true;
-        while (id && i<t1.length) {
-            id = (nbOccurrencesRec(t1,t1[i])==nbOccurrencesRec(t2,t1[i]));
-            i++;
-        }
-        // A VOUS DE COMPLETER
-        return id;
+  }
+
+  
+
+  /**
+
+   * @param tab
+
+   * @param x
+
+   * @return Fonction ayant les memes specifications que nbOccurrences. 
+
+   * Utiliser cette fonction plutot que nbOccurrences pour l'implementation de supprimerToutes et egaux
+
+   */
+
+  public static int nbOccurrencesRec(int[] tab, int x) {
+
+    return nbOccurrencesRec(tab, tab.length, x);
+
+  }
+
+  public static int nbOccurrencesRec(int[] tab, int pos, int x) {
+
+    return (pos==0) ? 0 : nbOccurrencesRec(tab, pos-1, x)+(tab[pos-1]==x?1:0);
+
+  }
+
+  
+
+  
+
+  /**
+
+   * @param t1!=null
+
+   * @param t2, t2!=null
+
+   * @return true si t1 et t2 sont de meme longueur et t2 est une permutation de t1
+
+   * (en d'autres termes, t1 et t2 contiennent les memes valeurs et le nombre d'occurrences
+
+   * de chaque valeur est identique dans t1 et t2)
+
+   * Ex.: egaux({1, 2, 1, 4, 2, 2}, {2}) retourne false (tailles differentes)
+
+   *    egaux({1, 2, 1, 4, 2, 2}, {2, 1, 2, 1, 2, 2}) retourne false (4 est present dans t1 mais pas dans t2 / il y a trois 2 dans t1 et quatre dans t2)
+
+   *    egaux({1, 2, 1, 4, 2, 2}, {4, 1, 2, 1, 1, 2}) retourne false (trois 2 dans t1 mais quatre dans t2 / deux 1 dans t1 mais 3 dans t2)
+
+   *    egaux({1, 2, 1, 4, 2, 2}, {4, 2, 2, 1, 1, 2}) retourne true (a la fois t1 et t2 contiennent un 4, deux 1 et trois 3)
+
+   *    egaux({1, 2, 1, 4, 2, 2}, {1, 2, 1, 4, 2, 2}) retourne true (a la fois t1 et t2 contiennent un 4, deux 1 et trois 3)   
+
+   */
+
+  public static boolean egaux(int[] t1, int[] t2) {
+
+    if (t1.length != t2.length) {
+
+      return false;
+
     }
 
-    /**
-     * @param tab, un tableau contenant au moins un entier.
-     * @param x, un entier quelconque
-     * @return Retourne un NOUVEAU tableau compose des entiers de tab a
-     *    l’exception de toutes les occurrences de x.
-     * Remarque : dans le cas particulier ou x n'apparait pas dans tab, le
-     *    tableau retourne est une copie de tab.
-     *    Ex.: Si t vaut {2, 12, 4, 2, 2, 12, 6} alors :
-     *   supprimerToutes(t,  2) retourne le tableau {12, 4, 12, 6}
-     *   supprimerToutes(t, 12) retourne le tableau {2, 4, 2, 2, 6}
-     *   supprimerToutes(t,  4) retourne le tableau {2, 12, 2, 2, 12, 6}
-     *   supprimerToutes(t, 22) retourne le tableau {2, 12, 4, 2, 2, 12, 6}
-     */
-    public static int[] supprimerToutes(int[] tab, int x) {
-        int n = tab.length - nbOccurrencesRec(tab,x);
-        int[] tab2 = new int [n];
-        int i = 0;
-        for(int a : tab) {
-            if(a!=x) {
-                tab2[i] = a;
-                i=i+1;
-            }
-        }
-        return tab2;
-    }
-    /**
-     * @param tab, un tableau contenant au moins un entier
-     * @param x, un entier quelconque
-     * @return Si x ne figure pas dans tab, retourne une copie de tab.
-     *   Sinon (x figure dans tab), retourne un tableau correspondant a ce
-     *   que serait tab sans la premiere occurrence de x.
-     * Note : tab n'est pas modifie
-     *Ex.:
-     *   supprimer({2, 12, 4, 2, 2, 12, 6}, 2) retourne  {12, 4, 2, 2, 12, 6}
-     *   supprimer({12, 4, 2, 2, 12, 6}, 2) retourne  {12, 4, 2, 12, 6}
-     *   supprimer({12, 4, 2, 12, 6}, 2) retourne  {12, 4, 12, 6}
-     *   supprimer({12, 4, 12, 6}, 2) retourne  {12, 4, 12, 6}
-     */
-    public static int[] supprimer(int[] tab, int x) {
-        int n = 0;
-        if(nbOccurrencesRec(tab,x)>0) {
-            n = tab.length - 1;
-        }
+    int i = 0;
 
-        int[] tab2 = new int [n];
-        int a = tab[0];
-        int i = 1;
-        int indicefinal = 0;
-        while(a != x && i<tab2.length) {
-            tab2[i] = a;
-            a = tab[i];
-            i++;
-            indicefinal = i;
-        }
-        for(int j = indicefinal; j<tab2.length;j++) {
-            tab2[j] = tab[j];
-        }
-        return tab2;
+    boolean id = true;
+
+    while (id && i<t1.length) {
+
+      id = (nbOccurrencesRec(t1,t1[i])==nbOccurrencesRec(t2,t1[i]));
+
+      i++;
+
     }
+
+    // A VOUS DE COMPLETER
+
+    return id;
+
+  }
+
+  
+
+  /**
+
+   * @param tab, un tableau contenant au moins un entier.
+
+   * @param x, un entier quelconque
+
+   * @return Retourne un NOUVEAU tableau compose des entiers de tab a 
+
+   *  l’exception de toutes les occurrences de x.
+
+   * Remarque : dans le cas particulier ou x n'apparait pas dans tab, le
+
+   *  tableau retourne est une copie de tab.
+
+   *  Ex.: Si t vaut {2, 12, 4, 2, 2, 12, 6} alors :
+
+   *  supprimerToutes(t, 2) retourne le tableau {12, 4, 12, 6}
+
+   *  supprimerToutes(t, 12) retourne le tableau {2, 4, 2, 2, 6}
+
+   *  supprimerToutes(t, 4) retourne le tableau {2, 12, 2, 2, 12, 6}
+
+   *  supprimerToutes(t, 22) retourne le tableau {2, 12, 4, 2, 2, 12, 6}
+
+   */
+
+  public static int[] supprimerToutes(int[] tab, int x) {
+
+    int n = tab.length - nbOccurrencesRec(tab,x);
+
+    int[] tab2 = new int [n];
+
+    int i = 0;
+
+    for(int a : tab) {
+
+      if(a!=x) {
+
+        tab2[i] = a;
+
+        i=i+1;
+
+      }
+
+    }
+
+    return tab2;
+
+  }
+
+  /**
+
+   * @param tab, un tableau contenant au moins un entier
+
+   * @param x, un entier quelconque
+
+   * @return Si x ne figure pas dans tab, retourne une copie de tab.
+
+   *  Sinon (x figure dans tab), retourne un tableau correspondant a ce 
+
+   *  que serait tab sans la premiere occurrence de x.
+
+   * Note : tab n'est pas modifie
+
+   *Ex.: 
+
+   *  supprimer({2, 12, 4, 2, 2, 12, 6}, 2) retourne {12, 4, 2, 2, 12, 6}
+
+   *  supprimer({12, 4, 2, 2, 12, 6}, 2) retourne {12, 4, 2, 12, 6}
+
+   *  supprimer({12, 4, 2, 12, 6}, 2) retourne {12, 4, 12, 6}
+
+   *  supprimer({12, 4, 12, 6}, 2) retourne {12, 4, 12, 6}
+
+   */
+
+  public static int[] supprimer(int[] tab, int x) {
+
+    int n = 0;
+
+    if(nbOccurrencesRec(tab,x)>0) {
+
+      n = tab.length - 1;
+
+    } else {
+
+      n = tab.length;
+
+    }
+
+    int[] tab2 = new int [n];
+
+    int a = tab[0];
+
+    int i = 1;
+
+    int indicefinal = 0;
+
+    while(a != x && i<tab2.length) {
+
+      tab2[i] = a;
+
+      a = tab[i];
+
+      i++;
+
+      indicefinal = i;
+
+    }
+
+    for(int j = indicefinal; j<tab2.length;j++) {
+
+      tab2[j] = tab[j];
+
+    }
+
+    return tab2;
+
+  }
+
+}
