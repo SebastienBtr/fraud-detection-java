@@ -5,11 +5,24 @@ import student.algorithm_structure.Loop;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Enumeration;
 
+
 public class MethodComparator
 {
-    public static int compare(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2)
+
+    /**
+     *
+     * @param method1
+     * @param method2
+     * @return
+     */
+    public static int compare(DefaultMutableTreeNode method1, DefaultMutableTreeNode method2)
     {
-        return orderStructures(structure1,structure2,0);
+        int grade = 0;
+        if (method1.getUserObject().equals(method2.getUserObject()))
+        {
+            grade = Similarities.SAME_STRUCTURE_SAME_SPOT;
+        }
+        return orderStructures(method1,method2,grade);
     }
 
 
@@ -21,9 +34,9 @@ public class MethodComparator
      */
     private static int orderStructures(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2, int grade)
         {
-//        System.out.println(structure1.getUserObject().toString());
-//        System.out.println(structure2.getUserObject().toString());
-//        System.out.println(grade);
+        System.out.println(structure1.getUserObject().toString());
+        System.out.println(structure2.getUserObject().toString());
+        System.out.println(grade);
         if(!structure1.isLeaf() && !structure2.isLeaf())
         {
             if (structure1.getChildCount() > structure2.getChildCount())
