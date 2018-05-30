@@ -12,9 +12,7 @@ public class File {
     @Setter
     private List<Variable> attributes;
 
-    @Getter
-    @Setter
-    private List<Method> methods;
+
 
     @Getter
     @Setter
@@ -22,6 +20,6 @@ public class File {
 
     public File() {
         this.attributes = new ArrayList<Variable>();
-        this.methods = new ArrayList<Method>();
+
     }
 }

@@ -2,11 +2,9 @@ package student;
 
 import lombok.Getter;
 import lombok.Setter;
-import student.algorithm_structure.Structure;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 
 public class Method {
 
@@ -22,14 +20,12 @@ public class Method {
     @Setter
     private List<Variable> parameters;
 
-    @Getter
-    @Setter
-    private ArrayList<Structure> body;
+
 
     public Method(String name) {
         this.name = name;
         this.parameters = new ArrayList<Variable>();
-        this.body = new ArrayList<Structure>();
+
     }
 
     @Override
