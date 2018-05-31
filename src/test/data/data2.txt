@@ -2,37 +2,7 @@ public class Tableaux {
 
 
 
-    private class Tab2 {
 
-    Boolean test;
-      private Boolean oui = true;
-
-
-      public static boolean identiques(int[] t1, int[] t2) {
-
-        if (t1.length != t2.length) {
-
-          return false;
-
-        }
-
-        boolean id = true;
-
-        int i =0;
-
-        while (id && i<t1.length) {
-
-          id = (t1[i]==t2[i]);
-
-          i++;
-
-        }
-
-        return id;
-
-      }
-
-    }
 
   /**
 
@@ -90,8 +60,7 @@ public class Tableaux {
              num2 = 62 / num1;
              System.out.println(num2);
              System.out.println("Hey I'm at the end of try block");
-          }
-          catch (ArithmeticException e) {
+          }catch (ArithmeticException e) {
              /* This block will only execute if any Arithmetic exception
               * occurs in try block
               */
