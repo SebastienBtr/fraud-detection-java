@@ -8,6 +8,10 @@ import java.util.List;
 
 public class StudentComparator {
 
+    private StudentComparator() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static void compareStudents(List<Student> students,Student teacherFiles) {
 
         for (int i = 0; i < students.size() - 1; i++) {
@@ -34,7 +38,7 @@ public class StudentComparator {
                 if (classNameAreGiven && classNameMatched(treeSt1, treeSt2)) {
                     similarities += ClassFileComparator.compare(treeSt1, treeSt2);
 
-                } else {
+                } else if (!classNameAreGiven){
                     similarities += ClassFileComparator.compare(treeSt1, treeSt2);
                 }
             }

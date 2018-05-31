@@ -24,6 +24,10 @@ public class Unzipper {
     @Setter
     private static List<Student> students;
 
+    private Unzipper() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Extracts a zip file specified by the zipFilePath to a directory specified by
      * destDirectory (will be created if does not exists)
@@ -118,7 +122,7 @@ public class Unzipper {
      */
     private static void writeFile(ZipInputStream zipIn, String filePath) throws IOException {
 
-        String parent = filePath.replace(filePath.substring(filePath.lastIndexOf("/")), "");
+        String parent = filePath.replace(filePath.substring(filePath.lastIndexOf('/')), "");
         createParents(parent);
 
         BufferedOutputStream bos = null;
