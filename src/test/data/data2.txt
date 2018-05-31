@@ -1,5 +1,39 @@
 public class Tableaux {
 
+
+
+    private class Tab2 {
+
+    Boolean test;
+      private Boolean oui = true;
+
+
+      public static boolean identiques(int[] t1, int[] t2) {
+
+        if (t1.length != t2.length) {
+
+          return false;
+
+        }
+
+        boolean id = true;
+
+        int i =0;
+
+        while (id && i<t1.length) {
+
+          id = (t1[i]==t2[i]);
+
+          i++;
+
+        }
+
+        return id;
+
+      }
+
+    }
+
   /**
 
    * @param t1, t1!=null
@@ -20,7 +54,8 @@ public class Tableaux {
 
    */
 
-  public String test;
+  public static String test;
+  public static int DELAI = 250; // nkjnjenvoenvoe
   private Boolean oui;
   Boolean test;
   private Boolean oui = true;
@@ -45,6 +80,29 @@ public class Tableaux {
       i++;
 
     }
+
+    try {
+             /* We suspect that this block of statement can throw
+              * exception so we handled it by placing these statements
+              * inside try and handled the exception in catch block
+              */
+             num1 = 0;
+             num2 = 62 / num1;
+             System.out.println(num2);
+             System.out.println("Hey I'm at the end of try block");
+          }
+          catch (ArithmeticException e) {
+             /* This block will only execute if any Arithmetic exception
+              * occurs in try block
+              */
+             System.out.println("You should not divide a number by zero");
+          }catch (Exception e) {
+             /* This is a generic Exception handler which means it can handle
+              * all the exceptions. This will execute if the exception is not
+              * handled by previous catch blocks.
+              */
+             System.out.println("Exception occurred");
+          }
 
     return id;
 

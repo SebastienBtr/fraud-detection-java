@@ -5,6 +5,7 @@ import student.ClassMethodType;
 public class Attribute {
 
     private ClassMethodType visibility;
+    private Boolean isStatic;
     private String type;
     private String name;
     private String value;
@@ -24,9 +25,15 @@ public class Attribute {
         this.value = value.replace(";", "");
     }
 
+    public void setIsStatic(boolean isStatic){
+        this.isStatic = isStatic;
+    }
+
+
     @Override
     public String toString() {
         return "ATTRIBUTE ( visibility :"+this.visibility
+                +", is Static : "+this.isStatic
                 +", type : "+this.type
                 +", nom : "+this.name
                 +", valeur : "+this.value
