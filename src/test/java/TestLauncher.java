@@ -9,7 +9,7 @@ public class TestLauncher {
 
     public static void main(String[] args) {
 
-        List<Student> students = Launcher.init("src/test/data/exam1.zip");
+        List<Student> students = Launcher.init("src/test/data/PROG_IMP_JAVA-Lien de depot TP10note-48285_2017_TP10Note.zip");
 
         showResult(students);
     }
