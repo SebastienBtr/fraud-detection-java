@@ -2,6 +2,7 @@
 *.iml
 target
 unzipFiles/*
+unzipTeacherFiles/*
 .classpath
 .project
 .settings/*

@@ -25,6 +25,15 @@ public class Unzipper {
     }
 
     /**
+     * Get the list of students
+     *
+     * @return the List of students
+     */
+    static List<Student> getStudents() {
+        return students;
+    }
+
+    /**
      * Extracts a zip file specified by the zipFilePath to a directory specified by
      * destDirectory (will be created if does not exists)
      *
@@ -32,7 +41,7 @@ public class Unzipper {
      * @param destDirectory the path to save unzip files
      * @throws IOException
      */
-    public static void unzip(String zipFilePath, String destDirectory, boolean recursive) throws IOException {
+    static void unzip(String zipFilePath, String destDirectory, boolean recursive, boolean teacherZip) throws IOException {
 
         if (students == null) {
             students = new ArrayList<Student>();
@@ -44,7 +53,7 @@ public class Unzipper {
             zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
             ZipEntry entry = zipIn.getNextEntry();
 
-            if (!recursive) {
+            if (!recursive && !teacherZip) {
 
                 String[] parts = entry.getName().split("/");
                 String repName = parts[0];
@@ -77,7 +86,7 @@ public class Unzipper {
     }
 
     /**
-     * Create the file or the directory and its children of a ZipEntry
+     * Create the ZipEntry file or directory and its children
      *
      * @param destDirectory path where create the file
      * @param zipIn         the zip input stream
@@ -85,6 +94,7 @@ public class Unzipper {
      * @throws IOException
      */
     private static void createFiles(String destDirectory, ZipInputStream zipIn, ZipEntry entry, boolean recursive) throws IOException {
+
         String filePath = destDirectory + File.separator + entry.getName();
 
         if (!entry.isDirectory()) {
@@ -99,7 +109,7 @@ public class Unzipper {
                 if (recursive) {
                     File file = new File(filePath);
                     String newDestFile = file.getParentFile().getAbsolutePath();
-                    unzip(filePath, newDestFile, false);
+                    unzip(filePath, newDestFile, false, false);
                 }
             }
 
@@ -142,26 +152,15 @@ public class Unzipper {
         }
     }
 
+    /**
+     * Create the tree files of the given path
+     * @param path path of our tree
+     */
     private static void createParents(String path) {
 
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();
         }
-    }
-
-    public static int getBufferSize()
-    {
-        return BUFFER_SIZE;
-    }
-
-    public static List<Student> getStudents()
-    {
-        return students;
-    }
-
-    public static void setStudents(List<Student> students)
-    {
-        Unzipper.students = students;
     }
 }
