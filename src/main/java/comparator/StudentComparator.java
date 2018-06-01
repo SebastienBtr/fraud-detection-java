@@ -12,7 +12,7 @@ public class StudentComparator {
         throw new IllegalStateException("Utility class");
     }
 
-    public static void compareStudents(List<Student> students,Student teacherFiles) {
+    public static void compareStudents(List<Student> students) {
 
         for (int i = 0; i < students.size() - 1; i++) {
 

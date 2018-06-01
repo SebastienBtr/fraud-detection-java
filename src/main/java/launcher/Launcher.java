@@ -1,5 +1,6 @@
 package launcher;
 
+import comparator.StudentComparator;
 import parser.ProjectParser;
 import student.Student;
 
@@ -8,27 +9,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Launcher {
 
     /**
      * List of students
      */
-
     private static List<Student> students;
 
-    public static void main(String[] args) {
-
-        Scanner in = new Scanner(System.in);
-        System.out.println("Path of the zipFile : ");
-        String fileZip = in.next();
-
-        init(fileZip);
-    }
-
-    public static List<Student> getStudents()
-    {
+    /**
+     * Get the list of students
+     * @return the List of students
+     */
+    public static List<Student> getStudents() {
         return students;
     }
 
@@ -38,7 +31,7 @@ public class Launcher {
      *
      * @param fileZip the directory that contains all student projects
      */
-    public static List<Student> init(String fileZip) {
+    public static void init(String fileZip) {
 
         students = new ArrayList<Student>();
 
@@ -59,10 +52,6 @@ public class Launcher {
         }
 
         students = Unzipper.getStudents();
-        parseFiles();
-        // StudentComparator.compareStudents(students);
-
-        return students;
     }
 
     /**
@@ -97,7 +86,7 @@ public class Launcher {
     /**
      * Parse all project files
      */
-    private static void parseFiles() {
+    public static void parseFiles() {
 
         for (Student student : students) {
 
@@ -127,6 +116,13 @@ public class Launcher {
                 student.addTree(tree);
             }
         }
+    }
+
+    /**
+     * Run the code comparaison between students
+     */
+    public static void compareStudents() {
+        StudentComparator.compareStudents(students);
     }
 
 
