@@ -1,15 +1,21 @@
 package student.algorithm_structure;
 
-import lombok.Getter;
-import lombok.Setter;
+public class CodeLine implements Structure {
 
-public class CodeLine extends Structure {
-
-    @Getter
-    @Setter
     private String lineContent;
 
     public CodeLine(String lineContent) {
+        this.lineContent = lineContent;
+    }
+
+
+    public String getLineContent()
+    {
+        return lineContent;
+    }
+
+    public void setLineContent(String lineContent)
+    {
         this.lineContent = lineContent;
     }
 
@@ -19,15 +25,11 @@ public class CodeLine extends Structure {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if ( obj.getClass().equals(this.getClass()) )
-        {
-            return true;
-        }
-        else
-        {
-            return  false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        return  true;
 
 
     }

@@ -1,6 +1,6 @@
 package student.algorithm_structure;
 
-public class EmptyLine extends Structure{
+public class EmptyLine implements Structure{
 
     private EmptyLine(){}
 

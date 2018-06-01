@@ -40,18 +40,12 @@ public class test {
      *        nbOccurrences(t, 22) retourne 0
      */
     public static int methode2(int[] tab, int x) {
-       while (id && i<t1.length) {
-                        id = (t1[i]==t2[i]);
-                        i++;
-                    }
-    }
         int occ = 0;
         for (int i = 0;i<tab.length;i++) {
             if (tab[i] == x) {
                 occ = occ + 1;
             }
         }
-
         return occ;
     }
 

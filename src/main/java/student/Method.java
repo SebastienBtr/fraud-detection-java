@@ -1,35 +1,20 @@
 package student;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Method {
 
-    @Getter
-    @Setter
     private ClassMethodType visibility;
 
-    @Getter
-    @Setter
     private Boolean isConstructor;
 
-    @Getter
-    @Setter
     private boolean isStatic;
 
-    @Getter
-    @Setter
     private String returnType;
 
-    @Getter
-    @Setter
     private String name;
 
-    @Getter
-    @Setter
     private List<Variable> parameters;
 
     public Method(String classDeclaration) {
@@ -90,6 +75,66 @@ public class Method {
         }
     }
 
+    public ClassMethodType getVisibility()
+    {
+        return visibility;
+    }
+
+    public void setVisibility(ClassMethodType visibility)
+    {
+        this.visibility = visibility;
+    }
+
+    public Boolean getConstructor()
+    {
+        return isConstructor;
+    }
+
+    public void setConstructor(Boolean constructor)
+    {
+        isConstructor = constructor;
+    }
+
+    public boolean isStatic()
+    {
+        return isStatic;
+    }
+
+    public void setStatic(boolean aStatic)
+    {
+        isStatic = aStatic;
+    }
+
+    public String getReturnType()
+    {
+        return returnType;
+    }
+
+    public void setReturnType(String returnType)
+    {
+        this.returnType = returnType;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public List<Variable> getParameters()
+    {
+        return parameters;
+    }
+
+    public void setParameters(List<Variable> parameters)
+    {
+        this.parameters = parameters;
+    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -107,20 +152,21 @@ public class Method {
 
     @Override
     public String toString() {
-        String ret = "METHODE ("
+        StringBuilder ret = new StringBuilder();
+           ret.append( "METHODE ("
                 + "visibilité : " + this.visibility
                 + ", estConstructeur : " + this.isConstructor
                 + ", estStatic : " + this.isStatic
                 + ", typeRetour : " + this.returnType
                 + ", nom : " + this.name
-                + ", paramétres : [";
+                + ", paramétres : [");
 
         for(Variable param : this.parameters){
-            ret += param.toString();
+            ret.append(param.toString());
         }
 
-        ret += "]) {";
+        ret.append("]) {");
 
-        return ret;
+        return ret.toString();
     }
 }

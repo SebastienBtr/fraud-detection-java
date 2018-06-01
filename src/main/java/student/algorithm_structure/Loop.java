@@ -1,22 +1,12 @@
 package student.algorithm_structure;
 
-import lombok.Getter;
-import lombok.Setter;
-
-public class Loop extends Structure {
+public class Loop implements Structure {
 
 
-
-    @Getter
-    @Setter
     private String conditions;//contents between ()
 
-    @Getter
-    @Setter
     private LoopType name;
 
-    @Getter
-    @Setter
     private IteratingType iterator;
 
 
@@ -30,6 +20,36 @@ public class Loop extends Structure {
     public Loop(String conditions, LoopType name) {
         this.conditions = conditions;
         this.name = name;
+    }
+
+    public String getConditions()
+    {
+        return conditions;
+    }
+
+    public void setConditions(String conditions)
+    {
+        this.conditions = conditions;
+    }
+
+    public LoopType getName()
+    {
+        return name;
+    }
+
+    public void setName(LoopType name)
+    {
+        this.name = name;
+    }
+
+    public IteratingType getIterator()
+    {
+        return iterator;
+    }
+
+    public void setIterator(IteratingType iterator)
+    {
+        this.iterator = iterator;
     }
 
     @Override

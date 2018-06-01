@@ -1,8 +1,5 @@
 package student;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,20 +8,13 @@ import java.util.TreeMap;
 
 public class Student {
 
-    @Getter
-    @Setter
+
     private String name;
 
-    @Getter
-    @Setter
     private String directoryPath;
 
-    @Getter
-    @Setter
     private List<DefaultMutableTreeNode> fileTrees;
 
-    @Getter
-    @Setter
     private TreeMap<String,Integer> scores;
 
 
@@ -36,6 +26,41 @@ public class Student {
 
     public void addTree(DefaultMutableTreeNode tree) {
         this.fileTrees.add(tree);
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public void setDirectoryPath(String directoryPath)
+    {
+        this.directoryPath = directoryPath;
+    }
+
+    public List<DefaultMutableTreeNode> getFileTrees()
+    {
+        return fileTrees;
+    }
+
+    public void setFileTrees(List<DefaultMutableTreeNode> fileTrees)
+    {
+        this.fileTrees = fileTrees;
+    }
+
+    public TreeMap<String, Integer> getScores()
+    {
+        return scores;
+    }
+
+    public void setScores(TreeMap<String, Integer> scores)
+    {
+        this.scores = scores;
     }
 
     @Override

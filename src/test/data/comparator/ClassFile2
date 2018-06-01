@@ -1,5 +1,5 @@
 
-public class test {
+public class test2 {
 /**
 
      * @param t1, t1!=null
@@ -11,12 +11,12 @@ public class test {
      *      egaux({4, 8, 4}, {4, 4, 8}) retourne false
      *      egaux({4, 8, 4}, {4, 8, 4, 2}) retourne false
      */
-    public static boolean methode1(int[] t1, int[] t2) {
+    public static boolean methodeTresDidderente(String[] t1, int[] t2) {
         if (t1.length != t2.length) {
             return false;
         }
         boolean id = true;
-        int i =0;
+
         while (id && i<t1.length) {
             id = (t1[i]==t2[i]);
             i++;
@@ -40,18 +40,12 @@ public class test {
      *        nbOccurrences(t, 22) retourne 0
      */
     public static int methode2(int[] tab, int x) {
-       while (id && i<t1.length) {
-                        id = (t1[i]==t2[i]);
-                        i++;
-                    }
-    }
         int occ = 0;
         for (int i = 0;i<tab.length;i++) {
             if (tab[i] == x) {
                 occ = occ + 1;
             }
         }
-
         return occ;
     }
 

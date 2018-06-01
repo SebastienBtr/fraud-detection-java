@@ -1,16 +1,9 @@
 package student.algorithm_structure;
 
-import lombok.Getter;
-import lombok.Setter;
+public class Conditional implements Structure {
 
-public class Conditional extends Structure {
-
-    @Getter
-    @Setter
     private String conditions;//contents between ()
 
-    @Getter
-    @Setter
     private ConditionalType type;
 
 
@@ -30,17 +23,11 @@ public class Conditional extends Structure {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if ( obj.getClass().equals(this.getClass()) )
-        {
-            return true;
-        }
-        else
-        {
-            return  false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        return  true;
 
     }
-
 }

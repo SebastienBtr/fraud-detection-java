@@ -16,6 +16,9 @@ public class MethodComparator
      */
     public static int compare(DefaultMutableTreeNode method1, DefaultMutableTreeNode method2)
     {
+        System.out.println(method1);
+        System.out.println(method2);
+
         int similarities = 0;
         if (method1.getUserObject().equals(method2.getUserObject()))
         {
@@ -33,9 +36,7 @@ public class MethodComparator
      */
     private static int orderStructures(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2, int similarities)
         {
-        System.out.println(structure1.getUserObject().toString());
-        System.out.println(structure2.getUserObject().toString());
-        System.out.println(similarities);
+
         if(!structure1.isLeaf() && !structure2.isLeaf())
         {
             if (structure1.getChildCount() > structure2.getChildCount())
@@ -74,6 +75,7 @@ public class MethodComparator
             else
             {
                 shorterCurrentCHild = TreeNodeUtils.contains(shorter,longerCurrentChild.getUserObject());
+
                 if(shorterCurrentCHild != null){
                     similarities = structureContentSimilarities(longerCurrentChild, shorterCurrentCHild, similarities,Similarities.CONTAIN_STRUCTURE);
                 }

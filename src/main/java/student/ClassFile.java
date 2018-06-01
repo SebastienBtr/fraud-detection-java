@@ -1,20 +1,13 @@
 package student;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class ClassFile {
 
-    @Getter
-    @Setter
+
     private String visibility;
 
-    @Getter
-    @Setter
+
     private boolean isStatic;
 
-    @Getter
-    @Setter
     private String name;
 
     public ClassFile(String classDeclaration) {
@@ -30,6 +23,36 @@ public class ClassFile {
                this.isStatic = false;
                this.name = signature[1];
            }
+    }
+
+    public String getVisibility()
+    {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility)
+    {
+        this.visibility = visibility;
+    }
+
+    public boolean isStatic()
+    {
+        return isStatic;
+    }
+
+    public void setStatic(boolean aStatic)
+    {
+        isStatic = aStatic;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     @Override

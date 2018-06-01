@@ -16,6 +16,9 @@ public class ClassFileComparator
      */
     public static int compare(DefaultMutableTreeNode class1, DefaultMutableTreeNode class2)
     {
+        System.out.println(class1);
+        System.out.println(class2);
+
         int similarities = 0;
         //TODO config
         boolean methodNamesAreGiven = true;
@@ -30,9 +33,10 @@ public class ClassFileComparator
             DefaultMutableTreeNode currentChild1;
             DefaultMutableTreeNode currentChild2 = class2.getNextNode();
 
+
             while (currentChild2 != null)
             {
-                currentChild1 = TreeNodeUtils.contains(class1, class2.getUserObject());
+                currentChild1 = TreeNodeUtils.contains(class1, currentChild2.getUserObject());
 
                 if(currentChild1 != null)
                 {

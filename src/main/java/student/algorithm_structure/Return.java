@@ -1,6 +1,6 @@
 package student.algorithm_structure;
 
-public class Return extends Structure{
+public class Return implements Structure{
 
     private String name;
 

@@ -1,6 +1,6 @@
 package student.algorithm_structure;
 
-public class TryCatch extends Structure {
+public class TryCatch implements Structure {
 
     public ExceptionType type;
 
