@@ -1,7 +1,5 @@
 package launcher;
 
-import lombok.Getter;
-import lombok.Setter;
 import student.Student;
 
 import java.io.*;
@@ -20,8 +18,6 @@ public class Unzipper {
     /**
      * List of students
      */
-    @Getter
-    @Setter
     private static List<Student> students;
 
     private Unzipper() {
@@ -152,5 +148,20 @@ public class Unzipper {
         if (!file.exists()) {
             file.mkdirs();
         }
+    }
+
+    public static int getBufferSize()
+    {
+        return BUFFER_SIZE;
+    }
+
+    public static List<Student> getStudents()
+    {
+        return students;
+    }
+
+    public static void setStudents(List<Student> students)
+    {
+        Unzipper.students = students;
     }
 }

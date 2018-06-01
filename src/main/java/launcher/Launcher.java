@@ -1,12 +1,11 @@
 package launcher;
 
-import comparator.StudentComparator;
-import lombok.Getter;
 import parser.ProjectParser;
 import student.Student;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +15,7 @@ public class Launcher {
     /**
      * List of students
      */
-    @Getter
+
     private static List<Student> students;
 
     public static void main(String[] args) {
@@ -26,6 +25,11 @@ public class Launcher {
         String fileZip = in.next();
 
         init(fileZip);
+    }
+
+    public static List<Student> getStudents()
+    {
+        return students;
     }
 
     /**

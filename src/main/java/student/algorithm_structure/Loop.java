@@ -59,22 +59,22 @@ public class Loop implements Structure {
 
 
     @Override
-    public boolean equals(Object obj) {
-        if ( obj.getClass().equals(this.getClass()) )
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Loop loop = (Loop) o;
+
+
+        if (this.name.equals(loop.name))
         {
-            if (this.name.equals(((Loop)obj).name))
-            {
-                return  true;
-            }
-            else
-            {
-                return false;
-            }
+            return  true;
         }
         else
         {
-            return  false;
+            return false;
         }
+
 
 
     }
