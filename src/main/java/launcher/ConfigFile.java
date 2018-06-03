@@ -9,7 +9,6 @@ public class ConfigFile
 
     private boolean isSkeletonGiven;
 
-
     private boolean doCheckFileStructure;
 
 

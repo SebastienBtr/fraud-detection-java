@@ -1,6 +1,7 @@
 package comparator;
 
 import student.ClassFile;
+import util.TreeNodeUtils;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
