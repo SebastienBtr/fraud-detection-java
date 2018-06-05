@@ -11,6 +11,10 @@ public class Couple{
         this.lastLine = lastLine;
     }
 
+    public void setLastLine(String lastLine) {
+        this.lastLine = lastLine;
+    }
+
     public DefaultMutableTreeNode getNode() {
         return node;
     }
