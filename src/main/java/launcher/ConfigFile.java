@@ -4,16 +4,9 @@ package launcher;
 /**
  * Allows user to choose parameters for the comparison styles
  */
-public class ConfigFile
-{
+public class ConfigFile {
 
-    private boolean isSkeletonGiven;
+    public static boolean classNameAreGiven;
 
-    private boolean doCheckFileStructure;
-
-
-
-
-
-
+    public static boolean methodNamesAreGiven;
 }
