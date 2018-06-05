@@ -13,15 +13,19 @@ public class StudentComparator {
         throw new IllegalStateException("Utility class");
     }
 
-    public static void compareStudents(List<Student> students) {
+    public static List<Student> compareStudents(List<Student> students) {
 
-        for (int i = 0; i < students.size() - 1; i++) {
+        for (int i = 0; i < students.size(); i++) {
+
+            compareTwoStudent(students.get(i), students.get(i));
 
             for (int j = i + 1; j < students.size(); j++) {
 
                 compareTwoStudent(students.get(i), students.get(j));
             }
         }
+
+        return students;
     }
 
     private static void compareTwoStudent(Student student1, Student student2) {

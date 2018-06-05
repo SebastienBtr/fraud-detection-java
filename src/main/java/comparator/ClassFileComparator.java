@@ -17,9 +17,9 @@ public class ClassFileComparator {
      * @return
      */
     public static int compare(DefaultMutableTreeNode class1, DefaultMutableTreeNode class2) {
-        System.out.println(class1);
+        /*System.out.println(class1);
         System.out.println(class2);
-
+*/
         int similarities = 0;
         boolean classNameAreGiven = ConfigFile.classNameAreGiven;
         boolean methodNameAreGiven = ConfigFile.methodNamesAreGiven;

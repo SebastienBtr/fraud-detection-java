@@ -22,6 +22,7 @@ public class Student {
         this.name = name;
         this.directoryPath = directoryPath;
         this.fileTrees = new ArrayList<DefaultMutableTreeNode>();
+        this.scores = new TreeMap<>();
     }
 
     public void addTree(DefaultMutableTreeNode tree) {

@@ -15,8 +15,8 @@ public class MethodComparator {
      * @return
      */
     public static int compare(DefaultMutableTreeNode method1, DefaultMutableTreeNode method2) {
-        System.out.println(method1);
-        System.out.println(method2);
+/*        System.out.println(method1);
+        System.out.println(method2);*/
 
         boolean methodNamesAreGiven = ConfigFile.methodNamesAreGiven;
         int similarities = 0;

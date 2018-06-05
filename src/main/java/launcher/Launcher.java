@@ -101,7 +101,7 @@ public class Launcher {
      * Run the code comparaison between students
      */
     public static void compareStudents() {
-        StudentComparator.compareStudents(students);
+        students = StudentComparator.compareStudents(students);
     }
 
     /**
