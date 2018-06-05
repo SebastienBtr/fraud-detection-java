@@ -1,4 +1,4 @@
-package comparator;
+package util;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Enumeration;

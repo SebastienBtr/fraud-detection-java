@@ -1,5 +1,6 @@
 package comparator;
 
+import launcher.ConfigFile;
 import student.ClassFile;
 import student.Student;
 
@@ -12,7 +13,7 @@ public class StudentComparator {
         throw new IllegalStateException("Utility class");
     }
 
-    public static void compareStudents(List<Student> students,Student teacherFiles) {
+    public static void compareStudents(List<Student> students) {
 
         for (int i = 0; i < students.size() - 1; i++) {
 
@@ -25,12 +26,12 @@ public class StudentComparator {
 
     private static void compareTwoStudent(Student student1, Student student2) {
 
-        //TODO get with config
-        boolean classNameAreGiven = true;
+        boolean classNameAreGiven = ConfigFile.classNameAreGiven;
 
         List<DefaultMutableTreeNode> student1Trees = student1.getFileTrees();
         List<DefaultMutableTreeNode> student2Trees = student2.getFileTrees();
         int similarities = 0 ;
+
         for (DefaultMutableTreeNode treeSt1 : student1Trees) {
 
             for (DefaultMutableTreeNode treeSt2 : student2Trees) {
