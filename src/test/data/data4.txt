@@ -1,6 +1,5 @@
 package parser;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import student.ClassFile;
 import student.ClassMethodType;
 import student.Method;
@@ -88,7 +87,8 @@ public class ProjectParser {
         //Read ClassFile Line By Line
         while ((strLine = br.readLine()) != null && !isEndOfBlock(strLine)) {
 
-            strLine = getStringWithoutComment(strLine);
+
+            strLine = strLine.split("//")[0];
 
             if (isClass(strLine)) {
                 ClassFile newClassIntern = ProjectParser.createClass(strLine, br);
@@ -97,7 +97,7 @@ public class ProjectParser {
             }
             else if (isMethod(strLine)) {
                 Method newMethod = new Method(getStructureDeclaration(strLine, br));
-                DefaultMutableTreeNode body = parseBody(newMethod, strLine, br).getNode();
+                DefaultMutableTreeNode body = parseBody(newMethod, br).getNode();
                 classTree.add(body);
             }
             else if(strLine.trim() != "" && !isComment(strLine, br)){
@@ -152,87 +152,47 @@ public class ProjectParser {
 
     /**
      * DefaultMutableTreeNode
-     * @param object
+     * @param parent
      * @param br
      * @return
      * @throws IOException
      */
 
-    private static Couple parseBody(Object object, String line, BufferedReader br) throws IOException {
-        DefaultMutableTreeNode ret = new DefaultMutableTreeNode(object);
+    private static Couple parseBody(Object parent, BufferedReader br) throws IOException {
+        DefaultMutableTreeNode ret = new DefaultMutableTreeNode(parent);
+        String retLine = null;
         String strLine;
-
-        String[] endOfLine = line.split("\\{");
-        if(endOfLine.length > 1 && endOfLine[1].trim().length() > 1){
-            Structure structure = checkLineStructure(endOfLine[1], br);
-            ret.add(new DefaultMutableTreeNode(structure));
-        }
 
         while ((strLine = br.readLine()) != null && !isEndOfBlock(strLine)) {
 
-            strLine = getStringWithoutComment(strLine);
-            Structure structure = checkLineStructure(strLine, br);
+            strLine = strLine.split("//")[0];
 
-            if (structure.getClass().equals(CodeLine.class)
-                    || structure.getClass().equals(EmptyLine.class)
-                    || structure.getClass().equals(Return.class)){
-
-                ret.add(new DefaultMutableTreeNode(structure));
-            }
-            else if(structure.getClass().equals(Conditional.class)
-                    && ((Conditional) structure).getCodeInDeclaration() != null){
-
-                DefaultMutableTreeNode ifNode = new DefaultMutableTreeNode(structure);
-                Structure insideStructure = checkLineStructure(((Conditional) structure).getCodeInDeclaration(),br);
-                ifNode.add(new DefaultMutableTreeNode(insideStructure));
-
-                ret.add(ifNode);
-            }
-            else {
-                Couple body = parseBody(structure,strLine, br);
-                ret.add(body.getNode());
-                while (body.getLastLine() != null && body.getLastLine().trim().split("}").length > 1){
-                    String[] lastLineParts = body.getLastLine().trim().split("}");
-                    structure = checkLineStructure(lastLineParts[1], br);
-
-                    if (structure.getClass().equals(CodeLine.class)
-                            || structure.getClass().equals(EmptyLine.class)
-                            || structure.getClass().equals(Return.class)){
-
-                        ret.add(new DefaultMutableTreeNode(structure));
-                        body.setLastLine(null);
-                    }
-                    else {
-                        body = parseBody(structure,strLine, br);
-                        ret.add(body.getNode());
-                    }
-                }
-            }
-        }
-
-        if(isEndOfBlock(strLine)){
-            String[] startOfLine = strLine.split("}");
-
-            if(startOfLine.length > 0 && startOfLine[0].trim().length() > 1){
-                Structure structure = checkLineStructure(startOfLine[0], br);
+            if(!isComment(strLine, br)){
+                Structure structure = checkLineStructure(strLine, br);
 
                 if (structure.getClass().equals(CodeLine.class)
                         || structure.getClass().equals(EmptyLine.class)
-                        || structure.getClass().equals(Return.class)){
+                        || structure.getClass().equals(Return.class)
+                        || strLine.trim().endsWith("}")) {
 
                     ret.add(new DefaultMutableTreeNode(structure));
-                }
-
-                else {
-                    Couple body = parseBody(structure,strLine, br);
+                } else {
+                    Couple body = parseBody(structure, br);
                     ret.add(body.getNode());
+
+                    String[] lastLineParts = body.getLastLine().trim().split("\\}");
+
+                    if(lastLineParts.length > 1){
+                        structure = checkLineStructure(lastLineParts[1], br);
+                        ret.add(parseBody(structure, br).getNode());
+                    }
+
                 }
             }
         }
 
         return new Couple(ret, strLine);
     }
-
 
     /**
      * CreateClass
@@ -255,8 +215,10 @@ public class ProjectParser {
 
     private static Structure checkLineStructure(String strLine, BufferedReader br) throws IOException {
 
+        System.out.println(strLine);
+
         // FOR
-        if (Pattern.matches("(\\s)*for(\\s)*\\(.*", strLine)) {
+        if (Pattern.matches(".*for(\\s)*\\(.*", strLine)) {
             return new Loop(getStructureDeclaration(strLine, br));
         }
 
@@ -266,13 +228,11 @@ public class ProjectParser {
         }
 
         // ELSE
-        else if (Pattern.matches("(\\s)*else.*", strLine)) {
+        else if (strLine.contains("else")) {
             if(strLine.contains("if")){
                 return new Conditional(getStructureDeclaration(strLine, br), ConditionalType.ELSEIF);
             }
-            else {
-                return new Conditional(getStructureDeclaration(strLine, br), ConditionalType.ELSE);
-            }
+            else return new Conditional(getStructureDeclaration(strLine, br), ConditionalType.ELSE);
         }
 
         // LIGNE VIDE
@@ -283,11 +243,6 @@ public class ProjectParser {
         // WHILE
         else if (Pattern.matches(".*while(\\s)*\\(.*", strLine)) {
             return new Loop(getStructureDeclaration(strLine, br), LoopType.WHILE);
-        }
-
-        // RETURN
-        else if(strLine.trim().startsWith("return")){
-            return new Return(strLine);
         }
 
         // TRY CATCH
@@ -311,43 +266,6 @@ public class ProjectParser {
     }
 
     /**
-     * GetStructureDeclaration
-     * @param strLine
-     * @param br
-     * @return
-     * @throws IOException
-     */
-
-    private static String getStructureDeclaration(String strLine, BufferedReader br) throws IOException {
-        String ret = strLine;
-
-        while(!strLine.trim().endsWith("{") && !strLine.trim().endsWith(";")) {
-            strLine = br.readLine();
-            if(strLine.trim().length() != 0) ret += "\n"+strLine;
-        }
-
-        return ret;
-    }
-
-    /**
-     * GetStringWithoutComment
-     * @param strLine
-     * @return
-     */
-
-    private static String getStringWithoutComment(String strLine){
-        if(strLine.contains("//")){
-            if(strLine.split("//")[0].length()
-                    - strLine.split("//")[0].replace("\"","").length() % 2 == 0){
-
-                strLine = strLine.split("//")[0];
-            }
-        }
-
-        return strLine;
-    }
-
-    /**
      * IsAComment
      * @param strLine
      * @param br
@@ -361,9 +279,11 @@ public class ProjectParser {
             if(strLine.trim().contains("*/")) return true;
             else {
                 String strLine2 = br.readLine();
+                strLine = strLine.split("//")[0];
 
                 while (!strLine2.contains("*/")){
                     strLine2 = br.readLine();
+                    strLine = strLine.split("//")[0];
                 }
 
                 return true;
@@ -387,7 +307,7 @@ public class ProjectParser {
      */
 
     private static boolean isMethod(String strLine) {
-        return Pattern.matches("\\s*(public|private|protected|)\\s*(static|)\\s*\\w+\\w+\\b(?<!\\breturn)\\s*(\\[|\\<|)\\s*\\s*(\\w+)*\\s*(\\s*,(\\s*)\\w+)*(\\]|\\>|)\\s*\\w+\\s*\\(.*", strLine);
+        return Pattern.matches("\\s*(public|private|protected|)\\s*(static|)\\s*\\w+\\s*(\\[|\\<|)\\s*\\s*(\\w+)*\\s*(\\s*,(\\s*)\\w+)*(\\]|\\>|)\\s*\\w+\\s*\\(.*", strLine);
     }
 
     /**
@@ -407,29 +327,7 @@ public class ProjectParser {
      */
 
     private static boolean isEndOfBlock(String strLine) {
-
-        if ((strLine.contains("}")) ) {
-            if (!strLine.contains("\"") && !strLine.contains("\'")) {
-                return true;
-            }
-            else {
-                boolean isIn = false;
-                for (char c: strLine.toCharArray() ) {
-                    if (c == '\"' || c == '\'') {
-                        isIn = !isIn;
-                    }
-                    else if (c == '}' && !isIn) {
-                        return true;
-                    }
-
-
-                }
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
+        return (strLine.contains("}"));
     }
 
     /**
@@ -443,6 +341,27 @@ public class ProjectParser {
     }
 
     /**
+     * GetStructureDeclaration
+     * @param strLine
+     * @param br
+     * @return
+     * @throws IOException
+     */
+
+    private static String getStructureDeclaration(String strLine, BufferedReader br) throws IOException {
+        String ret = strLine;
+        System.out.println(strLine);
+        System.out.println(strLine.trim().endsWith("{"));
+        while(!strLine.trim().endsWith("{")){
+            strLine = br.readLine();
+            System.out.println(strLine);
+            if(strLine.trim().length() != 0) ret += "\n"+strLine;
+        }
+
+        return ret;
+    }
+
+    /**
      * TreeToString
      * @param tree
      * @return
@@ -450,8 +369,6 @@ public class ProjectParser {
 
     private static String treeToString(DefaultMutableTreeNode tree) {
         Enumeration<DefaultMutableTreeNode> en = tree.preorderEnumeration();
-
-        String ret = "";
 
         while (en.hasMoreElements()) {
             DefaultMutableTreeNode node = en.nextElement();
@@ -465,10 +382,10 @@ public class ProjectParser {
             }
             String tabs = bld.toString();
 
-            ret += tabs + (node.isLeaf() ? " - " : " + ") + path[path.length - 1] + "\n";
+            System.out.println(tabs + (node.isLeaf() ? " - " : " + ") + path[path.length - 1]);
         }
 
-        return ret;
+        return null;
     }
 
     /**

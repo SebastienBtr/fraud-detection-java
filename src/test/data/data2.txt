@@ -43,9 +43,7 @@ public class Tableaux {
 
     int i =0;
 
-    while (id && i<t1.length) {
-
-      id = (t1[i]==t2[i]);
+    while (id && i<t1.length) { id = (t1[i]==t2[i]);
 
       i++;
 
@@ -60,12 +58,14 @@ public class Tableaux {
              num2 = 62 / num1;
              System.out.println(num2);
              System.out.println("Hey I'm at the end of try block");
-          }catch (ArithmeticException e) {
+          }
+          catch (ArithmeticException e) {
              /* This block will only execute if any Arithmetic exception
               * occurs in try block
               */
              System.out.println("You should not divide a number by zero");
-          }catch (Exception e) {
+          }
+          catch (Exception e) {
              /* This is a generic Exception handler which means it can handle
               * all the exceptions. This will execute if the exception is not
               * handled by previous catch blocks.
@@ -249,9 +249,7 @@ public class Tableaux {
 
     for(int a : tab) {
 
-      if(a!=x) {
-
-        tab2[i] = a;
+      if(a!=x) { tab2[i] = a;
 
         i=i+1;
 
