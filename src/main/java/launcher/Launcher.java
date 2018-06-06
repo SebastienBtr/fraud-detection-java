@@ -164,6 +164,7 @@ public class Launcher {
                 parseStudentFiles(fileEntry, student);
 
             } else if (fileEntry.getName().endsWith(".java")) {
+                System.out.println("CALL PARSER ============= " + student.getName() + "-- file :" + fileEntry.getName());
                 DefaultMutableTreeNode tree = ProjectParser.parseFile(fileEntry.getPath());
                 student.addTree(tree);
             }
