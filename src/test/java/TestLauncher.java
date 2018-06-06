@@ -1,16 +1,16 @@
 import launcher.ConfigFile;
 import launcher.Launcher;
-import student.ClassFile;
+import parser.ParsingException;
 import student.Student;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class TestLauncher {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParsingException
+    {
 
         Launcher.init("src/test/data/exam2.zip");
         Launcher.parseFiles();

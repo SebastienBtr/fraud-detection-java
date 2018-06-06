@@ -1,5 +1,6 @@
 import launcher.ConfigFile;
 import launcher.Launcher;
+import parser.ParsingException;
 import student.Student;
 
 import java.util.List;
@@ -8,9 +9,10 @@ import java.util.TreeMap;
 
 public class TestLauncherWithTeacherFiles {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParsingException
+    {
 
-        Launcher.init("src/test/data/PROG_IMP_JAVA-Lien de depot TP10note-48285_2017_TP10Note.zip", "src/test/data/teacher2.zip");
+        Launcher.init("src/test/data/exam2.zip", "src/test/data/teacher2.zip");
         Launcher.parseFiles();
         ConfigFile.classNameAreGiven = true;
         ConfigFile.methodNamesAreGiven = true;
