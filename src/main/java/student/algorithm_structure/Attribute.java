@@ -29,6 +29,29 @@ public class Attribute {
         this.isStatic = isStatic;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Attribute attribute = (Attribute) o;
+
+        if (type != null ? !type.equals(attribute.type) : attribute.type != null) return false;
+        if (name != null ? !name.equals(attribute.name) : attribute.name != null) return false;
+        return value != null ? value.equals(attribute.value) : attribute.value == null;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = visibility != null ? visibility.hashCode() : 0;
+        result = 31 * result + (isStatic != null ? isStatic.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
+    }
 
     @Override
     public String toString() {

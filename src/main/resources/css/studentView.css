@@ -1,0 +1,13 @@
+.cell {
+
+    -fx-padding: 10 ;
+    -fx-padding-left: 50 ;
+    -fx-border-color: dimgrey;
+    -fx-end-margin: 0;
+    -fx-pref-width:100;
+
+}
+.cell-score {
+    -fx-background-color: forestgreen ;
+
+}

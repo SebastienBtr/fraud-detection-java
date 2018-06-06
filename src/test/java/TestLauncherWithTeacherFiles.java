@@ -2,7 +2,6 @@ import launcher.ConfigFile;
 import launcher.Launcher;
 import student.Student;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -27,12 +26,12 @@ public class TestLauncherWithTeacherFiles {
 
             System.out.println("============== STUDENT " + student.getName() + " ==============");
 
-            TreeMap<String,Integer> scores = student.getScores();
+            TreeMap<String,Double> scores = student.getScores();
 
-            for(Map.Entry<String,Integer> entry : scores.entrySet()) {
+            for(Map.Entry<String,Double> entry : scores.entrySet()) {
 
                 String key = entry.getKey();
-                Integer value = entry.getValue();
+                Double value = entry.getValue();
 
                 System.out.println(key + " => " + value);
             }

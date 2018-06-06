@@ -15,7 +15,7 @@ public class Student {
 
     private List<DefaultMutableTreeNode> fileTrees;
 
-    private TreeMap<String,Integer> scores;
+    private TreeMap<String, Double> scores;
 
 
     public Student(String name, String directoryPath) {
@@ -29,38 +29,31 @@ public class Student {
         this.fileTrees.add(tree);
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setDirectoryPath(String directoryPath)
-    {
+    public void setDirectoryPath(String directoryPath) {
         this.directoryPath = directoryPath;
     }
 
-    public List<DefaultMutableTreeNode> getFileTrees()
-    {
+    public List<DefaultMutableTreeNode> getFileTrees() {
         return fileTrees;
     }
 
-    public void setFileTrees(List<DefaultMutableTreeNode> fileTrees)
-    {
+    public void setFileTrees(List<DefaultMutableTreeNode> fileTrees) {
         this.fileTrees = fileTrees;
     }
 
-    public TreeMap<String, Integer> getScores()
-    {
+    public TreeMap<String, Double> getScores() {
         return scores;
     }
 
-    public void setScores(TreeMap<String, Integer> scores)
-    {
+    public void setScores(TreeMap<String, Double> scores) {
         this.scores = scores;
     }
 
