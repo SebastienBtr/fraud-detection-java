@@ -9,6 +9,8 @@ import java.util.List;
 
 public class StudentComparator {
 
+    private static int maxScore;
+
     private StudentComparator() {
         throw new IllegalStateException("Utility class");
     }
@@ -48,8 +50,15 @@ public class StudentComparator {
                 }
             }
         }
-        student2.getScores().put(student1.getName(),similarities);
-        student1.getScores().put(student2.getName(),similarities);
+
+        if (student2.getDirectoryPath().equals(student1.getDirectoryPath())) { //same students
+            maxScore = similarities;
+        }
+
+        Double ratio = similarities * 1.0 / maxScore;
+
+        student2.getScores().put(student1.getName(),100 * ratio);
+        student1.getScores().put(student2.getName(),100 * ratio);
     }
 
 
