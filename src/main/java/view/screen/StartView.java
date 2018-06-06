@@ -1,7 +1,6 @@
 package view.screen;
 
 
-import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,9 +10,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import launcher.Launcher;
 import view.controllers.FIleBrowserAction;
+import view.controllers.ParseButtonAction;
 import view.controllers.UnzippButtonAction;
 
 
@@ -25,6 +26,9 @@ public class StartView extends Application {
     private  String pathTeacher;
     private  String pathStudent;
     private  GridPane grid;
+    private Button unzzipBtn;
+    private Button parseBtn;
+    private Label successMessage;
 
     public static void main(String[] args) {
         launch(args);
@@ -33,7 +37,7 @@ public class StartView extends Application {
     @Override
     public void start(final Stage primaryStage) {
 
-
+        StackPane root = new StackPane();
 
         primaryStage.setTitle("Fraude Buster");
         primaryStage.setMaximized(true);
@@ -44,7 +48,9 @@ public class StartView extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Scene scene = new Scene(grid, 600, 600);
+        root.getChildren().add(grid);
+
+        Scene scene = new Scene(root, 600, 600);
         primaryStage.setScene(scene);
 
 
@@ -73,19 +79,29 @@ public class StartView extends Application {
         browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField,pathTeacher));
 
 
+        parseBtn = new Button("Parse");
+        parseBtn.setOnAction(null);
+        parseBtn.setMaxSize(500,100);
+        parseBtn.setVisible(false);
+        parseBtn.setOnAction(new ParseButtonAction(scene));
+        grid.add(parseBtn,2,4);
+        successMessage = new Label();
+        grid.add(successMessage,1,4);
 
-        Button unzzipBtn = new Button("Décompresser");
-        unzzipBtn.setOnAction(new UnzippButtonAction(pathStudent,primaryStage));
+
+        unzzipBtn = new Button("Décompresser");
+        unzzipBtn.setOnAction(new UnzippButtonAction(pathStudent,pathStudentFileField,successMessage,parseBtn,root,grid));
         unzzipBtn.setMaxSize(500,100);
         grid.add(unzzipBtn, 0, 4);
 
-        Button parseBtn = new Button("Parse");
-        parseBtn.setOnAction(null);
-        parseBtn.setMaxSize(500,100);
+
+
+
+
 
 
         primaryStage.show();
-        FlatterFX.style();
+        //FlatterFX.style();
     }
 
     public GridPane getGrid()
