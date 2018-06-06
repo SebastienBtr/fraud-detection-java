@@ -28,8 +28,8 @@ public class CodeLine implements Structure {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        return  true;
+        CodeLine line = (CodeLine) o;
+        return  lineContent.equals(line.lineContent);
 
 
     }

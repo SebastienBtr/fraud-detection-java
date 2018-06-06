@@ -20,4 +20,15 @@ public class TryCatch implements Structure {
     public String toString() {
         return type.toString().toUpperCase();
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TryCatch tryCatch = (TryCatch) o;
+        return ((TryCatch) o).type.equals(this.type);
+       
+
+    }
 }

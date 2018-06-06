@@ -12,4 +12,12 @@ public class Return implements Structure{
     public String toString() {
         return "RETURN ( "+this.name+" )";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return true;
+
+    }
 }
