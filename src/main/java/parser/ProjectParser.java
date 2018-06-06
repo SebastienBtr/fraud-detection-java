@@ -57,7 +57,7 @@ public class ProjectParser {
 
         closeStreams(fstream, br);
 
-        //System.out.println(treeToString(studentTree));
+        System.out.println(treeToString(studentTree));
         return studentTree;
     }
 
@@ -332,6 +332,10 @@ public class ProjectParser {
             return new TryCatch(strLine);
         }
 
+        // SWITCH
+        else if(Pattern.matches("\\s*switch\\s*\\(\\s*\\w+\\s*\\)\\s*.*", strLine)){
+            return new Conditional(getStructureDeclaration(strLine, br), ConditionalType.SWITCH);
+        }
 
         // LIGNE CODE
         else {

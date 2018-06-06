@@ -1,5 +1,19 @@
+@font-face {
+    font-family: 'Dense';
+    src: url('../font/Dense-Regular.otf');
+}
+
 .roTitre{
+    -fx-font-size: 100pt;
+    -fx-font-family: "Dense";
+    -fx-font-weight: bolder;
+    -fx-text-fill: #ffffff;
+    -fx-alignment: center;
+}
+
+.sousTitre{
     -fx-font-size: 20pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: #ba4e26;
+    -fx-alignment: center;
 }

@@ -52,51 +52,85 @@ public class StartView extends Application {
         Scene scene = new Scene(root, 600, 600);
         primaryStage.setScene(scene);
 
+        GridPane titleGrid = new GridPane();
+        titleGrid.setAlignment(Pos.TOP_CENTER);
+        titleGrid.setPadding(new Insets(25, 25, 25, 25));
 
-        Label bigTitle = new Label("Ils ont cru qu'ils pouvaient s'en sortir ");
+        Label bigTitle = new Label("DÉTECTION DE FRAUDE");
         bigTitle.getStyleClass().add("roTitre");
 
-        grid.add(bigTitle,0,0,4,1);
+        Label subTitle = new Label("Ils ont cru qu'ils pourraient s'en sortir...");
+        subTitle.getStyleClass().add("sousTitre");
+
+        titleGrid.add(bigTitle,0,0,4,1);
+        titleGrid.add(subTitle,1,1,4,1);
+
+        grid.add(titleGrid,0,0,10,1);
+
+        GridPane studentGrid = new GridPane();
+        studentGrid.setAlignment(Pos.TOP_CENTER);
+        studentGrid.setHgap(20);
+        studentGrid.setVgap(10);
+        studentGrid.setPadding(new Insets(25, 25, 0, 25));
 
         Label pathStudentFileLabel = new Label("Dossier élèves");
-        grid.add(pathStudentFileLabel, 0, 1);
+        studentGrid.add(pathStudentFileLabel, 0, 2);
 
         pathStudentFileField = new TextField("C:\\Users\\lea\\Documents\\IMT\\ProjetFraude\\fraud-detection-java\\src\\test\\data\\exam2.zip");
-        grid.add(pathStudentFileField, 1, 2,2, 1);
+        studentGrid.add(pathStudentFileField, 0, 3,5, 1);
 
         Button browseStudent = new Button("Parcourir...");
-        grid.add(browseStudent, 3, 2);
+        studentGrid.add(browseStudent, 5, 3);
         browseStudent.setOnAction(new FIleBrowserAction(primaryStage,pathStudentFileField,pathStudent));
 
+        grid.add(studentGrid,0,1,10,1);
+
+        GridPane teacherGrid = new GridPane();
+        teacherGrid.setAlignment(Pos.TOP_CENTER);
+        teacherGrid.setHgap(20);
+        teacherGrid.setVgap(10);
+        teacherGrid.setPadding(new Insets(0, 25, 0, 25));
 
         Label pathTeacherLabel = new Label("Dossier Modèle");
-        grid.add(pathTeacherLabel, 0, 3);
+        teacherGrid.add(pathTeacherLabel, 0, 2);
 //        CheckBox isSkeletonGiven = new CheckBox();
 //        grid.add(isSkeletonGiven, 0, 4);
 
         pathTeacherField = new TextField("C:\\Users\\lea\\Documents\\IMT\\ProjetFraude\\fraud-detection-java\\src\\test\\data\\teacher2.zip");
-        grid.add(pathTeacherField, 1, 4,2, 1);
+        teacherGrid.add(pathTeacherField, 0, 3,5, 1);
 
         Button browseTeacher = new Button("Parcourir...");
-        grid.add(browseTeacher, 3, 4);
+        teacherGrid.add(browseTeacher, 5, 3);
         browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField,pathTeacher));
 
+
+        grid.add(teacherGrid,0,2,10,1);
+
+        GridPane buttonGrid = new GridPane();
+        buttonGrid.setAlignment(Pos.TOP_CENTER);
+        buttonGrid.setHgap(20);
+        buttonGrid.setVgap(10);
+
+
         successMessage = new Label();
-        grid.add(successMessage,0,6,5,1);
+        buttonGrid.add(successMessage,0,7,5,1);
 
         parseBtn = new Button("Parse");
         parseBtn.setOnAction(null);
         parseBtn.setMaxSize(500,100);
         parseBtn.setVisible(false);
         parseBtn.setOnAction(new ParseButtonAction(scene,successMessage));
-        grid.add(parseBtn,3,5);
+        buttonGrid.add(parseBtn,7,6,5,1);
 
 
 
         unzzipBtn = new Button("Décompresser");
         unzzipBtn.setOnAction(new UnzippButtonAction(pathStudentFileField,pathTeacherField,successMessage,parseBtn,root,grid));
         unzzipBtn.setMaxSize(500,100);
-        grid.add(unzzipBtn, 0, 5);
+        buttonGrid.add(unzzipBtn, 0, 6,5,1);
+
+
+        grid.add(buttonGrid,0,3,10,1);
 
 
         primaryStage.show();
