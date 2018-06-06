@@ -76,13 +76,13 @@ public class StudentView extends StackPane
 
     private String colorScore(int score){
 
-        if(score < 25){
+        if(score < 30){
             return "forestgreen";
         }
         else if(score < 50){
             return "#FFC811";
         }
-        if(score < 75){
+        if(score < 70){
             return "#FF9111";
         }
 

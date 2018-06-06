@@ -1,18 +1,17 @@
 package view.screen;
 
 
+import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import launcher.Launcher;
 import view.controllers.FIleBrowserAction;
 import view.controllers.ParseButtonAction;
 import view.controllers.UnzippButtonAction;
@@ -20,7 +19,6 @@ import view.controllers.UnzippButtonAction;
 
 public class StartView extends Application {
 
-    private Launcher launcher;
     private TextField pathTeacherField;
     private TextField pathStudentFileField;
     private  String pathTeacher;
@@ -38,6 +36,7 @@ public class StartView extends Application {
     public void start(final Stage primaryStage) {
 
         StackPane root = new StackPane();
+        root.getStylesheets().add(getClass().getResource("/css/startView.css").toExternalForm());
 
         primaryStage.setTitle("Fraude Buster");
         primaryStage.setMaximized(true);
@@ -54,64 +53,58 @@ public class StartView extends Application {
         primaryStage.setScene(scene);
 
 
+        Label bigTitle = new Label("Ils ont cru qu'ils pouvaient s'en sortir ");
+        bigTitle.getStyleClass().add("roTitre");
+
+        grid.add(bigTitle,0,0,4,1);
 
         Label pathStudentFileLabel = new Label("Dossier élèves");
-        grid.add(pathStudentFileLabel, 0, 0);
+        grid.add(pathStudentFileLabel, 0, 1);
 
-        pathStudentFileField = new TextField();
-        grid.add(pathStudentFileField, 1, 1,2, 1);
+        pathStudentFileField = new TextField("C:\\Users\\lea\\Documents\\IMT\\ProjetFraude\\fraud-detection-java\\src\\test\\data\\exam2.zip");
+        grid.add(pathStudentFileField, 1, 2,2, 1);
 
         Button browseStudent = new Button("Parcourir...");
-        grid.add(browseStudent, 3, 1);
+        grid.add(browseStudent, 3, 2);
         browseStudent.setOnAction(new FIleBrowserAction(primaryStage,pathStudentFileField,pathStudent));
 
 
         Label pathTeacherLabel = new Label("Dossier Modèle");
-        grid.add(pathTeacherLabel, 0, 2);
-        CheckBox isSkeletonGiven = new CheckBox();
-        grid.add(isSkeletonGiven, 0, 3);
+        grid.add(pathTeacherLabel, 0, 3);
+//        CheckBox isSkeletonGiven = new CheckBox();
+//        grid.add(isSkeletonGiven, 0, 4);
 
-        pathTeacherField = new TextField();
-        grid.add(pathTeacherField, 1, 3,2, 1);
+        pathTeacherField = new TextField("C:\\Users\\lea\\Documents\\IMT\\ProjetFraude\\fraud-detection-java\\src\\test\\data\\teacher2.zip");
+        grid.add(pathTeacherField, 1, 4,2, 1);
 
         Button browseTeacher = new Button("Parcourir...");
-        grid.add(browseTeacher, 3, 3);
+        grid.add(browseTeacher, 3, 4);
         browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField,pathTeacher));
 
+        successMessage = new Label();
+        grid.add(successMessage,0,6,5,1);
 
         parseBtn = new Button("Parse");
         parseBtn.setOnAction(null);
         parseBtn.setMaxSize(500,100);
         parseBtn.setVisible(false);
-        parseBtn.setOnAction(new ParseButtonAction(scene));
-        grid.add(parseBtn,2,4);
-        successMessage = new Label();
-        grid.add(successMessage,1,4);
+        parseBtn.setOnAction(new ParseButtonAction(scene,successMessage));
+        grid.add(parseBtn,3,5);
+
 
 
         unzzipBtn = new Button("Décompresser");
-        unzzipBtn.setOnAction(new UnzippButtonAction(pathStudent,pathStudentFileField,successMessage,parseBtn,root,grid));
+        unzzipBtn.setOnAction(new UnzippButtonAction(pathStudentFileField,pathTeacherField,successMessage,parseBtn,root,grid));
         unzzipBtn.setMaxSize(500,100);
-        grid.add(unzzipBtn, 0, 4);
-
-
-
-
-
+        grid.add(unzzipBtn, 0, 5);
 
 
         primaryStage.show();
-        //FlatterFX.style();
+        FlatterFX.style();
     }
 
-    public GridPane getGrid()
-    {
-        return grid;
-    }
 
-///dezipper -> parse pas affiché
-    //apuye sur parse + etat du chargement
-    //fini met le bouton parse la la pace du bouton decompresser
+
 
     //nouvel intent
     //config

@@ -14,23 +14,24 @@ import launcher.Launcher;
 
 public class UnzippButtonAction implements EventHandler<ActionEvent>
 {
-    private String path ;
 
     private TextField studentFilePath;
+    private TextField teacherPath;
     private Label successMessage;
     private Button parseBtn;
     private StackPane root;
     private GridPane grid;
     private VBox box;
 
-     public UnzippButtonAction(String path, TextField studentFilePath, Label successMessage, Button parseBtn, StackPane root, GridPane grid)
+    public UnzippButtonAction(TextField studentFilePath, TextField teacherPath, Label successMessage, Button parseBtn, StackPane root, GridPane grid)
     {
-        this.path = path;
         this.studentFilePath = studentFilePath;
+        this.teacherPath = teacherPath;
         this.successMessage = successMessage;
         this.parseBtn = parseBtn;
         this.root = root;
         this.grid = grid;
+
     }
 
     public void handle(ActionEvent event)
@@ -40,13 +41,19 @@ public class UnzippButtonAction implements EventHandler<ActionEvent>
             try{
                 waiting();
 
-               Launcher.init(path);
+                if (teacherPath.getText().length()>0){
+                    Launcher.init(studentFilePath.getText(),teacherPath.getText());
+                }
+                else {
+                    Launcher.init(studentFilePath.getText());
+                }
 
+                goOn();
 
             }catch(Exception e){
                 parseBtn.setVisible(false);
                 successMessage.setText("Une erreur est survenue lors de la décompression");
-                goOn();
+
 
             }
             parseBtn.setVisible(true);
@@ -58,10 +65,11 @@ public class UnzippButtonAction implements EventHandler<ActionEvent>
         }
 
 
-
+        System.out.println(Launcher.getStudents().size());
     }
 
     private void goOn(){
+        System.out.println("Unzipped finished");
         grid.setDisable(false);
         root.getChildren().remove(box);
     }
