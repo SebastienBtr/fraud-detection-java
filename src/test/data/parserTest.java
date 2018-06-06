@@ -30,34 +30,45 @@ public class ProjectParser {
      * @return
      */
 
-    public static DefaultMutableTreeNode parseFile(String fileName) throws Exception {
+    public static DefaultMutableTreeNode parseFile(String fileName) {
 
         DefaultMutableTreeNode studentTree = new DefaultMutableTreeNode();
 
         FileInputStream fstream = null;
         BufferedReader br = null;
 
-        // Open streams
-        fstream = new FileInputStream(fileName);
-        br = new BufferedReader(new InputStreamReader(fstream));
+        try {
 
-        String strLine;
+            // Open streams
+            fstream = new FileInputStream(fileName);
+            br = new BufferedReader(new InputStreamReader(fstream));
 
-        //Read ClassFile Line By Line
-        while ((strLine = br.readLine()) != null) {
+            String strLine;
 
-            if (!isComment(strLine, br) && isClass(strLine)) {
+            //Read ClassFile Line By Line
+            while ((strLine = br.readLine()) != null) {
 
-                ClassFile newClass = ProjectParser.createClass(strLine, br);
-                DefaultMutableTreeNode body = parseClass(newClass, br);
-                studentTree.add(body);
+                if (!isComment(strLine, br) && isClass(strLine)) {
 
+                    ClassFile newClass = ProjectParser.createClass(strLine, br);
+                    DefaultMutableTreeNode body = parseClass(newClass, br);
+                    studentTree.add(body);
+
+                }
             }
+
+        } catch (FileNotFoundException e) {
+            System.err.println(e.getMessage());
+
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+
+        } finally {
+
+            closeStreams(fstream, br);
         }
 
-        closeStreams(fstream, br);
-
-        //System.out.println(treeToString(studentTree));
+        System.out.println(treeToString(studentTree));
         return studentTree;
     }
 
@@ -70,7 +81,7 @@ public class ProjectParser {
      * @throws IOException
      */
 
-    private static DefaultMutableTreeNode parseClass(ClassFile newClass, BufferedReader br) throws Exception {
+    private static DefaultMutableTreeNode parseClass(ClassFile newClass, BufferedReader br) throws IOException {
         DefaultMutableTreeNode classTree = new DefaultMutableTreeNode(newClass);
 
         String strLine;
@@ -124,6 +135,7 @@ public class ProjectParser {
 
 
                         if(!isStatic && attributeParams.length > 3){
+                            System.out.println(strLine);
                             attribute.setValue(strLine.trim().split("=")[1]);
                         }
                         else if (attributeParams.length >4){
@@ -148,7 +160,7 @@ public class ProjectParser {
      * @throws IOException
      */
 
-    private static Couple parseBody(Object object, String line, BufferedReader br) throws Exception {
+    private static Couple parseBody(Object object, String line, BufferedReader br) throws IOException {
         DefaultMutableTreeNode ret = new DefaultMutableTreeNode(object);
         String strLine;
         Boolean endLine = false;
@@ -171,6 +183,7 @@ public class ProjectParser {
 
             if(isEndOfBlock(strLine)){
                 if(strLine.contains("{") && strLine.trim().split("\\{").length > 1){
+                    System.out.println(strLine);
                     Structure parentStructure = checkLineStructure(strLine.substring(0, strLine.lastIndexOf("{")+1), br);
                     DefaultMutableTreeNode parentNode = new DefaultMutableTreeNode(parentStructure);
 
@@ -276,7 +289,7 @@ public class ProjectParser {
      * @throws IOException
      */
 
-    private static ClassFile createClass(String strLine, BufferedReader br) throws Exception {
+    private static ClassFile createClass(String strLine, BufferedReader br) throws IOException {
         if(strLine.trim().endsWith("{")) return new ClassFile(strLine);
         else throw new IOException();
     }
@@ -287,7 +300,7 @@ public class ProjectParser {
      * @return
      */
 
-    private static Structure checkLineStructure(String strLine, BufferedReader br) throws Exception {
+    private static Structure checkLineStructure(String strLine, BufferedReader br) throws IOException {
 
         // FOR
         if (Pattern.matches("(\\s)*for(\\s)*\\(.*", strLine)) {
@@ -352,7 +365,7 @@ public class ProjectParser {
      * @throws IOException
      */
 
-    private static String getStructureDeclaration(String strLine, BufferedReader br) throws Exception {
+    private static String getStructureDeclaration(String strLine, BufferedReader br) throws IOException {
         String ret = strLine;
 
         while(!strLine.trim().endsWith("{") && !strLine.trim().endsWith(";")) {
@@ -389,7 +402,7 @@ public class ProjectParser {
      * @throws IOException
      */
 
-    private static boolean isComment(String strLine, BufferedReader br) throws Exception {
+    private static boolean isComment(String strLine, BufferedReader br) throws IOException {
 
         if(strLine.trim().startsWith("/*")){
             if(strLine.trim().contains("*/")) return true;
@@ -511,7 +524,7 @@ public class ProjectParser {
      * @param br
      */
 
-    private static void closeStreams(FileInputStream fstream, BufferedReader br) throws Exception {
+    private static void closeStreams(FileInputStream fstream, BufferedReader br) {
 
         if (br != null) {
             try {

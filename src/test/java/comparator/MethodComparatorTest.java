@@ -13,7 +13,7 @@ public class MethodComparatorTest
     @Before
     public void setUp()
     {
-       tree = ProjectParser.parseFile("src/test/data/comparator/MethodComparator");
+       //tree = ProjectParser.parseFile("src/test/data/comparator/MethodComparator");
     }
 
     @Test

@@ -17,7 +17,7 @@ public class Method {
 
     private List<Variable> parameters;
 
-    public Method(String classDeclaration) {
+    public Method(String classDeclaration) throws Exception{
         String[] signature = classDeclaration.trim().split("\\(")[0].split(" ");
 
         if(signature.length == 1){
