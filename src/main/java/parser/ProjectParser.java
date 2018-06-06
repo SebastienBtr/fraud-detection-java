@@ -1,5 +1,6 @@
 package parser;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.sun.xml.internal.ws.util.StringUtils;
 import student.ClassFile;
 import student.ClassMethodType;
@@ -161,11 +162,19 @@ public class ProjectParser {
     private static Couple parseBody(Object object, String line, BufferedReader br) throws IOException {
         DefaultMutableTreeNode ret = new DefaultMutableTreeNode(object);
         String strLine;
+        Boolean endLine = false;
 
         String[] endOfLine = line.split("\\{");
+
         if(endOfLine.length > 1 && endOfLine[1].trim().length() > 1){
-            Structure structure = checkLineStructure(endOfLine[1], br);
-            ret.add(new DefaultMutableTreeNode(structure));
+            if(isEndOfBlock(endOfLine[1])){
+                Structure structure = checkLineStructure(endOfLine[1].split("}")[0], br);
+                ret.add(new DefaultMutableTreeNode(structure));
+            }
+            else {
+                Structure structure = checkLineStructure(endOfLine[1], br);
+                ret.add(new DefaultMutableTreeNode(structure));
+            }
         }
 
         while ((strLine = br.readLine()) != null && !isEndOfBlock(strLine)) {
@@ -191,6 +200,7 @@ public class ProjectParser {
             else {
                 Couple body = parseBody(structure,strLine, br);
                 ret.add(body.getNode());
+
                 while (body.getLastLine() != null && body.getLastLine().trim().split("}").length > 1){
                     String[] lastLineParts = body.getLastLine().trim().split("}");
                     structure = checkLineStructure(lastLineParts[1], br);
@@ -210,10 +220,14 @@ public class ProjectParser {
             }
         }
 
+
+
         if(isEndOfBlock(strLine)){
+
             String[] startOfLine = strLine.split("}");
 
             if(startOfLine.length > 0 && startOfLine[0].trim().length() > 1){
+
                 Structure structure = checkLineStructure(startOfLine[0], br);
 
                 if (structure.getClass().equals(CodeLine.class)
@@ -222,11 +236,12 @@ public class ProjectParser {
 
                     ret.add(new DefaultMutableTreeNode(structure));
                 }
-
                 else {
-                    Couple body = parseBody(structure,strLine, br);
+                    Couple body = parseBody(structure, strLine, br);
                     ret.add(body.getNode());
                 }
+
+
             }
         }
 

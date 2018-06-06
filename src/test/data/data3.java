@@ -12,13 +12,13 @@ public class Voyelles {
         try {
             oui
         }
-        catch(Exception e){ oui }
+        catch(Exception e){ oui; }
 
         test;
 
         if (s=="") {
             return 0;}
-            else if (s.length()==1) {
+        else if (s.length()==1) {
             if (s.charAt(0)=='A' || s.charAt(0)=='E' || s.charAt(0)=='I' || s.charAt(0)=='O' || s.charAt(0)=='U' || s.charAt(0)=='Y') {
             } else {
                 System.out.println("}}} [ {{{");
