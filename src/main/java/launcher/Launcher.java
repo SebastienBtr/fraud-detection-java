@@ -2,6 +2,7 @@ package launcher;
 
 import comparator.StudentComparator;
 import org.apache.commons.io.FileUtils;
+import parser.ParsingException;
 import parser.ProjectParser;
 import student.Student;
 
@@ -85,7 +86,8 @@ public class Launcher {
     /**
      * Parse all project files
      */
-    public static void parseFiles() {
+    public static void parseFiles() throws ParsingException
+    {
 
         for (Student student : students) {
 
@@ -156,7 +158,9 @@ public class Launcher {
      *
      * @param directory directory or subdirectory of student files
      */
-    private static void parseStudentFiles(File directory, Student student) {
+    private static void parseStudentFiles(File directory, Student student) throws ParsingException
+    {
+        ParsingException exceptions = new ParsingException();
 
         for (File fileEntry : directory.listFiles()) {
 
@@ -169,10 +173,14 @@ public class Launcher {
                     tree = ProjectParser.parseFile(fileEntry.getPath());
                 } catch (Exception e) {
                     System.err.println("[ERREUR PARSER] " + student.getName() + " - file: " + fileEntry.getName());
+                    exceptions.addException(student.getName(),fileEntry.getName());
                     //e.printStackTrace();
                 }
                 student.addTree(tree);
             }
+        }
+        if(!exceptions.isEmpty()){
+            throw exceptions;
         }
     }
 
