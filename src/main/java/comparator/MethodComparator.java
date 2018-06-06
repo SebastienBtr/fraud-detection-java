@@ -1,7 +1,9 @@
 package comparator;
 
 import launcher.ConfigFile;
+import student.algorithm_structure.Conditional;
 import student.algorithm_structure.Loop;
+import student.algorithm_structure.TryCatch;
 import util.TreeNodeUtils;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -67,12 +69,11 @@ public class MethodComparator {
         for (int i = 0; i < longer.getChildCount(); i++) {
 
             if (longerCurrentChild.getUserObject().equals(shorterCurrentCHild.getUserObject())) {
-                if (i < shorter.getChildCount()-1) {
+                if (i < shorter.getChildCount() - 1) {
                     similarities = structureContentSimilarities(longerCurrentChild, shorterCurrentCHild, similarities, Similarities.SAME_STRUCTURE_SAME_SPOT);
                 }
 
-            }
-            else{
+            } else {
 
                 shorterCurrentCHildLoop = TreeNodeUtils.contains(shorter, longerCurrentChild.getUserObject());
                 if (shorterCurrentCHildLoop != null) {
@@ -80,7 +81,7 @@ public class MethodComparator {
                 }
             }
 
-            if (i < shorter.getChildCount()-1) {
+            if (i < shorter.getChildCount() - 1) {
                 shorterCurrentCHild = shorterCurrentCHild.getNextSibling();
             }
             longerCurrentChild = longerCurrentChild.getNextSibling();
@@ -99,28 +100,39 @@ public class MethodComparator {
      */
     private static int structureContentSimilarities(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2, int similarities, int similarity) {
 
-        if (structure1.getUserObject().getClass().equals(Loop.class)) {
+        Class structureClass = structure1.getUserObject().getClass();
 
-            if (LoopsAreEquals(structure1, structure2)) {
-               // System.out.println(structure1+"  "+structure2 +" =  "+Similarities.SAME_LOOP*similarity);
-                similarities += similarity * Similarities.SAME_LOOP;
-            }
+        if (structureClass.equals(Loop.class) && loopsAreEquals(structure1, structure2)) {
+            similarities += similarity * Similarities.SAME_LOOP;
 
-        } else {
-            //System.out.println(structure1+"  "+structure2 +" =  "+similarity);
+        }
+/*        else if (structureClass.equals(Conditional.class) && conditionalsAreEquals(structure1, structure2)) {
+            similarities += similarity * Similarities.SAME_COND;
+
+        } else if (structureClass.equals(TryCatch.class) && tryCatchAreEquals(structure1, structure2)){
+            similarities += similarity * Similarities.SAME_TRYCATCH;
+
+        } */
+        else {
             similarities += similarity;
-            //TODO if IF verifier l'interieur des brakcets
-            //TODO pareill pour tout
         }
 
         similarities = orderStructures(structure1, structure2, similarities);
 
-
         return similarities;
     }
 
-    private static boolean LoopsAreEquals(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2) {
+    private static boolean loopsAreEquals(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2) {
         return ((Loop) structure1.getUserObject()).getName().equals(((Loop) structure2.getUserObject()).getName());
+    }
+
+    private static boolean conditionalsAreEquals(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2) {
+        return ( ((Conditional) structure1.getUserObject()).getType().equals(((Conditional) structure2.getUserObject()).getType())
+                &&((Conditional) structure1.getUserObject()).getConditions().equals(((Conditional) structure2.getUserObject()).getConditions()));
+    }
+
+    private static boolean tryCatchAreEquals(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2) {
+        return ((TryCatch) structure1.getUserObject()).getType().equals(((TryCatch) structure2.getUserObject()).getType());
     }
 
     private static boolean methodMatched(DefaultMutableTreeNode method1, DefaultMutableTreeNode method2) {

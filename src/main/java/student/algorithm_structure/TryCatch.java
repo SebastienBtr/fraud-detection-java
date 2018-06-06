@@ -2,6 +2,10 @@ package student.algorithm_structure;
 
 public class TryCatch implements Structure {
 
+    public ExceptionType getType() {
+        return type;
+    }
+
     public ExceptionType type;
 
     public TryCatch(String line) {

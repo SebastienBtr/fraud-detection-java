@@ -4,6 +4,14 @@ public class Conditional implements Structure {
 
     private String codeInDeclaration;
 
+    public String getConditions() {
+        return conditions;
+    }
+
+    public ConditionalType getType() {
+        return type;
+    }
+
     private String conditions;//contents between ()
 
     private ConditionalType type;
