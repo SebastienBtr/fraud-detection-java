@@ -164,8 +164,13 @@ public class Launcher {
                 parseStudentFiles(fileEntry, student);
 
             } else if (fileEntry.getName().endsWith(".java")) {
-                System.out.println("CALL PARSER ============= " + student.getName() + "-- file :" + fileEntry.getName());
-                DefaultMutableTreeNode tree = ProjectParser.parseFile(fileEntry.getPath());
+                DefaultMutableTreeNode tree = null;
+                try {
+                    tree = ProjectParser.parseFile(fileEntry.getPath());
+                } catch (Exception e) {
+                    System.err.println("[ERREUR PARSER] " + student.getName() + " - file: " + fileEntry.getName());
+                    //e.printStackTrace();
+                }
                 student.addTree(tree);
             }
         }

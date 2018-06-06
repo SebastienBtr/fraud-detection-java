@@ -14,8 +14,8 @@ public class ClassFileComparatorTest
     @Before
     public void setUp()
     {
-        class1 = ProjectParser.parseFile("src/test/data/comparator/ClassFile1").getNextNode();
-        class2 = ProjectParser.parseFile("src/test/data/comparator/ClassFile2").getNextNode();
+        //class1 = ProjectParser.parseFile("src/test/data/comparator/ClassFile1").getNextNode();
+        //class2 = ProjectParser.parseFile("src/test/data/comparator/ClassFile2").getNextNode();
     }
 
     @Test
