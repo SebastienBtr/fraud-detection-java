@@ -61,27 +61,31 @@ public class MethodComparator {
 
         DefaultMutableTreeNode longerCurrentChild = longer.getNextNode();
         DefaultMutableTreeNode shorterCurrentCHild = shorter.getNextNode();
+        DefaultMutableTreeNode shorterCurrentCHildLoop;
+
 
         for (int i = 0; i < longer.getChildCount(); i++) {
 
-            if (i < shorter.getChildCount()) {
-
-                if (longerCurrentChild.getUserObject().equals(shorterCurrentCHild.getUserObject())) {
+            if (longerCurrentChild.getUserObject().equals(shorterCurrentCHild.getUserObject())) {
+                if (i < shorter.getChildCount()-1) {
                     similarities = structureContentSimilarities(longerCurrentChild, shorterCurrentCHild, similarities, Similarities.SAME_STRUCTURE_SAME_SPOT);
-
-                }
-                shorterCurrentCHild = shorterCurrentCHild.getNextSibling();
-
-            } else {
-                shorterCurrentCHild = TreeNodeUtils.contains(shorter, longerCurrentChild.getUserObject());
-
-                if (shorterCurrentCHild != null) {
-                    similarities = structureContentSimilarities(longerCurrentChild, shorterCurrentCHild, similarities, Similarities.CONTAIN_STRUCTURE);
                 }
 
             }
+            else{
+
+                shorterCurrentCHildLoop = TreeNodeUtils.contains(shorter, longerCurrentChild.getUserObject());
+                if (shorterCurrentCHildLoop != null) {
+                    similarities = structureContentSimilarities(longerCurrentChild, shorterCurrentCHildLoop, similarities, Similarities.CONTAIN_STRUCTURE);
+                }
+            }
+
+            if (i < shorter.getChildCount()-1) {
+                shorterCurrentCHild = shorterCurrentCHild.getNextSibling();
+            }
             longerCurrentChild = longerCurrentChild.getNextSibling();
         }
+
         return similarities;
     }
 
@@ -98,11 +102,15 @@ public class MethodComparator {
         if (structure1.getUserObject().getClass().equals(Loop.class)) {
 
             if (LoopsAreEquals(structure1, structure2)) {
+               // System.out.println(structure1+"  "+structure2 +" =  "+Similarities.SAME_LOOP*similarity);
                 similarities += similarity * Similarities.SAME_LOOP;
             }
 
         } else {
+            //System.out.println(structure1+"  "+structure2 +" =  "+similarity);
             similarities += similarity;
+            //TODO if IF verifier l'interieur des brakcets
+            //TODO pareill pour tout
         }
 
         similarities = orderStructures(structure1, structure2, similarities);
