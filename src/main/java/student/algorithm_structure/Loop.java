@@ -1,5 +1,7 @@
 package student.algorithm_structure;
 
+import util.StringSimilarity;
+
 public class Loop implements Structure {
 
 
@@ -75,9 +77,28 @@ public class Loop implements Structure {
             return false;
         }
 
-
-
     }
 
 
+    @Override
+    public int closeness(Structure structure)
+    {
+
+        if (structure == null || getClass() != structure.getClass()) return 1;
+
+        Loop loop = (Loop) structure;
+
+        int closeness = 1;
+        if (this.name.equals(loop.name))
+        {
+            closeness++;
+        }
+        if (this.iterator.equals(loop.iterator))
+        {
+            closeness++;
+        }
+        closeness += StringSimilarity.similarity(this.conditions,loop.conditions);
+
+        return  closeness;
+    }
 }
