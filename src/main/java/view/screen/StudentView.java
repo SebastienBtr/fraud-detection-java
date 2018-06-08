@@ -14,13 +14,10 @@ public class StudentView extends StackPane
     private Scene scene;
     private GridPane table;
 
+
     public StudentView(Scene scene)
     {
         this.scene = scene;
-    }
-
-    public StudentView()
-    {
 
         this.getStylesheets().add(getClass().getResource("/css/studentView.css").toExternalForm());
         VBox grid = new VBox();
