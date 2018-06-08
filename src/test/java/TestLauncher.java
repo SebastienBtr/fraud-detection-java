@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 public class TestLauncher {
 
-    public static void main(String[] args) throws ParsingException
+    public static void main(String[] args) throws Exception
     {
 
         Launcher.init("src/test/data/exam2.zip");

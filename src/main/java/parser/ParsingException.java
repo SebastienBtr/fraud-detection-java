@@ -2,29 +2,28 @@ package parser;
 
 import java.util.ArrayList;
 
-public class ParsingException extends  Exception
+public class ParsingException
 {
-   ArrayList<String> exception;
+    static ArrayList<String>  exception;
 
-    public ParsingException()
-    {
-        exception = new ArrayList<>();
-    }
 
-    public void addException(String student,String file){
+    public static void addException(String student,String file) {
+        if (exception == null) {
+            exception = new ArrayList<>();
+        }
         exception.add("[ERREUR PARSER] " + student + " - file: " + file);
     }
 
-    public boolean isEmpty(){
+    public static boolean isEmpty(){
         return exception.isEmpty();
     }
 
-    @Override
-    public String getMessage()
+
+    public static String getMessage()
     {
 
         StringBuilder sb = new StringBuilder();
-        for (String e : exception        )
+        for (String e : exception)
         {
             sb.append(e);
             sb.append("\n");

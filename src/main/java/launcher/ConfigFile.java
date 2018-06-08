@@ -6,7 +6,7 @@ package launcher;
  */
 public class ConfigFile {
 
-    public static boolean classNameAreGiven;
+    public static boolean classNameAreGiven = true;
 
-    public static boolean methodNamesAreGiven;
+    public static boolean methodNamesAreGiven = true;
 }
