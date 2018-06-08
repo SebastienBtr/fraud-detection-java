@@ -4,10 +4,16 @@
     -fx-padding-left: 50 ;
     -fx-border-color: dimgrey;
     -fx-end-margin: 0;
-    -fx-pref-width:100;
+    -fx-pref-width:90;
+    -fx-background-color: dimgrey ;
 
 }
 .cell-score {
     -fx-background-color: forestgreen ;
 
 }
+.left-header {
+    -fx-pref-width:200;
+
+}
+

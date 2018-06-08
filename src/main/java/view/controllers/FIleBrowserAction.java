@@ -13,13 +13,13 @@ public class FIleBrowserAction implements EventHandler<ActionEvent>
     final FileChooser fileChooser = new FileChooser();
     private Stage stage;
     private TextField textField;
-    private String path;
 
-    public FIleBrowserAction(Stage stage, TextField textField, String path)
+
+    public FIleBrowserAction(Stage stage, TextField textField)
     {
         this.stage = stage;
         this.textField = textField;
-        this.path = path;
+
     }
 
 
@@ -27,7 +27,7 @@ public class FIleBrowserAction implements EventHandler<ActionEvent>
     {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
-            path = file.getPath();
+
             textField.setText(file.getPath());
         }
     }
