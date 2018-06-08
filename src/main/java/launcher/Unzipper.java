@@ -1,5 +1,6 @@
 package launcher;
 
+import util.Errors;
 import student.Student;
 
 import java.io.*;
@@ -77,6 +78,7 @@ public class Unzipper {
 
         } catch (IOException e) {
             System.err.println(e.getMessage());
+            Errors.setUnzipperError(true);
 
         } finally {
             if (zipIn != null) {
@@ -144,6 +146,7 @@ public class Unzipper {
 
         } catch (IOException e) {
             System.err.println(e.getMessage());
+            Errors.setUnzipperError(true);
 
         } finally {
             if (bos != null) {

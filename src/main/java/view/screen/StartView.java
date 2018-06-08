@@ -54,7 +54,7 @@ public class StartView extends Application {
 
         GridPane titleGrid = new GridPane();
         titleGrid.setAlignment(Pos.TOP_CENTER);
-        titleGrid.setPadding(new Insets(25, 25, 25, 25));
+        titleGrid.setPadding(new Insets(0, 25, 25, 25));
 
         Label bigTitle = new Label("DÉTECTION DE FRAUDE");
         bigTitle.getStyleClass().add("roTitre");
@@ -76,12 +76,12 @@ public class StartView extends Application {
         Label pathStudentFileLabel = new Label("Dossier élèves");
         studentGrid.add(pathStudentFileLabel, 0, 2);
 
-        pathStudentFileField = new TextField("C:\\Users\\lea\\Documents\\IMT\\ProjetFraude\\fraud-detection-java\\src\\test\\data\\exam2.zip");
+        pathStudentFileField = new TextField("/home/gaetan/Documents/IMTA_A1/Outils/src/test/data/exam3.zip");
         studentGrid.add(pathStudentFileField, 0, 3,5, 1);
 
         Button browseStudent = new Button("Parcourir...");
         studentGrid.add(browseStudent, 5, 3);
-        browseStudent.setOnAction(new FIleBrowserAction(primaryStage,pathStudentFileField,pathStudent));
+        browseStudent.setOnAction(new FIleBrowserAction(primaryStage,pathStudentFileField));
 
         grid.add(studentGrid,0,1,10,1);
 
@@ -93,15 +93,13 @@ public class StartView extends Application {
 
         Label pathTeacherLabel = new Label("Dossier Modèle");
         teacherGrid.add(pathTeacherLabel, 0, 2);
-//        CheckBox isSkeletonGiven = new CheckBox();
-//        grid.add(isSkeletonGiven, 0, 4);
 
-        pathTeacherField = new TextField("C:\\Users\\lea\\Documents\\IMT\\ProjetFraude\\fraud-detection-java\\src\\test\\data\\teacher2.zip");
+        pathTeacherField = new TextField("/home/gaetan/Documents/IMTA_A1/Outils/src/test/data/teacher2.zip");
         teacherGrid.add(pathTeacherField, 0, 3,5, 1);
 
         Button browseTeacher = new Button("Parcourir...");
         teacherGrid.add(browseTeacher, 5, 3);
-        browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField,pathTeacher));
+        browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField));
 
 
         grid.add(teacherGrid,0,2,10,1);

@@ -36,17 +36,20 @@ public class StudentComparator {
 
         List<DefaultMutableTreeNode> student1Trees = student1.getFileTrees();
         List<DefaultMutableTreeNode> student2Trees = student2.getFileTrees();
+
         int similarities = 0 ;
 
         for (DefaultMutableTreeNode treeSt1 : student1Trees) {
 
             for (DefaultMutableTreeNode treeSt2 : student2Trees) {
 
-                if (classNameAreGiven && classNameMatched(treeSt1, treeSt2)) {
-                    similarities += ClassFileComparator.compare(treeSt1, treeSt2);
+                if (treeSt1 != null && treeSt2 != null) {
+                    if (classNameAreGiven && classNameMatched(treeSt1, treeSt2)) {
+                        similarities += ClassFileComparator.compare(treeSt1, treeSt2);
 
-                } else if (!classNameAreGiven){
-                    similarities += ClassFileComparator.compare(treeSt1, treeSt2);
+                    } else if (!classNameAreGiven){
+                        similarities += ClassFileComparator.compare(treeSt1, treeSt2);
+                    }
                 }
             }
         }
@@ -65,9 +68,14 @@ public class StudentComparator {
 
     private static boolean classNameMatched(DefaultMutableTreeNode tree1, DefaultMutableTreeNode tree2) {
 
-        ClassFile file1 = (ClassFile) tree1.getNextNode().getUserObject();
-        ClassFile file2 = (ClassFile) tree2.getNextNode().getUserObject();
+        if (tree1.getNextNode() != null && tree2.getNextNode() != null) {
+            ClassFile file1 = (ClassFile) tree1.getNextNode().getUserObject();
+            ClassFile file2 = (ClassFile) tree2.getNextNode().getUserObject();
 
-        return file1.getName().equals(file2.getName());
+            return file1.getName().equals(file2.getName());
+        }
+        else {
+            return false;
+        }
     }
 }

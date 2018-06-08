@@ -1,52 +1,31 @@
-public class Voyelles {
-    public static int nbVoyelles(String s) {
-        try {
-            oui
-        } catch(Exception e){}
+package chronometre.controle;
 
-        test;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
 
-        switch (note)
-        {
+import chronometre.abstraction.Chrono;
 
-            case 0:
+import java.awt.*;
 
-                System.out.println("Ouch !");
+public class EcouteurStop implements ActionListener{
+    private Chrono c;
 
-                break;
-
-            case 10:
-
-                System.out.println("Vous avez juste la moyenne.");
-
-                break;
-
-            case 20:
-
-                System.out.println("Parfait !");
-
-                break;
-
-            default:
-
-                System.out.println("Il faut davantage travailler.");
-
-        }
-
-        if (s=="") {
-            return 0;
-        } else return 0;
-        else if (s.length()==1) {
-            if (s.charAt(0)=='A' || s.charAt(0)=='E' || s.charAt(0)=='I' || s.charAt(0)=='O' || s.charAt(0)=='U' || s.charAt(0)=='Y') {
-                System.out.println("re");
-            } else {
-                System.out.println("re");
-            }
-            test = oui;
-        } else if (s.charAt(0)=='A' || s.charAt(0)=='E' || s.charAt(0)=='I' || s.charAt(0)=='O' || s.charAt(0)=='U' || s.charAt(0)=='Y') {
-            return 1 + nbVoyelles(s.substring(1,s.length()));
-        }else {
-            return nbVoyelles(s.substring(1,s.length()));
-        }
+    public EcouteurStop(JButton start, JButton stop, JButton reset, Chrono c){
+        this.start=start;
+        this.stop=stop;
+        this.reset=reset;
+        this.c=c;
     }
+
+
+
+    public void actionPerformed(ActionEvent e) {
+        this.start.setEnabled(true);
+        this.stop.setEnabled(false);
+        this.reset.setEnabled(true);
+        this.c.stop();
+
+    }
+
 }

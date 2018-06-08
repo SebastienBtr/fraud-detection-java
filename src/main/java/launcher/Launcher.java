@@ -2,7 +2,7 @@ package launcher;
 
 import comparator.StudentComparator;
 import org.apache.commons.io.FileUtils;
-import parser.ParsingException;
+import util.Errors;
 import parser.ProjectParser;
 import student.Student;
 
@@ -49,6 +49,7 @@ public class Launcher {
             Unzipper.unzip(fileZip, destDir.getPath(), true, false);
         } catch (IOException e) {
             System.err.println(e.getMessage());
+            Errors.setUnzipperError(true);
         }
 
         students = Unzipper.getStudents();
@@ -86,15 +87,19 @@ public class Launcher {
     /**
      * Parse all project files
      */
-    public static void parseFiles() throws ParsingException
+    public static void parseFiles()
     {
-
+        System.out.println("STUDENTS : " + students.size());
+        int i = 0;
         for (Student student : students) {
 
             File directory = new File(student.getDirectoryPath());
 
             if (directory.exists()) {
-                parseStudentFiles(directory, student);
+
+                try {
+                    parseStudentFiles(directory, student);
+                } catch (Exception e) { }
             }
         }
     }
@@ -158,29 +163,27 @@ public class Launcher {
      *
      * @param directory directory or subdirectory of student files
      */
-    private static void parseStudentFiles(File directory, Student student) throws ParsingException
+    private static void parseStudentFiles(File directory, Student student) throws Exception
     {
-        ParsingException exceptions = new ParsingException();
-
         for (File fileEntry : directory.listFiles()) {
 
             if (fileEntry.isDirectory()) {
                 parseStudentFiles(fileEntry, student);
-
-            } else if (fileEntry.getName().endsWith(".java")) {
+            }
+            else if (fileEntry.getName().endsWith(".java")) {
                 DefaultMutableTreeNode tree = null;
                 try {
                     tree = ProjectParser.parseFile(fileEntry.getPath());
                 } catch (Exception e) {
                     System.err.println("[ERREUR PARSER] " + student.getName() + " - file: " + fileEntry.getName());
-                    exceptions.addException(student.getName(),fileEntry.getName());
-                    //e.printStackTrace();
+                    Errors.addParserError(student.getName(),fileEntry.getName());
                 }
                 student.addTree(tree);
             }
         }
-        if(!exceptions.isEmpty()){
-            throw exceptions;
+
+        if(!Errors.parserErrorsIsEmpty()){
+            throw new Exception();
         }
     }
 

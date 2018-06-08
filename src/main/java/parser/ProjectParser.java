@@ -57,7 +57,6 @@ public class ProjectParser {
 
         closeStreams(fstream, br);
 
-        System.out.println(treeToString(studentTree));
         return studentTree;
     }
 

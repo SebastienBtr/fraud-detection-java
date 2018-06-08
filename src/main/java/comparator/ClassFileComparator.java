@@ -62,10 +62,15 @@ public class ClassFileComparator {
 
     private static boolean classNameMatched(DefaultMutableTreeNode tree1, DefaultMutableTreeNode tree2) {
 
-        ClassFile file1 = (ClassFile) tree1.getNextNode().getUserObject();
-        ClassFile file2 = (ClassFile) tree2.getNextNode().getUserObject();
+        if (tree1.getNextNode() != null && tree2.getNextNode() != null) {
+            ClassFile file1 = (ClassFile) tree1.getNextNode().getUserObject();
+            ClassFile file2 = (ClassFile) tree2.getNextNode().getUserObject();
 
-        return file1.getName().equals(file2.getName());
+            return file1.getName().equals(file2.getName());
+        }
+        else {
+            return false;
+        }
     }
 
 

@@ -5,15 +5,15 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import launcher.Launcher;
-import parser.ParsingException;
+import util.Errors;
 import view.screen.StudentView;
 
 
 public class ParseButtonAction implements EventHandler<ActionEvent>
 {
 
-        private Scene scene;
-        private Label message;
+    private Scene scene;
+    private Label message;
 
     public ParseButtonAction(Scene scene, Label message)
     {
@@ -22,22 +22,19 @@ public class ParseButtonAction implements EventHandler<ActionEvent>
     }
 
     public void handle(ActionEvent event)
-        {
-            try{
-                Launcher.parseFiles();
-                Launcher.compareStudents();
-                scene.setRoot(new StudentView());
-              }catch(ParsingException e){
-                message.setText("Une erreur est survenue lors du parsage\n"+e.getMessage());
-            }
-            catch(Exception e){
-                message.setText("Une erreur est survenue lors du parsage\n");
-                e.printStackTrace();
-            }
-
-
-
-
+    {
+        try{
+            Launcher.parseFiles();
+            Launcher.compareStudents();
+            scene.setRoot(new StudentView());
+        } catch(Exception e){
+            e.printStackTrace();
         }
+
+        if (!Errors.parserErrorsIsEmpty()) {
+            message.setText(Errors.getParserErrorsMessage());
+        }
+
+    }
 
 }
