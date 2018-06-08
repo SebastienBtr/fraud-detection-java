@@ -81,7 +81,7 @@ public class StartView extends Application {
 
         Button browseStudent = new Button("Parcourir...");
         studentGrid.add(browseStudent, 5, 3);
-        browseStudent.setOnAction(new FIleBrowserAction(primaryStage,pathStudentFileField,pathStudent));
+        browseStudent.setOnAction(new FIleBrowserAction(primaryStage,pathStudentFileField));
 
         grid.add(studentGrid,0,1,10,1);
 
@@ -93,15 +93,13 @@ public class StartView extends Application {
 
         Label pathTeacherLabel = new Label("Dossier Modèle");
         teacherGrid.add(pathTeacherLabel, 0, 2);
-//        CheckBox isSkeletonGiven = new CheckBox();
-//        grid.add(isSkeletonGiven, 0, 4);
 
         pathTeacherField = new TextField("/home/gaetan/Documents/IMTA_A1/Outils/src/test/data/teacher2.zip");
         teacherGrid.add(pathTeacherField, 0, 3,5, 1);
 
         Button browseTeacher = new Button("Parcourir...");
         teacherGrid.add(browseTeacher, 5, 3);
-        browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField,pathTeacher));
+        browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField));
 
 
         grid.add(teacherGrid,0,2,10,1);

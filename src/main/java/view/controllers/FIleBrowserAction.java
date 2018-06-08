@@ -25,9 +25,9 @@ public class FIleBrowserAction implements EventHandler<ActionEvent>
 
     public void handle(ActionEvent event)
     {
+        fileChooser.getExtensionFilters().add( new FileChooser.ExtensionFilter("zip", "*.zip") );
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
-
             textField.setText(file.getPath());
         }
     }

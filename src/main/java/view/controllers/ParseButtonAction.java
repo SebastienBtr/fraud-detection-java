@@ -26,10 +26,13 @@ public class ParseButtonAction implements EventHandler<ActionEvent>
         try{
             Launcher.parseFiles();
             Launcher.compareStudents();
-            //scene.setRoot(new StudentView());
+            scene.setRoot(new StudentView());
         } catch(Exception e){
-            message.setText(ParsingException.getMessage());
             e.printStackTrace();
+        }
+
+        if (!ParsingException.isEmpty()) {
+            message.setText(ParsingException.getMessage());
         }
 
     }

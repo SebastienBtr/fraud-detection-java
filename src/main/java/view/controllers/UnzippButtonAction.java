@@ -53,8 +53,6 @@ public class UnzippButtonAction implements EventHandler<ActionEvent>
             }catch(Exception e){
                 parseBtn.setVisible(false);
                 successMessage.setText("Une erreur est survenue lors de la décompression");
-
-
             }
             parseBtn.setVisible(true);
             successMessage.setText("Décompression réussie");
