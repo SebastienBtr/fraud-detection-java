@@ -2,10 +2,9 @@ package launcher;
 
 import comparator.StudentComparator;
 import org.apache.commons.io.FileUtils;
-import parser.ParsingException;
+import util.Errors;
 import parser.ProjectParser;
 import student.Student;
-import student.algorithm_structure.ExceptionType;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.File;
@@ -50,6 +49,7 @@ public class Launcher {
             Unzipper.unzip(fileZip, destDir.getPath(), true, false);
         } catch (IOException e) {
             System.err.println(e.getMessage());
+            Errors.setUnzipperError(true);
         }
 
         students = Unzipper.getStudents();
@@ -176,13 +176,13 @@ public class Launcher {
                     tree = ProjectParser.parseFile(fileEntry.getPath());
                 } catch (Exception e) {
                     System.err.println("[ERREUR PARSER] " + student.getName() + " - file: " + fileEntry.getName());
-                    ParsingException.addException(student.getName(),fileEntry.getName());
+                    Errors.addParserError(student.getName(),fileEntry.getName());
                 }
                 student.addTree(tree);
             }
         }
 
-        if(!ParsingException.isEmpty()){
+        if(!Errors.parserErrorsIsEmpty()){
             throw new Exception();
         }
     }

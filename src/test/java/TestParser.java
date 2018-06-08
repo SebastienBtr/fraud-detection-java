@@ -1,4 +1,3 @@
-import parser.ParsingException;
 import parser.ProjectParser;
 
 public class TestParser {

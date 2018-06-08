@@ -5,7 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import launcher.Launcher;
-import parser.ParsingException;
+import util.Errors;
 import view.screen.StudentView;
 
 
@@ -31,8 +31,8 @@ public class ParseButtonAction implements EventHandler<ActionEvent>
             e.printStackTrace();
         }
 
-        if (!ParsingException.isEmpty()) {
-            message.setText(ParsingException.getMessage());
+        if (!Errors.parserErrorsIsEmpty()) {
+            message.setText(Errors.getParserErrorsMessage());
         }
 
     }

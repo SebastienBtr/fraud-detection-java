@@ -13,11 +13,12 @@ public class ConfigFile {
 
     public static boolean methodNamesAreGiven = true;
 
-    public static Map<String,Boolean> indicators = new HashMap<String, Boolean>()
-    {{
-        put("Moyenne", true);
-        put("Structure Algoritmique", true);
-        put("autre", false);
-    }};
+    public static Map<String, Boolean> indicators = new HashMap<String, Boolean>() {
+        {
+            put("Moyenne", true);
+            put("Structure Algoritmique", true);
+            put("autre", false);
+        }
+    };
 
 }
