@@ -5,7 +5,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import launcher.Launcher;
-import parser.ParsingException;
+import util.Errors;
+import view.screen.ConfigView;
 import view.screen.StudentView;
 
 
@@ -25,11 +26,13 @@ public class ParseButtonAction implements EventHandler<ActionEvent>
     {
         try{
             Launcher.parseFiles();
-            Launcher.compareStudents();
-            //scene.setRoot(new StudentView());
+            scene.setRoot(new ConfigView(scene));
         } catch(Exception e){
-            message.setText(ParsingException.getMessage());
             e.printStackTrace();
+        }
+
+        if (!Errors.parserErrorsIsEmpty()) {
+            message.setText(Errors.getParserErrorsMessage());
         }
 
     }

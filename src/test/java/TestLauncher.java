@@ -1,6 +1,5 @@
 import launcher.ConfigFile;
 import launcher.Launcher;
-import parser.ParsingException;
 import student.Student;
 
 import java.util.List;
