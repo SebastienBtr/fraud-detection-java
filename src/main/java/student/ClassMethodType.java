@@ -12,8 +12,8 @@ public enum ClassMethodType {
         this.type = type;
     }
 
-    static boolean isClassMethodType(String type){
-        return (type == "public" || type == "private" || type == "protected");
+    public static boolean isClassMethodType(String type){
+        return (type.equals("public") || type.equals("private") || type.equals("protected"));
     }
 
     public static ClassMethodType fromString(String text) {

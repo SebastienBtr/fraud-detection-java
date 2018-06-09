@@ -81,7 +81,7 @@ public class StartView extends Application {
 
         Button browseStudent = new Button("Parcourir...");
         studentGrid.add(browseStudent, 5, 3);
-        browseStudent.setOnAction(new FIleBrowserAction(primaryStage,pathStudentFileField,pathStudent));
+        browseStudent.setOnAction(new FIleBrowserAction(primaryStage,pathStudentFileField));
 
         grid.add(studentGrid,0,1,10,1);
 
@@ -101,7 +101,7 @@ public class StartView extends Application {
 
         Button browseTeacher = new Button("Parcourir...");
         teacherGrid.add(browseTeacher, 5, 3);
-        browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField,pathTeacher));
+        browseTeacher.setOnAction(new FIleBrowserAction(primaryStage,pathTeacherField));
 
 
         grid.add(teacherGrid,0,2,10,1);

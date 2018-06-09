@@ -12,13 +12,13 @@ public class Attribute {
 
     public Attribute(String type, String name){
         this.type = type;
-        this.name = name.replace(";", "");
+        this.name = name.trim();
     }
 
     public Attribute(ClassMethodType visibility, String type, String name){
         this.visibility = visibility;
         this.type = type;
-        this.name = name.replace(";", "");
+        this.name = name.trim();
     }
 
     public void setValue(String value){

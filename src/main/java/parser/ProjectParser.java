@@ -11,7 +11,10 @@ import util.Couple;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class ProjectParser {
@@ -55,6 +58,8 @@ public class ProjectParser {
             }
         }
 
+        System.out.println(treeToString(studentTree));
+
         closeStreams(fstream, br);
 
         return studentTree;
@@ -89,54 +94,88 @@ public class ProjectParser {
                 DefaultMutableTreeNode body = parseBody(newMethod, strLine, br).getNode();
                 classTree.add(body);
             }
-            else if(strLine.trim() != "" && !isComment(strLine, br)){
-                boolean isStatic;
-                isStatic = strLine.contains("static");
+            else if(strLine.trim() != "" && !isComment(strLine, br) && strLine.trim().length() > 0){
+                ArrayList<DefaultMutableTreeNode> listAttributes = parseAttribute(strLine, br);
 
-                String[] attributeParams = strLine.trim().split(" ");
-
-                if(attributeParams.length > 1){
-                    Attribute attribute;
-
-
-                    if(attributeParams.length == 2 && !isStatic)  {
-                        attribute = new Attribute(attributeParams[0], attributeParams[1]);
-                        attribute.setIsStatic(isStatic);
-                    }
-                    else if (attributeParams.length == 3 && isStatic){
-                        attribute = new Attribute(attributeParams[1], attributeParams[2]);
-                        attribute.setIsStatic(isStatic);
-                    }
-                    else {
-                        if (!isStatic) {
-                            attribute = new Attribute(ClassMethodType.fromString(attributeParams[0]),
-                                    attributeParams[1],
-                                    attributeParams[2]);
-                            attribute.setIsStatic(isStatic);
-                        }
-                        else {
-                            attribute = new Attribute(ClassMethodType.fromString(attributeParams[0]),
-                                    attributeParams[2],
-                                    attributeParams[3]);
-                            attribute.setIsStatic(isStatic);
-                        }
-
-
-                        if(!isStatic && attributeParams.length > 3){
-                            attribute.setValue(strLine.trim().split("=")[1]);
-                        }
-                        else if (attributeParams.length >4){
-                            attribute.setValue(strLine.trim().split("=")[1]);
-                        }
-                    }
-
-                    classTree.add(new DefaultMutableTreeNode(attribute));
+                for(DefaultMutableTreeNode node : listAttributes){
+                    classTree.add(node);
                 }
-
             }
         }
 
         return classTree;
+    }
+
+    /**
+     * ParseAttribute
+     * @param strLine
+     * @param br
+     * @return
+     * @throws Exception
+     */
+
+    private static ArrayList<DefaultMutableTreeNode> parseAttribute(String strLine, BufferedReader br) throws Exception {
+        ArrayList<DefaultMutableTreeNode> listAttribute = new ArrayList<DefaultMutableTreeNode>();
+
+        String attributeDeclaration = getStructureDeclaration(strLine, br);
+        List<String> attributeParams = new ArrayList<String>();
+        attributeParams.addAll(Arrays.asList(attributeDeclaration.trim().split(" ")));
+
+        String visibility = null;
+        String type;
+        boolean isStatic = false;
+        String[] names = null;
+        String value = null;
+
+        if(ClassMethodType.isClassMethodType(attributeParams.get(0))){
+            visibility = attributeParams.get(0);
+            attributeParams.remove(0);
+        }
+
+        if(attributeParams.contains("static")){
+            isStatic = true;
+            attributeParams.remove("static");
+        }
+
+        type = attributeParams.get(0);
+        attributeParams.remove(type);
+
+        String endDeclarationAttribute = "";
+
+        for(String param : attributeParams){
+            endDeclarationAttribute += param+" ";
+        }
+
+        if(attributeDeclaration.contains("=")){
+            String[] attributeParts = endDeclarationAttribute.split("=");
+            value = attributeParts[1].replace(";","");
+
+            names = attributeParts[0].split(",");
+        }
+
+        if(names == null){
+            names = endDeclarationAttribute.replace(";","").split(",");
+        }
+
+        for(String name : names){
+            Attribute attr;
+
+            if(visibility == null){
+                attr = new Attribute(type, name);
+            }
+            else {
+                attr = new Attribute(ClassMethodType.fromString(visibility), type, name);
+            }
+
+            attr.setIsStatic(isStatic);
+            if(value != null) attr.setValue(value);
+
+            listAttribute.add(new DefaultMutableTreeNode(attr));
+        }
+
+        //System.out.println("Visibility : "+visibility+", isStatic : "+isStatic+", type : "+type+", name : "+java.util.Arrays.toString(names)+", Value : "+value);
+
+        return listAttribute;
     }
 
     /**
