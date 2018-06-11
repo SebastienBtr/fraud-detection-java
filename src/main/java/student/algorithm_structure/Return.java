@@ -28,6 +28,7 @@ public class Return implements Structure{
     {
         if (structure == null || getClass() != structure.getClass()) return 1;
         Return line = (Return) structure;
-        return 1+ StringSimilarity.similarity(name,line.name);
+        Double closeness = 1.0 +  StringSimilarity.similarity(name, line.name);
+        return closeness.intValue() ;
     }
 }

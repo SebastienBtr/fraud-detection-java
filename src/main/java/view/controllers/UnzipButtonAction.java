@@ -5,9 +5,6 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import launcher.Launcher;
 import util.Errors;
 
@@ -18,7 +15,7 @@ public class UnzipButtonAction implements EventHandler<ActionEvent> {
     private Label successMessage;
     private Button parseBtn;
 
-    public UnzipButtonAction(TextField studentFilePath, TextField teacherPath, Label successMessage, Button parseBtn, VBox grid) {
+    public UnzipButtonAction(TextField studentFilePath, TextField teacherPath, Label successMessage, Button parseBtn) {
         this.studentFilePath = studentFilePath;
         this.teacherPath = teacherPath;
         this.successMessage = successMessage;

@@ -14,7 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import view.controllers.FIleBrowserAction;
 import view.controllers.ParseButtonAction;
-import view.controllers.UnzippButtonAction;
+import view.controllers.UnzipButtonAction;
 
 
 public class StartView extends Application {
@@ -125,7 +125,7 @@ public class StartView extends Application {
 
 
         unzzipBtn = new Button("Décompresser");
-        unzzipBtn.setOnAction(new UnzippButtonAction(pathStudentFileField,pathTeacherField,successMessage,parseBtn,root,grid));
+        unzzipBtn.setOnAction(new UnzipButtonAction(pathStudentFileField,pathTeacherField,successMessage,parseBtn));
         unzzipBtn.setMaxSize(500,100);
         buttonGrid.add(unzzipBtn, 0, 6,5,1);
 

@@ -112,7 +112,7 @@ public class MenuView extends StackPane {
 
 
         unzzipBtn = new Button("Décompresser");
-        unzzipBtn.setOnAction(new UnzipButtonAction(pathStudentFileField,pathTeacherField,successMessage,parseBtn,grid));
+        unzzipBtn.setOnAction(new UnzipButtonAction(pathStudentFileField,pathTeacherField,successMessage,parseBtn));
         unzzipBtn.setMaxSize(500,100);
         buttonGrid.add(unzzipBtn, 0, 6,5,1);
 
