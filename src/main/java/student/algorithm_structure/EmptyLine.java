@@ -24,4 +24,10 @@ public class EmptyLine implements Structure{
         return true;
 
     }
+
+    @Override
+    public int closeness(Structure structure)
+    {
+        return 1;
+    }
 }

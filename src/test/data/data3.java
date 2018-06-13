@@ -9,9 +9,16 @@ import chronometre.abstraction.Chrono;
 import java.awt.*;
 
 public class EcouteurStop implements ActionListener{
-    private Chrono c;
+    private static Chrono c, oio;
+    static boolean c, oio,
+    ooifies, eeosif, fsef = true;
+
+    private String test;
+    String oui;
+    boolean ouj = true;
 
     public EcouteurStop(JButton start, JButton stop, JButton reset, Chrono c){
+        test;
         this.start=start;
         this.stop=stop;
         this.reset=reset;

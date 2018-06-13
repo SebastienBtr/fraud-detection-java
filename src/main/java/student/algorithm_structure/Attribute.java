@@ -1,8 +1,9 @@
 package student.algorithm_structure;
 
 import student.ClassMethodType;
+import util.StringSimilarity;
 
-public class Attribute {
+public class Attribute implements Structure {
 
     private ClassMethodType visibility;
     private Boolean isStatic;
@@ -12,13 +13,13 @@ public class Attribute {
 
     public Attribute(String type, String name){
         this.type = type;
-        this.name = name.replace(";", "");
+        this.name = name.trim();
     }
 
     public Attribute(ClassMethodType visibility, String type, String name){
         this.visibility = visibility;
         this.type = type;
-        this.name = name.replace(";", "");
+        this.name = name.trim();
     }
 
     public void setValue(String value){
@@ -61,5 +62,29 @@ public class Attribute {
                 +", nom : "+this.name
                 +", valeur : "+this.value
                 +")";
+    }
+
+    @Override
+    public int closeness(Structure structure)
+    {
+        if (structure == null || getClass() != structure.getClass()) return 1;
+        Attribute attribute = (Attribute) structure;
+        int closeness = 1;
+        if (this.name.equals(attribute.name))
+        {
+            closeness++;
+        }
+        if (this.isStatic.equals(attribute.isStatic))
+        {
+            closeness++;
+        }
+        if (this.type.equals(attribute.type))
+        {
+            closeness++;
+        }
+
+        closeness += StringSimilarity.similarity(this.value,attribute.value);
+
+        return  closeness;
     }
 }

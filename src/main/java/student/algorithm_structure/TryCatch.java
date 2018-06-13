@@ -35,4 +35,19 @@ public class TryCatch implements Structure {
        
 
     }
+
+    @Override
+    public int closeness(Structure structure)
+    {
+        if (structure == null || getClass() != structure.getClass()) return 1;
+
+        TryCatch tryCatch = (TryCatch) structure;
+
+        int closeness = 1;
+        if(tryCatch.type.equals(this.type)){
+            closeness++;
+        }
+
+        return  closeness;
+    }
 }

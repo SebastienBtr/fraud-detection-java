@@ -1,5 +1,7 @@
 package student.algorithm_structure;
 
+import util.StringSimilarity;
+
 public class Return implements Structure{
 
     private String name;
@@ -19,5 +21,14 @@ public class Return implements Structure{
         if (o == null || getClass() != o.getClass()) return false;
         return true;
 
+    }
+
+    @Override
+    public int closeness(Structure structure)
+    {
+        if (structure == null || getClass() != structure.getClass()) return 1;
+        Return line = (Return) structure;
+        Double closeness = 1.0 +  StringSimilarity.similarity(name, line.name);
+        return closeness.intValue() ;
     }
 }
