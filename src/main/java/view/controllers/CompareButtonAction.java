@@ -3,11 +3,8 @@ package view.controllers;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import launcher.Launcher;
-import util.Errors;
-import view.screen.ConfigView;
-import view.screen.StudentView;
+import parser.CsvWritter;
 
 public class CompareButtonAction implements EventHandler<ActionEvent> {
 
@@ -22,7 +19,8 @@ public class CompareButtonAction implements EventHandler<ActionEvent> {
     {
         try{
             Launcher.compareStudents();
-            scene.setRoot(new StudentView(scene));
+            CsvWritter.write();
+            //scene.setRoot(new StudentView(scene));
         } catch(Exception e){
             e.printStackTrace();
         }

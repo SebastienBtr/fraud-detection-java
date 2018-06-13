@@ -114,7 +114,10 @@ public class StudentView extends StackPane
      */
     private String colorScore(Double score){
 
-        if(score < 30){
+        if(score <5){
+            return "grey";
+        }
+        else if(score < 30){
             return "forestgreen";
         }
         else if(score < 50){

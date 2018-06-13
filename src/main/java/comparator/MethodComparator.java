@@ -1,9 +1,8 @@
 package comparator;
 
 import launcher.ConfigFile;
-import student.algorithm_structure.Conditional;
-import student.algorithm_structure.Loop;
-import student.algorithm_structure.TryCatch;
+import student.Method;
+import student.algorithm_structure.Structure;
 import util.TreeNodeUtils;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -101,18 +100,13 @@ public class MethodComparator {
     private static int structureContentSimilarities(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2, int similarities, int similarity) {
 
         Class structureClass = structure1.getUserObject().getClass();
+        Class structureClass2 = structure2.getUserObject().getClass();
 
-        if (structureClass.equals(Loop.class) && loopsAreEquals(structure1, structure2)) {
-            similarities += similarity * Similarities.SAME_LOOP;
+        if (!structureClass.equals(Method.class) && !structureClass2.equals(Method.class)) {
+            similarities += similarity + ((Structure)structure1.getUserObject()).closeness((Structure)structure2.getUserObject());
 
         }
-/*        else if (structureClass.equals(Conditional.class) && conditionalsAreEquals(structure1, structure2)) {
-            similarities += similarity * Similarities.SAME_COND;
 
-        } else if (structureClass.equals(TryCatch.class) && tryCatchAreEquals(structure1, structure2)){
-            similarities += similarity * Similarities.SAME_TRYCATCH;
-
-        } */
         else {
             similarities += similarity;
         }
@@ -122,18 +116,7 @@ public class MethodComparator {
         return similarities;
     }
 
-    private static boolean loopsAreEquals(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2) {
-        return ((Loop) structure1.getUserObject()).getName().equals(((Loop) structure2.getUserObject()).getName());
-    }
 
-    private static boolean conditionalsAreEquals(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2) {
-        return ( ((Conditional) structure1.getUserObject()).getType().equals(((Conditional) structure2.getUserObject()).getType())
-                &&((Conditional) structure1.getUserObject()).getConditions().equals(((Conditional) structure2.getUserObject()).getConditions()));
-    }
-
-    private static boolean tryCatchAreEquals(DefaultMutableTreeNode structure1, DefaultMutableTreeNode structure2) {
-        return ((TryCatch) structure1.getUserObject()).getType().equals(((TryCatch) structure2.getUserObject()).getType());
-    }
 
     private static boolean methodMatched(DefaultMutableTreeNode method1, DefaultMutableTreeNode method2) {
 
