@@ -64,12 +64,11 @@ public class Unzipper {
                 File dir = new File(studentDiretory);
                 dir.mkdir();
 
-                students.add(new Student(repName, studentDiretory));
+                students.get(students.size() - 1).setDirectoryPath(studentDiretory);
             }
 
             // iterates over entries in the zip file
             while (entry != null) {
-
                 createFiles(destDirectory, zipIn, entry, recursive);
 
                 zipIn.closeEntry();
@@ -111,6 +110,17 @@ public class Unzipper {
                 if (recursive) {
                     File file = new File(filePath);
                     String newDestFile = file.getParentFile().getAbsolutePath();
+
+                    String parts[] = entry.getName().split("/");
+                    String studentName;
+
+                    if (parts.length > 1) {
+                        studentName = parts[1].split("_")[0];
+                    } else {
+                        studentName = entry.getName().split("_")[0];
+                    }
+
+                    students.add(new Student(studentName, null)); //we define the directory path in unzip method
                     unzip(filePath, newDestFile, false, false);
                 }
             }
@@ -157,6 +167,7 @@ public class Unzipper {
 
     /**
      * Create the tree files of the given path
+     *
      * @param path path of our tree
      */
     private static void createParents(String path) {

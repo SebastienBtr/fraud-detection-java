@@ -8,10 +8,9 @@ import java.util.TreeMap;
 
 public class TestLauncherWithTeacherFiles {
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
 
-        Launcher.init("src/test/data/exam2.zip", "src/test/data/teacher2.zip");
+        Launcher.init("src/test/data/PROG_IMP_JAVA-Lien de depot TP10note-48285_2017_TP10Note.zip", "src/test/data/teacher2.zip");
         Launcher.parseFiles();
         ConfigFile.classNameAreGiven = true;
         ConfigFile.methodNamesAreGiven = true;
@@ -27,9 +26,9 @@ public class TestLauncherWithTeacherFiles {
 
             System.out.println("============== STUDENT " + student.getName() + " ==============");
 
-            TreeMap<String,Double> scores = student.getScores();
+            TreeMap<String, Double> scores = student.getScores();
 
-            for(Map.Entry<String,Double> entry : scores.entrySet()) {
+            for (Map.Entry<String, Double> entry : scores.entrySet()) {
 
                 String key = entry.getKey();
                 Double value = entry.getValue();

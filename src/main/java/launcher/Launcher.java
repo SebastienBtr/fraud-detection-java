@@ -87,8 +87,7 @@ public class Launcher {
     /**
      * Parse all project files
      */
-    public static void parseFiles()
-    {
+    public static void parseFiles() {
         System.out.println("STUDENTS : " + students.size());
         int i = 0;
         for (Student student : students) {
@@ -96,10 +95,7 @@ public class Launcher {
             File directory = new File(student.getDirectoryPath());
 
             if (directory.exists()) {
-
-                try {
-                    parseStudentFiles(directory, student);
-                } catch (Exception e) { }
+                parseStudentFiles(directory, student);
             }
         }
     }
@@ -163,33 +159,32 @@ public class Launcher {
      *
      * @param directory directory or subdirectory of student files
      */
-    private static void parseStudentFiles(File directory, Student student) throws Exception
-    {
+    private static void parseStudentFiles(File directory, Student student) {
         for (File fileEntry : directory.listFiles()) {
 
             if (fileEntry.isDirectory()) {
                 parseStudentFiles(fileEntry, student);
-            }
-            else if (fileEntry.getName().endsWith(".java")) {
+
+            } else if (fileEntry.getName().endsWith(".java")) {
                 DefaultMutableTreeNode tree = null;
+
                 try {
                     tree = ProjectParser.parseFile(fileEntry.getPath());
+
                 } catch (Exception e) {
                     System.err.println("[ERREUR PARSER] " + student.getName() + " - file: " + fileEntry.getName());
-                    Errors.addParserError(student.getName(),fileEntry.getName());
+                    Errors.addParserError(student.getName(), fileEntry.getName());
                 }
+
                 student.addTree(tree);
             }
-        }
-
-        if(!Errors.parserErrorsIsEmpty()){
-            throw new Exception();
         }
     }
 
     /**
      * Remove all students files that are the same of the teacher given files
-     * @param studentDesDir path of student's files
+     *
+     * @param studentDesDir  path of student's files
      * @param teacherDestDir path of teacher's files
      */
     private static void analyzeTeacherFiles(String studentDesDir, String teacherDestDir) {

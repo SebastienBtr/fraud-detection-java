@@ -16,7 +16,7 @@ public class Errors {
     }
 
     public static boolean parserErrorsIsEmpty() {
-        return parserErrors.isEmpty();
+        return parserErrors == null || parserErrors.isEmpty();
     }
 
     public static String getParserErrorsMessage() {
