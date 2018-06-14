@@ -103,7 +103,7 @@ public class MethodComparator {
         Class structureClass2 = structure2.getUserObject().getClass();
 
         if (!structureClass.equals(Method.class) && !structureClass2.equals(Method.class)) {
-            //similarities += similarity + ((Structure)structure1.getUserObject()).closeness((Structure)structure2.getUserObject());
+            similarities += similarity + ((Structure)structure1.getUserObject()).closeness((Structure)structure2.getUserObject());
 
         }
 

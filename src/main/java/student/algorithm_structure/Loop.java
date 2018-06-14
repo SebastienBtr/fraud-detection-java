@@ -1,7 +1,5 @@
 package student.algorithm_structure;
 
-import util.StringSimilarity;
-
 public class Loop implements Structure {
 
 
@@ -97,7 +95,11 @@ public class Loop implements Structure {
 //        {
 //            closeness++;
 //        }
-        closeness += StringSimilarity.similarity(this.conditions,loop.conditions);
+        //closeness += StringSimilarity.similarity(this.conditions,loop.conditions);
+        if( this.conditions != null){
+            boolean same = conditions.equalsIgnoreCase(loop.conditions);
+            closeness += same ? 1 : 0;
+        }
 
         return  closeness;
     }

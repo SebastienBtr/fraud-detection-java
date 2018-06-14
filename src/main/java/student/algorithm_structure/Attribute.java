@@ -1,7 +1,6 @@
 package student.algorithm_structure;
 
 import student.ClassMethodType;
-import util.StringSimilarity;
 
 public class Attribute implements Structure {
 
@@ -83,7 +82,11 @@ public class Attribute implements Structure {
             closeness++;
         }
 
-        closeness += StringSimilarity.similarity(this.value,attribute.value);
+       // closeness += StringSimilarity.similarity(this.value,attribute.value);
+        if(this.value!= null){
+            boolean same = this.value.equalsIgnoreCase(attribute.value);
+            closeness += same ? 1 : 0;
+        }
 
         return  closeness;
     }

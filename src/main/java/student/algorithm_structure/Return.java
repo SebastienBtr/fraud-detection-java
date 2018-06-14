@@ -1,7 +1,5 @@
 package student.algorithm_structure;
 
-import util.StringSimilarity;
-
 public class Return implements Structure{
 
     private String name;
@@ -28,7 +26,13 @@ public class Return implements Structure{
     {
         if (structure == null || getClass() != structure.getClass()) return 0;
         Return line = (Return) structure;
-        Double closeness = 0.0 +  StringSimilarity.similarity(name, line.name);
-        return closeness.intValue() ;
+        //Double closeness = 0.0 +  StringSimilarity.similarity(name, line.name);
+        if ( this.name != null){
+            boolean same = this.name.equalsIgnoreCase(line.name);
+            return  same ? 1 : 0;
+
+        }
+        return 0;
+
     }
 }

@@ -1,7 +1,5 @@
 package student.algorithm_structure;
 
-import util.StringSimilarity;
-
 public class CodeLine implements Structure {
 
     private String lineContent;
@@ -41,8 +39,13 @@ public class CodeLine implements Structure {
     {
         if (structure == null || getClass() != structure.getClass()) return 0;
         CodeLine line = (CodeLine) structure;
-        Double closeness = 0.0 + StringSimilarity.similarity(lineContent, line.lineContent);
-        return closeness.intValue() ;
+        //Double closeness = 0.0 + StringSimilarity.similarity(lineContent, line.lineContent);
+        if ( this.lineContent != null){
+            boolean same = this.lineContent.equalsIgnoreCase(line.lineContent);
+            return  same ? 1 : 0;
+
+        }
+        return 0;
 
     }
 }

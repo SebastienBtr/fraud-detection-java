@@ -1,7 +1,5 @@
 package student.algorithm_structure;
 
-import util.StringSimilarity;
-
 public class Conditional implements Structure {
 
     private String codeInDeclaration;
@@ -96,7 +94,11 @@ public class Conditional implements Structure {
             closeness++;
         }
 
-        closeness += StringSimilarity.similarity(this.conditions,cond.conditions);
+       // closeness += StringSimilarity.similarity(this.conditions,cond.conditions);
+        if(this.conditions != null){
+            boolean same = this.conditions.equalsIgnoreCase(cond.conditions);
+            closeness +=  same ? 1 : 0;
+        }
 
         return  closeness;
     }
