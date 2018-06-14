@@ -32,9 +32,9 @@ public class StudentView extends StackPane
         for(String tabName: ConfigFile.indicators.keySet()){
             if(ConfigFile.indicators.get(tabName)){
 
-               Tab tab = new Tab(tabName);
-               tab.setClosable(false);
-               tab.setContent(studentComparativeTable(tabName));
+                Tab tab = new Tab(tabName);
+                tab.setClosable(false);
+                tab.setContent(studentComparativeTable(tabName));
                 tabPane.getTabs().add(tab);
 
 
@@ -97,14 +97,14 @@ public class StudentView extends StackPane
      * @return
      */
     private Button makeScoreFrame(Double score){
-            Button frame = new Button(score.intValue()+"");
-            frame.getStyleClass().add("cell-score");
-            frame.getStyleClass().add("cell");
-            frame.setStyle("-fx-background-color: "+colorScore(score)+";");
+        Button frame = new Button(score.intValue()+"");
+        frame.getStyleClass().add("cell-score");
+        frame.getStyleClass().add("cell");
+        frame.setStyle("-fx-background-color: "+colorScore(score)+";");
 
 
 
-            return frame;
+        return frame;
     }
 
     /**
@@ -112,10 +112,11 @@ public class StudentView extends StackPane
      * @param score
      * @return
      */
-    private String colorScore(Double score){
+    private String colorScore(Double score) {
 
-        if(score <5){
-            return "grey";
+
+        if (Double.isNaN(score) || score == 0) {
+            return "white";
         }
         else if(score < 30){
             return "forestgreen";
@@ -123,13 +124,10 @@ public class StudentView extends StackPane
         else if(score < 50){
             return "#FFC811";
         }
-        if(score < 70){
+        else if(score < 70){
             return "#FF9111";
         }
-
-            return "#FF1711";
-
-
+        return "#FF1711";
     }
 
 
