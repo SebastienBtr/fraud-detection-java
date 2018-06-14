@@ -1,38 +1,41 @@
-package chronometre.controle;
+package chronometre.presentation;
+
+import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+
+import javax.swing.JButton;
 
 import chronometre.abstraction.Chrono;
+import chronometre.abstraction.Chrono;
 
-import java.awt.*;
+public class clearControl implements ActionListener{
+    private LabelChrono labelChrono;
+    private Chrono chrono;
+    private JButton start;
+    private JButton stop;
+    private JButton reset;
+    private JButton split;
+    private JButton clear;
+    private JTextArea texte;
 
-public class EcouteurStop implements ActionListener{
-    private static Chrono c, oio;
-    static boolean c, oio,
-    ooifies, eeosif, fsef = true;
-
-    private String test;
-    String oui;
-    boolean ouj = true;
-
-    public EcouteurStop(JButton start, JButton stop, JButton reset, Chrono c){
-        test;
+    clearControl(LabelChrono labelChrono, Chrono chrono, JButton start, JButton stop, JButton reset, JButton split, JButton clear, JTextArea texte){
+        this.labelChrono=labelChrono;
+        this.chrono=chrono;
         this.start=start;
         this.stop=stop;
         this.reset=reset;
-        this.c=c;
+        this.split=split;
+        this.clear=clear;
+        this.texte=texte;
     }
-
-
 
     public void actionPerformed(ActionEvent e) {
-        this.start.setEnabled(true);
-        this.stop.setEnabled(false);
-        this.reset.setEnabled(true);
-        this.c.stop();
+        JButton clear=(JButton)e.getSource();
+        texte.setText("");
+        clear.setEnabled(false);
 
     }
-
 }

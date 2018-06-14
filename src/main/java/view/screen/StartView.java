@@ -1,6 +1,7 @@
 package view.screen;
 
 
+import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -29,7 +30,7 @@ public class StartView extends Application {
 
 
         primaryStage.show();
-        //FlatterFX.style();
+        FlatterFX.style();
     }
 
 

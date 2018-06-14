@@ -28,7 +28,7 @@ public class MenuView extends StackPane {
     public MenuView(Scene scene, Stage primaryStage) {
         this.scene = scene;
 
-        this.getStylesheets().add(getClass().getResource("/css/configView.css").toExternalForm());
+        this.getStylesheets().add(getClass().getResource("/css/startView.css").toExternalForm());
         VBox grid = new VBox();
         this.getChildren().add(grid);
 
