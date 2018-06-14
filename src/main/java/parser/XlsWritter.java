@@ -11,7 +11,7 @@ import java.util.List;
 
 public class XlsWritter
 {
-    public static void write() throws IOException
+    public static String write() throws IOException
     {
 
         List<Student> students = Launcher.getStudents();
@@ -106,6 +106,7 @@ public class XlsWritter
 
         // Closing the workbook
         workbook.close();
+        return  path.split("\\.")[0]+".xlsx";
     }
 
 

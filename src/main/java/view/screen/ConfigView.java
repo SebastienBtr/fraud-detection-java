@@ -37,7 +37,7 @@ public class ConfigView extends StackPane {
         titleGrid.setHgap(10);
         titleGrid.setVgap(12);
 
-        Label title = new Label("Informations du Parser");
+        Label title = new Label("Informations");
         title.setAlignment(Pos.CENTER);
         title.getStyleClass().add("roTitre");
         title.setPadding(new Insets(50, 25, 25, 25));
@@ -69,7 +69,7 @@ public class ConfigView extends StackPane {
 
         compareBtn = new Button("Comparer");
         compareBtn.setMaxSize(500, 100);
-        compareBtn.setOnAction(new CompareButtonAction(scene));
+        compareBtn.setOnAction(new CompareButtonAction(scene,text));
         compareBtn.setPadding(new Insets(25, 25, 25, 25));
 
         buttonGrid.add(compareBtn,0,0,12,1);
