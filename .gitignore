@@ -3,6 +3,7 @@
 target
 unzipFiles/*
 unzipTeacherFiles/*
+src/test/data/*
 .classpath
 .project
 .settings/*
