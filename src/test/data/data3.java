@@ -1,41 +1,42 @@
-package chronometre.presentation;
+public class Example {
 
-import javax.swing.JButton;
-import javax.swing.JTextArea;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+    public static String test1;
+    private Boolean test2;
 
-import javax.swing.JButton;
 
-import chronometre.abstraction.Chrono;
-import chronometre.abstraction.Chrono;
+    public static boolean equals(int[] t1, int[] t2) {
 
-public class clearControl implements ActionListener{
-    private LabelChrono labelChrono;
-    private Chrono chrono;
-    private JButton start;
-    private JButton stop;
-    private JButton reset;
-    private JButton split;
-    private JButton clear;
-    private JTextArea texte;
+        if (t1.length != t2.length) {
+            return false;
+        }
 
-    clearControl(LabelChrono labelChrono, Chrono chrono, JButton start, JButton stop, JButton reset, JButton split, JButton clear, JTextArea texte){
-        this.labelChrono=labelChrono;
-        this.chrono=chrono;
-        this.start=start;
-        this.stop=stop;
-        this.reset=reset;
-        this.split=split;
-        this.clear=clear;
-        this.texte=texte;
+        boolean id = true;
+        int i =0;
+
+        while (id && i<t1.length) {
+            id = (t1[i]==t2[i]);
+            i++;
+        }
+
+        return id;
     }
 
-    public void actionPerformed(ActionEvent e) {
-        JButton clear=(JButton)e.getSource();
-        texte.setText("");
-        clear.setEnabled(false);
 
+    public static int nbOccurrences(int[] tab, int x) {
+
+        int occ = 0;
+
+        for (int i = 0; i<tab.length; i++) {
+
+            if (tab[i] == x) {
+                occ = occ + 1;
+            }
+
+        }
+
+        return occ;
     }
+
+
 }

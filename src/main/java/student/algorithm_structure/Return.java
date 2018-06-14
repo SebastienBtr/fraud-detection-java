@@ -26,9 +26,9 @@ public class Return implements Structure{
     @Override
     public int closeness(Structure structure)
     {
-        if (structure == null || getClass() != structure.getClass()) return 1;
+        if (structure == null || getClass() != structure.getClass()) return 0;
         Return line = (Return) structure;
-        Double closeness = 1.0 +  StringSimilarity.similarity(name, line.name);
+        Double closeness = 0.0 +  StringSimilarity.similarity(name, line.name);
         return closeness.intValue() ;
     }
 }

@@ -99,7 +99,6 @@ public class XlsWritter
 
         // Write the output to a file
         String path = Launcher.getDirectory();
-        System.out.println(path.split("\\.")[0]+".xlsx");
         FileOutputStream fileOut = new FileOutputStream(path.split("\\.")[0]+".xlsx");
         workbook.write(fileOut);
         fileOut.close();

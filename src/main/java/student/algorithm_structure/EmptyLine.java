@@ -28,6 +28,6 @@ public class EmptyLine implements Structure{
     @Override
     public int closeness(Structure structure)
     {
-        return 1;
+        return 0;
     }
 }

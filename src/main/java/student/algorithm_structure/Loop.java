@@ -84,11 +84,11 @@ public class Loop implements Structure {
     public int closeness(Structure structure)
     {
 
-        if (structure == null || getClass() != structure.getClass()) return 1;
+        if (structure == null || getClass() != structure.getClass()) return 0;
 
         Loop loop = (Loop) structure;
 
-        int closeness = 1;
+        int closeness = 0;
         if (this.name.equals(loop.name))
         {
             closeness++;

@@ -1,7 +1,6 @@
 package parser;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.sun.xml.internal.ws.util.StringUtils;
+
 import student.ClassFile;
 import student.ClassMethodType;
 import student.Method;

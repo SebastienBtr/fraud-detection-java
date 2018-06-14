@@ -39,9 +39,9 @@ public class CodeLine implements Structure {
     @Override
     public int closeness(Structure structure)
     {
-        if (structure == null || getClass() != structure.getClass()) return 1;
+        if (structure == null || getClass() != structure.getClass()) return 0;
         CodeLine line = (CodeLine) structure;
-        Double closeness = 1.0 +  StringSimilarity.similarity(lineContent, line.lineContent);
+        Double closeness = 0.0 + StringSimilarity.similarity(lineContent, line.lineContent);
         return closeness.intValue() ;
 
     }

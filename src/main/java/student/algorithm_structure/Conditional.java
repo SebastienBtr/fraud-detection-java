@@ -86,11 +86,11 @@ public class Conditional implements Structure {
     @Override
     public int closeness(Structure structure)
     {
-        if (structure == null || getClass() != structure.getClass()) return 1;
+        if (structure == null || getClass() != structure.getClass()) return 0;
 
         Conditional cond = (Conditional) structure;
 
-        int closeness = 1;
+        int closeness = 0;
         if (cond.type.equals(this.type))
         {
             closeness++;

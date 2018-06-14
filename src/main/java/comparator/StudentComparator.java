@@ -60,6 +60,10 @@ public class StudentComparator {
 
         Double ratio = similarities * 1.0 / maxScore;
 
+        if( ratio*100 > 100) {
+            System.out.println(student1.getName() + " et " + student2.getName());
+        }
+
         student2.getScores().put(student1.getName(),100 * ratio);
         student1.getScores().put(student2.getName(),100 * ratio);
     }
