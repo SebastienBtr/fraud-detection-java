@@ -54,19 +54,6 @@ public class Unzipper {
             zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
             ZipEntry entry = zipIn.getNextEntry();
 
-            if (!recursive && !teacherZip) {
-
-                String[] parts = entry.getName().split("/");
-                String repName = parts[0];
-
-                String studentDiretory = destDirectory + File.separator + repName;
-
-                File dir = new File(studentDiretory);
-                dir.mkdir();
-
-                students.get(students.size() - 1).setDirectoryPath(studentDiretory);
-            }
-
             // iterates over entries in the zip file
             while (entry != null) {
                 createFiles(destDirectory, zipIn, entry, recursive);
@@ -109,7 +96,6 @@ public class Unzipper {
 
                 if (recursive) {
                     File file = new File(filePath);
-                    String newDestFile = file.getParentFile().getAbsolutePath();
 
                     String parts[] = entry.getName().split("/");
                     String studentName;
@@ -120,8 +106,13 @@ public class Unzipper {
                         studentName = entry.getName().split("_")[0];
                     }
 
-                    students.add(new Student(studentName, null)); //we define the directory path in unzip method
-                    unzip(filePath, newDestFile, false, false);
+                    String studentDir = file.getParentFile().getAbsolutePath() + "/" + studentName;
+                    File dir = new File(studentDir);
+                    dir.mkdir();
+
+                    students.add(new Student(studentName, studentDir));
+
+                    unzip(filePath, studentDir, false, false);
                 }
             }
 
