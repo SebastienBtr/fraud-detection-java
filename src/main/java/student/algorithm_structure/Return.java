@@ -28,7 +28,10 @@ public class Return implements Structure{
     {
         if (structure == null || getClass() != structure.getClass()) return 0;
         Return line = (Return) structure;
-        Double closeness = 0.0 +  StringSimilarity.similarity(name, line.name);
-        return closeness.intValue() ;
+        int closeness = 0;
+        if (name.equals(line.name)) {
+            closeness += 8;
+        }
+        return closeness;
     }
 }

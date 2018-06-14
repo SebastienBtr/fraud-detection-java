@@ -41,8 +41,10 @@ public class CodeLine implements Structure {
     {
         if (structure == null || getClass() != structure.getClass()) return 0;
         CodeLine line = (CodeLine) structure;
-        Double closeness = 0.0 + StringSimilarity.similarity(lineContent, line.lineContent);
-        return closeness.intValue() ;
+        if (lineContent.equals(line.lineContent)) {
+            return 8;
+        }
+        return 1;
 
     }
 }

@@ -103,7 +103,7 @@ public class Launcher {
      */
     public static void parseFiles() {
         System.out.println("STUDENTS : " + students.size());
-        int i = 0;
+
         for (Student student : students) {
 
             File directory = new File(student.getDirectoryPath());

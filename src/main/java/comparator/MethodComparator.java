@@ -19,6 +19,10 @@ public class MethodComparator {
 /*        System.out.println(method1);
         System.out.println(method2);*/
 
+        if ((method1.getChildCount() < 2 && method1.getDepth() < 2) || (method2.getChildCount() < 2 && method2.getDepth() < 2)) {
+            return 0;
+        }
+
         boolean methodNamesAreGiven = ConfigFile.methodNamesAreGiven;
         int similarities = 0;
 
@@ -103,7 +107,7 @@ public class MethodComparator {
         Class structureClass2 = structure2.getUserObject().getClass();
 
         if (!structureClass.equals(Method.class) && !structureClass2.equals(Method.class)) {
-            //similarities += similarity + ((Structure)structure1.getUserObject()).closeness((Structure)structure2.getUserObject());
+            similarities += similarity + ((Structure)structure1.getUserObject()).closeness((Structure)structure2.getUserObject());
 
         }
 

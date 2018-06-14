@@ -97,7 +97,12 @@ public class Loop implements Structure {
 //        {
 //            closeness++;
 //        }
-        closeness += StringSimilarity.similarity(this.conditions,loop.conditions);
+        if (conditions != null && loop.conditions != null) {
+            if (this.conditions.equals(loop.conditions)) {
+                closeness += 8;
+            }
+        }
+
 
         return  closeness;
     }

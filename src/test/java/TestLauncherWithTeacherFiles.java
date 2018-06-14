@@ -10,7 +10,7 @@ public class TestLauncherWithTeacherFiles {
 
     public static void main(String[] args) throws Exception {
 
-        Launcher.init("src/test/data/PROG_IMP_JAVA-Lien de depot TP10note-48285_2017_TP10Note.zip", "src/test/data/teacher2.zip");
+        Launcher.init("src/test/data/exam2.zip", "src/test/data/teacher2.zip");
         Launcher.parseFiles();
         ConfigFile.classNameAreGiven = true;
         ConfigFile.methodNamesAreGiven = true;

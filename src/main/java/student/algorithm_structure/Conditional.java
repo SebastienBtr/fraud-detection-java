@@ -96,7 +96,12 @@ public class Conditional implements Structure {
             closeness++;
         }
 
-        closeness += StringSimilarity.similarity(this.conditions,cond.conditions);
+        if (conditions != null && cond.conditions != null) {
+            if(conditions.equals(cond.conditions)) {
+                closeness += 8;
+            }
+        }
+
 
         return  closeness;
     }

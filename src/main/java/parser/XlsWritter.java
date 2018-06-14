@@ -8,6 +8,8 @@ import student.Student;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class XlsWritter
 {
@@ -60,24 +62,32 @@ public class XlsWritter
 
         // Create Other rows and cells with student data
         int rowNum = 1;
-        for (int i = 0; i < Launcher.getStudents().size(); i++)
-        {
+
+        for (Student student : students) {
+
             Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(Launcher.getStudents().get(i).getName());
-            for (int j = 0; j < Launcher.getStudents().size(); j++)
-            {
-                int score = Launcher.getStudents().get(i).getScores().get(
-                                            Launcher.getStudents().get(j).getName()).intValue();
-                Cell cell = row.createCell(j+1);
-                cell.setCellValue(score);
-                if(i!=j){
-                    if(score <25){
+            row.createCell(0).setCellValue(student.getName());
+
+            TreeMap<String, Double> scores = student.getScores();
+
+            int i = 1;
+
+            for (Map.Entry<String, Double> entry : scores.entrySet()) {
+
+                String key = entry.getKey();
+                int value = entry.getValue().intValue();
+
+                Cell cell = row.createCell(i);
+                cell.setCellValue(value);
+
+                if (!key.equals(student.getName())) {
+                    if(value <25){
                         cell.setCellStyle(greenStyle);
                     }
-                    else if(score < 45){
+                    else if(value < 45){
                         cell.setCellStyle(yellowStyle);
                     }
-                    else if(score < 70){
+                    else if(value < 70){
                         cell.setCellStyle(orangeStyle);
                     }
                     else{
@@ -85,12 +95,10 @@ public class XlsWritter
                     }
                 }
 
-
-
-
+                i++;
             }
-
         }
+
 
         // Resize all columns to fit the content size
         for(int i = 0; i <  Launcher.getStudents().size()+1; i++) {

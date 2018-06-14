@@ -72,18 +72,23 @@ public class Attribute implements Structure {
         int closeness = 0;
         if (this.name.equals(attribute.name))
         {
-            closeness++;
+            closeness += 3;
         }
         if (this.isStatic.equals(attribute.isStatic))
         {
-            closeness++;
+            closeness += 5;
         }
         if (this.type.equals(attribute.type))
         {
             closeness++;
         }
 
-        closeness += StringSimilarity.similarity(this.value,attribute.value);
+        if (value != null && attribute.value != null) {
+            if (value.equals(attribute.value)) {
+                closeness += 8;
+            }
+        }
+
 
         return  closeness;
     }

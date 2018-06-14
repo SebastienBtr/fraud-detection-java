@@ -89,7 +89,7 @@ public class ConfigView extends StackPane {
         compareBtn.setOnAction(new CompareButtonAction(scene,text));
         compareBtn.setPadding(new Insets(25, 25, 25, 25));
 
-        configGrid.add(compareBtn,0,3,12,1);
+        configGrid.add(compareBtn,4,3,12,1);
 
         pageGrid.setBottom(configGrid);
 
