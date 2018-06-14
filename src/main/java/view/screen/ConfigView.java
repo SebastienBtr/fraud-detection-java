@@ -1,8 +1,6 @@
 package view.screen;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -36,6 +34,9 @@ public class ConfigView extends StackPane {
         buttonGrid.setAlignment(Pos.CENTER);
         buttonGrid.setHgap(20);
         buttonGrid.setVgap(10);
+
+
+
 
 
         grid.getChildren().add(buttonGrid);

@@ -20,12 +20,26 @@ public class Launcher {
     private static List<Student> students;
 
     /**
+     * Directory path with the original zipfile
+     */
+    private static String directory;
+
+    /**
      * Get the list of students
      *
      * @return the List of students
      */
     public static List<Student> getStudents() {
         return students;
+    }
+
+    /**
+     * Path to zipFile
+     * @return
+     */
+    public static String getDirectory()
+    {
+        return directory;
     }
 
     private Launcher() {
@@ -38,7 +52,7 @@ public class Launcher {
      * @param fileZip the directory that contains all student projects
      */
     public static void init(String fileZip) {
-
+        directory = fileZip;
         students = new ArrayList<Student>();
 
         File destDir = new File("unzipFiles");
@@ -62,7 +76,7 @@ public class Launcher {
      * @param examDefaultFiles files that are given by the teacher
      */
     public static void init(String fileZip, String examDefaultFiles) {
-
+        directory = fileZip;
         students = new ArrayList<Student>();
 
         File studentDestDir = new File("unzipFiles");

@@ -65,7 +65,7 @@ public class MenuView extends StackPane {
         Label pathStudentFileLabel = new Label("Dossier élèves");
         studentGrid.add(pathStudentFileLabel, 0, 2);
 
-        pathStudentFileField = new TextField("/home/gaetan/Documents/IMTA_A1/Outils/src/test/data/exam3.zip");
+        pathStudentFileField = new TextField("C:\\Users\\lea\\Documents\\IMT\\ProjetFraude\\fraud-detection-java\\src\\test\\data\\exam2.zip");
         studentGrid.add(pathStudentFileField, 0, 3,5, 1);
 
         Button browseStudent = new Button("Parcourir...");
@@ -83,7 +83,7 @@ public class MenuView extends StackPane {
         Label pathTeacherLabel = new Label("Dossier Modèle");
         teacherGrid.add(pathTeacherLabel, 0, 2);
 
-        pathTeacherField = new TextField("/home/gaetan/Documents/IMTA_A1/Outils/src/test/data/teacher2.zip");
+        pathTeacherField = new TextField("C:\\Users\\lea\\Documents\\IMT\\ProjetFraude\\fraud-detection-java\\src\\test\\data\\teacher2.zip");
         teacherGrid.add(pathTeacherField, 0, 3,5, 1);
 
         Button browseTeacher = new Button("Parcourir...");
