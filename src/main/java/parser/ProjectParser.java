@@ -27,9 +27,9 @@ public class ProjectParser {
     }
 
     /**
-     * ParseFile
+     * Create a buffered reader and start to parse a file from a filename
      * @param fileName
-     * @return
+     * @return A mutable Tree
      */
 
     public static DefaultMutableTreeNode parseFile(String fileName) throws Exception {
@@ -64,9 +64,9 @@ public class ProjectParser {
 
 
     /**
-     * ParseClass
-     * @param newClass
-     * @param br
+     * Parse the inside of a class
+     * @param newClass - The class to parse
+     * @param br - The reader of the file
      * @return
      * @throws IOException
      */
@@ -76,21 +76,24 @@ public class ProjectParser {
 
         String strLine;
 
-        //Read ClassFile Line By Line
+        //Read th block insine the class until the '}'
         while ((strLine = br.readLine()) != null && !isEndOfBlock(strLine)) {
-
+            //Remove the comment of a string
             strLine = getStringWithoutComment(strLine);
 
+            // Intern Class
             if (isClass(strLine)) {
                 ClassFile newClassIntern = ProjectParser.createClass(strLine, br);
                 DefaultMutableTreeNode body = parseClass(newClassIntern, br);
                 classTree.add(body);
             }
+            // Method
             else if (isMethod(strLine)) {
                 Method newMethod = new Method(getStructureDeclaration(strLine, br));
                 DefaultMutableTreeNode body = parseBody(newMethod, strLine, br).getNode();
                 classTree.add(body);
             }
+            // Attributes
             else if(strLine.trim() != "" && !isComment(strLine, br) && strLine.trim().length() > 0){
                 ArrayList<DefaultMutableTreeNode> listAttributes = parseAttribute(strLine, br);
 
@@ -104,9 +107,9 @@ public class ProjectParser {
     }
 
     /**
-     * ParseAttribute
-     * @param strLine
-     * @param br
+     * Parse a list of attribute from a line (can be one or more)
+     * @param strLine - The line to parse
+     * @param br - The reader
      * @return
      * @throws Exception
      */
@@ -114,6 +117,7 @@ public class ProjectParser {
     private static ArrayList<DefaultMutableTreeNode> parseAttribute(String strLine, BufferedReader br) throws Exception {
         ArrayList<DefaultMutableTreeNode> listAttribute = new ArrayList<DefaultMutableTreeNode>();
 
+        // Get all the string until the end
         String attributeDeclaration = getStructureDeclaration(strLine, br);
         List<String> attributeParams = new ArrayList<String>();
         attributeParams.addAll(Arrays.asList(attributeDeclaration.trim().split(" ")));
@@ -124,11 +128,12 @@ public class ProjectParser {
         String[] names = null;
         String value = null;
 
+        // Type
         if(ClassMethodType.isClassMethodType(attributeParams.get(0))){
             visibility = attributeParams.get(0);
             attributeParams.remove(0);
         }
-
+        // IsStatic
         if(attributeParams.contains("static")){
             isStatic = true;
             attributeParams.remove("static");
@@ -143,6 +148,7 @@ public class ProjectParser {
             endDeclarationAttribute += param+" ";
         }
 
+        // Value
         if(attributeDeclaration.contains("=")){
             String[] attributeParts = endDeclarationAttribute.split("=");
             value = attributeParts[1].replace(";","");
@@ -150,6 +156,7 @@ public class ProjectParser {
             names = attributeParts[0].split(",");
         }
 
+        // Names
         if(names == null){
             names = endDeclarationAttribute.replace(";","").split(",");
         }
@@ -170,16 +177,14 @@ public class ProjectParser {
             listAttribute.add(new DefaultMutableTreeNode(attr));
         }
 
-        //System.out.println("Visibility : "+visibility+", isStatic : "+isStatic+", type : "+type+", name : "+java.util.Arrays.toString(names)+", Value : "+value);
-
         return listAttribute;
     }
 
     /**
-     * DefaultMutableTreeNode
-     * @param object
-     * @param br
-     * @return
+     * Parse the body of a block : From '{' to '}'
+     * @param object - The object to parse
+     * @param br - The reader
+     * @return - The node of the object
      * @throws IOException
      */
 
@@ -190,6 +195,7 @@ public class ProjectParser {
 
         String[] endOfLine = line.split("\\{");
 
+        // Check and parse the end of a line after a '{'
         if(endOfLine.length > 1 && endOfLine[1].trim().length() > 1){
             if(isEndOfBlock(endOfLine[1])){
                 Structure structure = checkLineStructure(endOfLine[1].split("}")[0], br);
@@ -201,14 +207,18 @@ public class ProjectParser {
             }
         }
 
+        // Read the block
         while ((strLine = br.readLine()) != null) {
             if(endLine) endLine = false;
 
+            // Check if the '}' is related to a object declaration inside the line (ex: 'catch (...) { test ; }' )
             if(isEndOfBlock(strLine)){
                 if(strLine.contains("{") && strLine.trim().split("\\{").length > 1){
+                    // Get the parent class (ex: 'CATCH')
                     Structure parentStructure = checkLineStructure(strLine.substring(0, strLine.lastIndexOf("{")+1), br);
                     DefaultMutableTreeNode parentNode = new DefaultMutableTreeNode(parentStructure);
 
+                    // Get the child class (ex: 'CODELINE(test;)')
                     Structure childStructure = checkLineStructure(strLine.substring(strLine.lastIndexOf("{")+1, strLine.length()-1), br);
                     DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(childStructure);
 
@@ -220,16 +230,19 @@ public class ProjectParser {
                 else break;
             }
 
+            // All other case
             if(!endLine && !isComment(strLine, br)){
                 strLine = getStringWithoutComment(strLine);
                 Structure structure = checkLineStructure(strLine, br);
 
+                // Check if the object is a simple object
                 if (structure.getClass().equals(CodeLine.class)
                         || structure.getClass().equals(EmptyLine.class)
                         || structure.getClass().equals(Return.class)){
 
                     ret.add(new DefaultMutableTreeNode(structure));
                 }
+                // Check if the conditionnal is wrote like (ex: 'If(...) test;' )
                 else if(structure.getClass().equals(Conditional.class)
                         && ((Conditional) structure).getCodeInDeclaration() != null){
 
@@ -239,10 +252,12 @@ public class ProjectParser {
 
                     ret.add(ifNode);
                 }
+                // All other objects
                 else {
                     Couple body = parseBody(structure,strLine, br);
                     ret.add(body.getNode());
 
+                    // Get all the object declared after the end of a block (ex: '} else {')
                     while (body.getLastLine() != null && body.getLastLine().trim().split("}").length > 1){
                         String[] lastLineParts = body.getLastLine().trim().split("}");
                         structure = checkLineStructure(lastLineParts[1], br);
@@ -275,7 +290,7 @@ public class ProjectParser {
         }
 
 
-
+        // Get the code before the '}' (ex: 'do(); }')
         if(strLine != null && isEndOfBlock(strLine)){
 
             String[] startOfLine = strLine.split("}");
@@ -284,12 +299,14 @@ public class ProjectParser {
 
                 Structure structure = checkLineStructure(startOfLine[0], br);
 
+                // Check if it is a simple object
                 if (structure.getClass().equals(CodeLine.class)
                         || structure.getClass().equals(EmptyLine.class)
                         || structure.getClass().equals(Return.class)){
 
                     ret.add(new DefaultMutableTreeNode(structure));
                 }
+                // It's a new block
                 else {
                     Couple body = parseBody(structure, strLine, br);
                     ret.add(body.getNode());
@@ -304,7 +321,7 @@ public class ProjectParser {
 
 
     /**
-     * CreateClass
+     * Create the class from a line
      * @param strLine
      * @param br
      * @return
@@ -317,7 +334,7 @@ public class ProjectParser {
     }
 
     /**
-     * CheckLineStructure
+     * Check the structure that the line contains and create it
      * @param strLine
      * @return
      */
@@ -344,7 +361,7 @@ public class ProjectParser {
             }
         }
 
-        // LIGNE VIDE
+        // EMPTY LINE
         else if (isEmptyLine(strLine)){
             return EmptyLine.getInstance();
         }
@@ -372,11 +389,12 @@ public class ProjectParser {
             return new Conditional(getStructureDeclaration(strLine, br), ConditionalType.SWITCH);
         }
 
-        // LIGNE CODE
+        // CODE LINE
         else {
             return new CodeLine(strLine.trim());
         }
 
+        // DO WHILE
         //else if(Pattern.matches(".*do(\\s)*{(.|\\s)*}(\\s)while(\\s)*\\(([!-z]|\\s)*\\)(\\s)*;", strLine)){
         //    return new Loop(strLine, LoopType.DOWHILE);
         //}
@@ -384,7 +402,8 @@ public class ProjectParser {
     }
 
     /**
-     * GetStructureDeclaration
+     * Get all the structure declaration from a line
+     * Read until a ';' or a '{'
      * @param strLine
      * @param br
      * @return
@@ -403,7 +422,7 @@ public class ProjectParser {
     }
 
     /**
-     * GetStringWithoutComment
+     * Remove the comment from a string
      * @param strLine
      * @return
      */
@@ -421,7 +440,7 @@ public class ProjectParser {
     }
 
     /**
-     * IsAComment
+     * Check if the line is a comment and read until a code line without comments
      * @param strLine
      * @param br
      * @return
@@ -454,7 +473,7 @@ public class ProjectParser {
     }
 
     /**
-     * IsMethod
+     * Check if the line is a method declaration
      * @param strLine
      * @return
      */
@@ -464,7 +483,7 @@ public class ProjectParser {
     }
 
     /**
-     * IsClass
+     * Check if the line is a class declaration
      * @param strLine
      * @return
      */
@@ -474,7 +493,7 @@ public class ProjectParser {
     }
 
     /**
-     * IsEndOfBlock
+     * Check if the line is the end of a block '}'
      * @param strLine
      * @return
      */
@@ -506,7 +525,7 @@ public class ProjectParser {
     }
 
     /**
-     * IsEmptyLine
+     * Check if the line is empty
      * @param strLine
      * @return
      */
@@ -516,7 +535,7 @@ public class ProjectParser {
     }
 
     /**
-     * TreeToString
+     * Create a string to print from a TreeNode
      * @param tree
      * @return
      */
@@ -545,7 +564,7 @@ public class ProjectParser {
     }
 
     /**
-     * CloseStreams
+     * Close the streams that are used to read the file
      * @param fstream
      * @param br
      */
